@@ -1,0 +1,53 @@
+{
+  "bookTitle": "シャドーハウス",
+  "bookEmoji": "👧🏼👤",
+  "bookClub": "bbc",
+  "seriesHomeThread": 58406,
+  "shortDateFormat": "MMM d",
+  "longDateFormat": "MMMM d",
+  "currentVolume": 3,
+  "currentWeek": 6,
+  "volumes": {
+
+    "3": {
+      "volumeHomeThread": 59014,
+      "threadType": "single",
+      "volumeTemplate": "Offshoot Volume Thread",
+      "weeklyTemplate": "Offshoot Week Thread",
+      "bookImage": "![08891363891184325501_cover|351x500, 75%](upload://sGHeK9UQtLFUgDOmKQlytJelTGL.jpeg)",
+      "vocabularyList": "https://docs.google.com/spreadsheets/d/12aaCFxSeyNobqY3sQqxUU6rRUJXN6knJgf2kxqhQg4I/edit?usp=sharing",
+      "startDate": "2022-10-22",
+      "chapters": {
+        "25": {"title": "審査基準"},
+        "26": {"title": "不揃いな道具たち"},
+        "27": {"title": "庭園迷路"},
+        "28": {"title": "視線"},
+        "29": {"title": "不完全な地図"},
+        "30": {"title": "黒い点"},
+        "31": {"title": "失敗"},
+        "32": {"title": "浮かび上がる細工"},
+        "33": {"title": "首席"},
+        "34": {"title": "いつもの姿"},
+        "35": {"title": "見えないから"},
+        "36": {"title": "試験官"}
+      },
+      "weeks": {
+        "1": {"weekThread": "", "startDate": "2022-10-22", "chapters": [26, 27], "startPage": 5, "endPage": 28},
+        "2": {"weekThread": "", "startDate": "2022-10-29", "chapters": [27, 28], "startPage": 29, "endPage": 54},
+        "3": {"weekThread": "", "startDate": "2022-11-05", "chapters": [29, 30], "startPage": 55, "endPage": 79},
+        "4": {"weekThread": "", "startDate": "2022-11-12", "chapters": [31, 32], "startPage": 80, "endPage": 104},
+        "5": {"weekThread": "", "startDate": "2022-11-19", "chapters": [33, 34], "startPage": 105, "endPage": 128},
+        "6": {"weekThread": "", "startDate": "2022-11-26", "chapters": [35, 36], "startPage": 129, "endPage": 155}
+      }
+    }
+
+  },
+
+  "templates": {
+    "Club Home Thread": "[Join the {Club Level} Book Club here!]({Club Link})\n\n# Welcome to {Book Title}\n\n{Book Image}\n\nIf you want to take part, just buy the book and join in the discussion! We also recommend setting this thread to \"watching\" so that you get notified when the discussion threads are posted.\n\nNot sure if this is for you? Check out the [Nomination Post](https://community.wanikani.com/t/x/19766/4356) and read the [first chapter for free on bookwalker](https://viewer-trial.bookwalker.jp/03/13/viewer.html?cid=ba552d9e-d5fc-4781-a71d-cce260087308&cty=2) - remember that your fellow book club members and the vocab sheet will be here to help you out though!\n\n\n## Where to buy\n\nPhysical: [Amazon ](https://www.amazon.co.jp/-/en/dp/4088911849) | [CD Japan](https://www.cdjapan.co.jp/product/NEOBK-2306784)\nDigital Mono: [Kindle](https://www.amazon.co.jp/-/en/gp/product/B07M8RP82M) | [Bookwalker](https://bookwalker.jp/de28945f07-f2ad-4d4a-8200-52c639ec61be/)\nDigital Color: [Kindle](https://www.amazon.co.jp/-/en/gp/product/B07M7X4RSD) | [Bookwalker](https://bookwalker.jp/deba552d9e-d5fc-4781-a71d-cce260087308/)\n\n\n## Reading Schedule\n\n|Week|Start Date|Chapter|Page Count|\n|---|---|---|---|\n{Week}|Wk {Week Number}|{Short Start Date}|{Chapters}|{Page Count}|{/Week}\n\n\n## Vocabulary List\n\n{Vocabulary List}\n\n\n## Discussion Rules\n\n* Please use spoiler tags for ***major*** events in the current chapter(s) and ***any*** content in future chapters.\n* When asking for help, please mention the chapter and page number. Also mention what version of the book you are reading.\n* Don't be afraid of asking questions, even if they seem embarrassing at first. All of us are here to learn.\n* To you lurkers out there: Join the conversation, it's fun!\n\n\n## Member List\n\nAre you planning to read {Book Title} with the book club?\n\n[poll type=regular results=always public=true]\n* Yes\n* Yes, but I might start late\n* Not sure\n* No\n[/poll]\n\nIf so, which version will you be reading?\n\n[poll name=poll2 type=regular results=always public=true]\n* eBook color\n* eBook mono\n* Paperback\n[/poll]\n",
+    "Series Home Thread": "PENDING -- Used when an offshoot doesn't use the club home thread as the series home thread.",
+    "Offshoot Home Thread": "PENDING -- Used for each individual volume in the offshoot.",
+    "Offshoot Volume Thread": "# Volume {Volume Number} Discussion Thread\n\n**Start Date:** [date={Start Date} timezone=\"Japan\"]\n\n{Book Image}\n\n[{Book Title} Reading Club Home Thread]({Series Home Link})\n\n## Vocabulary Lists\n\n{Vocabulary List}\n\n## Reading Schedule\n\n|Week|Start Date|Pages|No. of Pages|Chapter|\n|---|---|---|---:|---|\n{Week}|Week {Week Number}|{Short Start Date}|{Start Page}–{End Page}|{Page Count} pages|{Chapters}|{/Week}\n\n## Discussion Rules\n\n* If you have any questions, don't hesitate to ask.\n* Please mention the chapter and page number.\n* Please use spoiler tags for  ***major***  events.\n* If you read ahead, please hold questions until during or after the appropriate week.\n",
+    "Offshoot Week Thread": "# {Chapters}\n**Start Date:** [date={Start Date} timezone=\"Japan\"]\n\n## Participation\n\nMark your participation status by voting in this poll. (You can change your answer later if you'd like.)\n\n[poll type=regular results=always public=true chartType=bar]\n* I'm reading along.\n* I have finished this part.\n* I will catch up later.\n[/poll]\n\n<small>*If you've read it before but will join in the discussion (or have read ahead), please select \"I'm reading along\"!*</small>\n"
+  }
+}

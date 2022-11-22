@@ -1,0 +1,87 @@
+{
+  "bookTitle": "三ツ星カラーズ",
+  "bookEmoji": "",
+  "bookClub": "abbc",
+  "seriesHomeThread": 56044,
+  "shortDateFormat": "MMM d",
+  "longDateFormat": "MMMM d",
+  "currentVolume": 6,
+  "currentWeek": 3,
+  "volumes": {
+
+    "6": {
+      "volumeHomeThread": 59174,
+      "threadType": "single",
+      "volumeTemplate": "Offshoot Volume Thread",
+      "weeklyTemplate": "Offshoot Week Thread",
+      "bookImage": "![cover|351x500, 75%](upload://aPU7CTqpDn0RdShqYhE8g50xs0w.jpeg)",
+      "vocabularyList": "https://docs.google.com/spreadsheets/d/15Fcf2BwX0z9FpT4E9JFDFP7vVUTaH2s3Icv60WbYYXU/edit#gid=0",
+      "startDate": "2022-11-05",
+      "chapters": {
+        "44": {"title": "割りばし鉄砲"},
+        "45": {"title": "合流"},
+        "46": {"title": "事件日和"},
+        "47": {"title": "カラーズドッキリ"},
+        "48": {"title": "巨大ロボを探せ 〜前編〜"},
+        "49": {"title": "巨大ロボを探せ 〜後編〜"},
+        "50": {"title": "猛暑"},
+        "51": {"title": "カラーズファミリー"},
+        "52": {"title": "青山琴葉"}
+      },
+      "weeks": {
+        "1": {"startDate": "2022-11-05", "chapters": [44]},
+        "2": {"startDate": "2022-11-12", "chapters": [45]},
+        "3": {"startDate": "2022-11-19", "chapters": [46]},
+        "4": {"startDate": "2022-11-26", "chapters": [47]},
+        "5": {"startDate": "2022-12-03", "chapters": [48]},
+        "6": {"startDate": "2022-12-10", "chapters": [49]},
+        "7": {"startDate": "2022-12-17", "chapters": [50]},
+        "8": {"startDate": "2022-12-24", "chapters": [51]},
+        "9": {"startDate": "2022-12-31", "chapters": [52]}
+      }
+    },
+
+    "7": {
+      "volumeHomeThread": "PENDING",
+      "threadType": "single",
+      "volumeTemplate": "Offshoot Volume Thread",
+      "weeklyTemplate": "Offshoot Week Thread",
+      "bookImage": "PENDING",
+      "vocabularyList": "PENDING",
+      "startDate": "PENDING",
+      "chapters": {
+        "53": {"title": "ロカソーチ"},
+        "54": {"title": "平和"},
+        "55": {"title": "三人四脚"},
+        "56": {"title": "頭脳派カラーズ"},
+        "57": {"title": "花粉症だから"},
+        "58": {"title": "よっちゃんとモノクロ大佐"},
+        "59": {"title": "朝すごい"},
+        "60": {"title": "雨時々　ハモリ"},
+        "61": {"title": "結衣やる"},
+        "62": {"title": "ハズレバンダ"}
+      },
+      "weeks": {
+        "1": {"startDate": "PENDING", "chapters": [53]},
+        "2": {"startDate": "PENDING", "chapters": [54]},
+        "3": {"startDate": "PENDING", "chapters": [55]},
+        "4": {"startDate": "PENDING", "chapters": [56]},
+        "5": {"startDate": "PENDING", "chapters": [57]},
+        "6": {"startDate": "PENDING", "chapters": [58]},
+        "7": {"startDate": "PENDING", "chapters": [59]},
+        "8": {"startDate": "PENDING", "chapters": [60]},
+        "9": {"startDate": "PENDING", "chapters": [61]},
+        "10": {"startDate": "PENDING", "chapters": [62]}
+      }
+    }
+
+  },
+
+  "templates": {
+    "Club Home Thread": "PENDING",
+    "Series Home Thread": "PENDING -- Used when an offshoot doesn't use the club home thread as the series home thread.",
+    "Offshoot Home Thread": "PENDING -- Used for each individual volume in the offshoot.",
+    "Offshoot Volume Thread": "PENDING",
+    "Offshoot Week Thread": "PENDING"
+  }
+}
