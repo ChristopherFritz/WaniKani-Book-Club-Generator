@@ -71,6 +71,7 @@ function copyWeekThread() {
 		template = template.replace("{Start Date}", currentVolume.startDate); // TODO: Is this the current week's start date?
 
 		navigator.clipboard.writeText(template);
+		console.log(template);
 		return;
 	}
 
