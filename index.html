@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+<p>Drag a saved JSON file onto Takagi to load it:</p>
+
+<div>
+<div id="target"></div>
+<div id="errors"></div>
+<p><button id="save" disabled style="height: 2em;">💾 Save Backup</button>&nbsp;
+<button id="copyVolumeThread" disabled style="height: 2em;">📋 Copy Volume Thread</button>&nbsp;
+<button id="copyWeekThread" disabled style="height: 2em;">📋 Copy Week Thread/Post</button></p>
+</div>
+
+<div id="series"></div>
+
+<div id="templates"></div>
+
+<script>
+const min = 1;
+const max = 3;
+const targetImageNumber = Math.floor(Math.random() * (max - min + 1) + min);
+document.getElementById('target').style.backgroundImage = 'url(images/Target%20' + targetImageNumber +'.png)';
+</script>
+
+<script src="scripts/keys.js"></script>
+<script src="scripts/parse%20page.js"></script>
+<script src="scripts/copy%20template.js"></script>
+<script src="scripts/load%20file.js"></script>
+<script src="scripts/save%20file.js"></script>
+
+<script>
+document.getElementById('save').onclick = function() { download() }
+document.getElementById('copyVolumeThread').onclick = function() { copyVolumeThread() }
+document.getElementById('copyWeekThread').onclick = function() { copyWeekThread() }
+</script>
+
+</body>
+
+</html>
