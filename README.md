@@ -1,1 +1,1 @@
-# WaniKani-Book-Club-Generator
+# WaniKani Book Club Manager
