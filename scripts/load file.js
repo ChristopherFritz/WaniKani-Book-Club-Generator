@@ -49,8 +49,13 @@ dropZone.addEventListener('drop', function(e) {
 
 		const data = JSON.parse(e2.target.result);
 
+		document.getElementById('content').style.removeProperty('display');
+
 		loadSeries(data);
+		loadVolumes(data.volumes, data.currentVolume);
 		loadTemplates(data.templates);
+
+		showSeriesSection("series");
 
 		document.getElementById('save').disabled = false;
 		document.getElementById('copyVolumeThread').disabled = false;
@@ -63,54 +68,60 @@ dropZone.addEventListener('drop', function(e) {
 
 function loadTemplates(templates) {
 
-	const templatesElement = document.getElementById("templates");
-	templatesElement.innerHTML = "";
-
 	// First, set the list of templates to select which template is visible.
-	const templatesList = document.createElement('ol');
-	templatesList.id = "templatesList";
+	const templatesList = document.getElementById('templatesList');
+	templatesList.replaceChildren();
+
+	let templateItems = [];
 	Object.keys(templates).forEach(function(key, index) {
-		const templateListItem = document.createElement('li');
-		templateListItem.innerText = key.replaceAll(' ', '\u00a0');
-		templateListItem.addEventListener('click', function() {displayTemplate(key);}, false);
+		const templateListItem = document.createElement('option');
+		templateListItem.innerText = key;
+		templateListItem.addEventListener('click', function() {displayTemplate(key.replaceAll(' ',''));}, false);
 		templatesList.appendChild(templateListItem);
 	}, templates);
-	templatesElement.appendChild(templatesList);
 
-	let templateTemplate = '<div class="templateContainer">' +
-		'<table name="template">\n' +
+	const templateTables = document.getElementById("templateTables");
+	templateTables.replaceChildren();
+
+	let templateTemplate =
+		'<table class="templateTable">\n' +
 		'<colgroup>\n' +
 		'<col style="width: 10em;">\n' +
 		'<col style="width: 50em;">\n' +
 		'</colgroup>\n' +
 		'<tbody>\n' +
-		'<tr><td>Template&nbsp;name:</td><td><input name="templateName" type="text"/></td></tr>\n' +
+		'<tr><td><label>Template&nbsp;name:</label></td><td><input name="templateName" type="text"/></td></tr>\n' +
 		'<tr><td>Template&nbsp;markdown:</td><td><textarea name="templateMarkdown"rows="20" cols="100"></textarea></td></tr>\n' +
 		'</tbody>\n' +
 		'</table>\n';
 
 	// Next, create a separate container each template.
+	let isFirstTemplate = true;
 	Object.keys(templates).forEach(function(key, index) {
-		const templateContainer = htmlToElement(templateTemplate);
-		templateContainer.id = "template" + key;
-		templateContainer.style.display = 'none';
-		templateContainer.querySelector('input[name="templateName"]').value = key;
-		templateContainer.querySelector('textarea[name="templateMarkdown"]').value = this[key];
-		templatesElement.appendChild(templateContainer);
+		const table = htmlToElement(templateTemplate);
+		table.id = "template" + key.replaceAll(' ','');
+		// Hide templates after the first.  This causes the first to show by default.
+		if (isFirstTemplate) {
+			isFirstTemplate = false
+		}
+		else {
+			table.style.display = 'none';
+		}
+		table.querySelector('input[name="templateName"]').value = key;
+		table.querySelector('textarea[name="templateMarkdown"]').value = this[key];
+		templateTables.appendChild(table);
 	}, templates);
-
-	return templatesElement;
 
 }
 
 // Hide all templates except for the one to show.
 function displayTemplate(templateNumber) {
 
-	const templates = document.getElementsByClassName("templateContainer");
+	const templates = document.getElementsByClassName("templateTable");
 
 	Array.from(templates).forEach(function(element) {
 		if ("template" + templateNumber == element.id) {
-			element.style.display = 'block';
+			element.style.removeProperty('display');
 		}
 		else {
 			element.style.display = 'none';
@@ -121,55 +132,31 @@ function displayTemplate(templateNumber) {
 
 function loadSeries(series) {
 
-	const seriesElement = document.getElementById("series");
-	seriesElement.innerHTML = "";
-	let seriesTemplate = '<div class="seriesContainer">' +
-		'<details name="series" open>\n' +
-		'<summary>Series</summary>\n' +
-		'<table name="series">\n' +
-		'<colgroup>\n' +
-		'<col style="width: 10em;">\n' +
-		'<col style="width: 50em;">\n' +
-		'</colgroup>\n' +
-		'<tbody>\n';
+	const seriesTableBody = document.getElementById("seriesTable").getElementsByTagName("tbody")[0];
+	seriesTableBody.replaceChildren();
 	for (const seriesKey in seriesKeys) {
-		seriesTemplate += '<tr><td>' + seriesKeys[seriesKey] + ':</td><td><input name="' + seriesKey + '" type="text"/></td></tr>\n';
+		const tableRow = htmlToElement('<tr><td>' + seriesKeys[seriesKey] + ':</td><td><input name="' + seriesKey + '" type="text"/></td></tr>\n');
+		tableRow.querySelector('input[name="' + seriesKey + '"]').value = series[seriesKey];
+		seriesTableBody.appendChild(tableRow);
 	}
-	seriesTemplate += '</tbody>\n' +
-		'</table>\n' +
-		'</details>';
-
-	const seriesContainer = htmlToElement(seriesTemplate);
-	const seriesBody = seriesContainer.getElementsByTagName('tbody')[0];
-	for (const seriesKey in seriesKeys) {
-		seriesContainer.querySelector('input[name="' + seriesKey + '"]').value = series[seriesKey];
-	}
-
-	seriesContainer.firstChild.appendChild(loadVolumes(series.volumes, series.currentVolume));
-
-	seriesElement.appendChild(seriesContainer);
 
 }
 
 function loadVolumes(volumes, currentVolume) {
 
-	const volumesElement = document.createElement("div");
-	volumesElement.id = "volumes"
-
 	// First, set the list of volumes to select which volume is visible.
-	const volumesList = document.createElement('ol');
-	volumesList.id = "volumesList";
+	const volumesList = document.getElementById('volumesList');
+	volumesList.replaceChildren();
+
 	Object.keys(volumes).forEach(function(key, index) {
-		const volumeListItem = document.createElement('li');
-		volumeListItem.innerText = "Volume\u00a0" + key;
+		const volumeListItem = document.createElement('option');
+		volumeListItem.innerText = "Volume " + key;
 		volumeListItem.addEventListener('click', function() {displayVolume(key);}, false);
 		volumesList.appendChild(volumeListItem);
 	}, volumes);
-	volumesElement.appendChild(volumesList);
 
 	let volumeTemplate = '<div class="volumeContainer">' +
-		'<details name="volume" open>\n' +
-		'<summary>Volume</summary>\n' +
+		'<div name="volume">\n' +
 		'<table name="volume">\n' +
 		'<colgroup>\n' +
 		'<col style="width: 10em;">\n' +
@@ -182,8 +169,10 @@ function loadVolumes(volumes, currentVolume) {
 	}
 	volumeTemplate += '</tbody>\n' +
 		'</table>\n' +
-		'</details>';
+		'</div>\n';
 
+	const volumesElement = document.getElementById('volumeTables');
+	volumesElement.replaceChildren();
 	// Next, create a separate container each volume.
 	Object.keys(volumes).forEach(function(key, index) {
 		const volumeContainer = htmlToElement(volumeTemplate);
@@ -203,8 +192,6 @@ function loadVolumes(volumes, currentVolume) {
 		volumesElement.appendChild(volumeContainer);
 	}, volumes);
 
-	return volumesElement;
-
 }
 
 // Hide all volumes except for the one to show.
@@ -214,7 +201,7 @@ function displayVolume(volumeNumber) {
 
 	Array.from(volumes).forEach(function(element) {
 		if ("volume" + volumeNumber == element.id) {
-			element.style.display = 'block';
+			element.style.removeProperty('display');
 		}
 		else {
 			element.style.display = 'none';
@@ -225,8 +212,8 @@ function displayVolume(volumeNumber) {
 
 function loadChapters(chapters, element) {
 
-	const chaptersTemplate = '<details name="chapters">' +
-		'<summary>Chapters</summary>\n' +
+	const chaptersTemplate =
+		'<div name="chapters" style="display: none">\n' +
 		'<table name="chapters">\n' +
 		'<colgroup>\n' +
 		'<col style="width: 1em;">\n' +
@@ -241,7 +228,8 @@ function loadChapters(chapters, element) {
 		'<tbody>\n' +
 		'</tbody>\n' +
 		'</table>\n' +
-		'</details>';
+		'</div>\n';
+
 	const chapterTemplate = '<tr>\n' +
 		'<td><input name="number"/></td>\n' +
 		'<td><input name="title"/></td>\n' +
@@ -269,8 +257,9 @@ function loadChapters(chapters, element) {
 
 function loadWeeks(weeks, element, volumeNumber) {
 
-	const weeksTemplate = '<details name="weeks">' +
-		'<summary>Weeks</summary>\n' +
+	const weeksContainer = htmlToElement('<div name="weeks" style="display: none">\n</div>\n')
+
+	const weeksTemplate =
 		'<table name="weeks">\n' +
 		'<colgroup>\n' +
 		'<col style="width: 2em;">\n' +
@@ -292,28 +281,28 @@ function loadWeeks(weeks, element, volumeNumber) {
 		'</thead>\n' +
 		'<tbody>\n' +
 		'</tbody>\n' +
-		'</table>\n' +
-		'</details>';
+		'</table>\n';
 
-	const weeksContainer = htmlToElement(weeksTemplate);
-	const weeksBody = weeksContainer.getElementsByTagName('tbody')[0];
+	const weeksTable = htmlToElement(weeksTemplate);
+	const weeksBody = weeksTable.getElementsByTagName('tbody')[0];
 	Object.keys(weeks).forEach(function(key, index) {
-		const weekContainer = createEmptyWeek();
-		weekContainer.querySelector('input[name="number"]').value = key;
+		const singleWeekElement = createEmptyWeek();
+		singleWeekElement.querySelector('input[name="number"]').value = key;
 		for (const weekKey in weekKeys) {
 			if (this[key][weekKey] == undefined) {
 				continue;
 			}
-			weekContainer.querySelector('input[name="' + weekKey + '"]').value = this[key][weekKey];
+			singleWeekElement.querySelector('input[name="' + weekKey + '"]').value = this[key][weekKey];
 		}
-		weeksBody.appendChild(weekContainer);
+		weeksBody.appendChild(singleWeekElement);
 	}, weeks);
 
 	const addWeek = document.createElement('div');
 	addWeek.addEventListener('click', function() {addNewWeek(volumeNumber);}, false);
 	addWeek.innerHTML = '<p class="clickable">➕ Add a week</p>';
-	weeksContainer.appendChild(addWeek)
 
+	weeksContainer.appendChild(addWeek)
+	weeksContainer.appendChild(weeksTable)
 	element.appendChild(weeksContainer)
 
 }

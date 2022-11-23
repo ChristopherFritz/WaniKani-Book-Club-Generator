@@ -1,6 +1,7 @@
 <html>
 
 <head>
+<title>WaniKani Book Club Manager version 0.0.1</title>
 <link rel="stylesheet" href="styles/styles.css">
 </head>
 
@@ -8,21 +9,59 @@
 
 <p>Drag a saved JSON file onto Takagi to load it:</p>
 
-<div>
-<div id="target"></div>
 <div id="errors"></div>
-<p><button id="save" disabled style="height: 2em;">💾 Save Backup</button>&nbsp;
-<button id="copyVolumeThread" disabled style="height: 2em;">📋 Copy Volume Thread</button>&nbsp;
-<button id="copyWeekThread" disabled style="height: 2em;">📋 Copy Week Thread/Post</button></p>
+
+<div id="layout">
+
+<div id="target">
 </div>
 
-<div id="series"></div>
+<div id="buttons">
+  <p><button id="save" disabled style="">💾 Save Backup</button></p>
+  <p><button id="copyVolumeThread" disabled style="height: 2em;">📋 Copy Volume Thread</button></p>
+  <p><button id="copyWeekThread" disabled style="height: 2em;">📋 Copy Week Thread/Post</button></p>
+</div>
 
-<div id="templates"></div>
+<div id="content" style="display: none;">
+
+  <div id="seriesButtons">
+    <button id="showSeries">Series</button>
+    <button id="showVolumes">Volumes</button>
+    <button id="showTemplates">Templates</button>
+  </div>
+
+  <div id="series">
+    <table id="seriesTable">
+    <colgroup>
+    <col style="width: 10em;">
+    <col style="width: 50em;">
+    </colgroup>
+    <tbody>
+    </tbody>
+    </table>
+  </div>
+
+  <div id="volumes">
+    <select id="volumesList" multiple="multiple"></select>
+    <div id="volumeButtons">
+    <button id="showVolume">Volume</button>
+    <button id="showChapters">Chapters</button>
+    <button id="showWeeks">Weeks</button>
+    </div>
+    <div id="volumeTables"></div>
+  </div>
+
+  <div id="templates">
+    <select id="templatesList" multiple="multiple"></select>
+    <div id="templateTables"></div>
+  </div>
+
+</div>
+
 
 <script>
 const min = 1;
-const max = 3;
+const max = 7;
 const targetImageNumber = Math.floor(Math.random() * (max - min + 1) + min);
 document.getElementById('target').style.backgroundImage = 'url(images/Target%20' + targetImageNumber +'.png)';
 </script>
@@ -32,11 +71,20 @@ document.getElementById('target').style.backgroundImage = 'url(images/Target%20'
 <script src="scripts/copy%20template.js"></script>
 <script src="scripts/load%20file.js"></script>
 <script src="scripts/save%20file.js"></script>
+<script src="scripts/interface.js"></script>
 
 <script>
 document.getElementById('save').onclick = function() { download() }
 document.getElementById('copyVolumeThread').onclick = function() { copyVolumeThread() }
 document.getElementById('copyWeekThread').onclick = function() { copyWeekThread() }
+
+document.getElementById('showVolume').onclick = function() { showVolume() }
+document.getElementById('showChapters').onclick = function() { showChapters() }
+document.getElementById('showWeeks').onclick = function() { showWeeks() }
+
+document.getElementById('showSeries').onclick = function() { showSeries() }
+document.getElementById('showVolumes').onclick = function() { showVolumes() }
+document.getElementById('showTemplates').onclick = function() { showTemplates() }
 </script>
 
 </body>

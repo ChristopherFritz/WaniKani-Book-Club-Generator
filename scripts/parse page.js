@@ -6,23 +6,23 @@ function readFromHtml() {
 
 	var container = {};
 
-	const seriesElements = document.querySelector('details[name="series"]');
+	const seriesElements = document.querySelector('div[id="series"]');
 	for (const seriesKey in seriesKeys) {
 		container[seriesKey] = seriesElements.querySelector('input[name="' + seriesKey + '"]').value
 	}
 
 	container["volumes"] = {};
 	const volumeContainerElements = document.getElementsByClassName('volumeContainer');
+	console.log(volumeContainerElements);
 	for (const containerElement of volumeContainerElements) {
-
-		const volumeElements = containerElement.querySelector('details[name="volume"]');
+		const volumeElements = containerElement.querySelector('table[name="volume"]');
 		volumeNumber = volumeElements.querySelector('input[name="volumeNumber"]').value
 		container["volumes"][volumeNumber] = {};
 		for (const volumeKey in volumeKeys) {
 			container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('input[name="' + volumeKey + '"]').value
 		}
 
-		const chapterElements = containerElement.querySelector('details[name="chapters"]');
+		const chapterElements = containerElement.querySelector('table[name="chapters"]');
 		container["volumes"][volumeNumber]['chapters'] = {};
 		const chapterRowElements = chapterElements.querySelector('tbody').querySelectorAll('tr');
 		for (const chapterRowElement of chapterRowElements) {
@@ -33,7 +33,7 @@ function readFromHtml() {
 			}
 		}
 
-		const weekElements = containerElement.querySelector('details[name="weeks"]');
+		const weekElements = containerElement.querySelector('table[name="weeks"]');
 		container["volumes"][volumeNumber]['weeks'] = {};
 		const weekRowElements = weekElements.querySelector('tbody').querySelectorAll('tr');
 		for (const weekRowElement of weekRowElements) {
@@ -47,11 +47,10 @@ function readFromHtml() {
 	}
 
 	container["templates"] = {};
-	const templateContainerElements = document.getElementsByClassName('templateContainer');
+	const templateContainerElements = document.getElementsByClassName('templateTable');
 	for (const containerElement of templateContainerElements) {
-		const templateElements = containerElement.querySelector('table[name="template"]');
-		templateName = templateElements.querySelector('input[name="templateName"]').value;
-		templateMarkdown = templateElements.querySelector('textarea[name="templateMarkdown"]').value;
+		templateName = containerElement.querySelector('input[name="templateName"]').value;
+		templateMarkdown = containerElement.querySelector('textarea[name="templateMarkdown"]').value;
 		container["templates"][templateName] = templateMarkdown;
 	}
 

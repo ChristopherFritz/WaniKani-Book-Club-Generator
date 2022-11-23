@@ -68,7 +68,7 @@ function copyWeekThread() {
 				template = template.replaceAll("{Chapters}", "Chapters " + weekChapters[0] + "–" + weekChapters[weekChapters.length - 1]);
 		}
 
-		template = template.replace("{Start Date}", currentVolume.startDate); // TODO: Is this the current week's start date?
+		template = template.replace("{Short Start Date}", currentVolume.startDate); // TODO: Is this the current week's start date?  currentWeek.startDate
 
 		navigator.clipboard.writeText(template);
 		console.log(template);
@@ -132,7 +132,12 @@ function formatVolumeThreadReadingSchedule(template, weeks, chapters, shortDateF
 
 	const regex = /{Week}(.*){\/Week}/i;
 	const weekTemplate = template.match(regex);
-	let weekMarkdown = ''
+
+	if (null == weekTemplate) {
+		return template;
+	}
+
+	let weekMarkdown = '';
 
 	for (const weekKey in weeks) {
 		const currentWeek = weeks[weekKey];

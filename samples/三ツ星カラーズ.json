@@ -78,10 +78,7 @@
   },
 
   "templates": {
-    "Club Home Thread": "PENDING",
-    "Series Home Thread": "PENDING -- Used when an offshoot doesn't use the club home thread as the series home thread.",
-    "Offshoot Home Thread": "PENDING -- Used for each individual volume in the offshoot.",
     "Offshoot Volume Thread": "PENDING",
-    "Offshoot Week Thread": "PENDING"
+    "Offshoot Week Thread": "# 第{Chapters}話\t事件日和\n\n**Start Date:** [date={Short Start Date} timezone=\"Japan\"]\n\n[PASTE CHAPTER IMAGE HERE]\n"
   }
 }
