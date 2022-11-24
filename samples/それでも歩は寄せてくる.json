@@ -3,8 +3,8 @@
   "bookEmoji": "",
   "bookClub": "abbc",
   "seriesHomeThread": 53589,
-  "shortDateFormat": "MMM d",
-  "longDateFormat": "MMMM d",
+  "shortDateFormat": "MMM D",
+  "longDateFormat": "MMMM D",
   "currentVolume": 11,
   "currentWeek": 1,
   "volumes": {

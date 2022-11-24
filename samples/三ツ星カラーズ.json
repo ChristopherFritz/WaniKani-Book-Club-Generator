@@ -3,8 +3,8 @@
   "bookEmoji": "",
   "bookClub": "abbc",
   "seriesHomeThread": 56044,
-  "shortDateFormat": "MMM d",
-  "longDateFormat": "MMMM d",
+  "shortDateFormat": "MMM D",
+  "longDateFormat": "MMMM D",
   "currentVolume": 6,
   "currentWeek": 3,
   "volumes": {
@@ -79,6 +79,6 @@
 
   "templates": {
     "Offshoot Volume Thread": "PENDING",
-    "Offshoot Week Thread": "# 第{Chapters}話\t事件日和\n\n**Start Date:** [date={Week Start Date} timezone=\"Japan\"]\n\n[PASTE CHAPTER IMAGE HERE]\n"
+    "Offshoot Week Thread": "# 第{Chapters}話\t事件日和\n\n**Start Date:** {Week Start Timestamp}\n\n[PASTE CHAPTER IMAGE HERE]\n"
   }
 }

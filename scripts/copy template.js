@@ -1,6 +1,6 @@
 function copyVolumeThread() {
 
-	navigator.clipboard.writeText("")
+	navigator.clipboard.writeText('')
 
 	const container = readFromHtml();
 
@@ -13,16 +13,17 @@ function copyVolumeThread() {
 
 		template = container.templates[container.volumes[volumeKey].volumeTemplate];
 
-		template = template.replaceAll("{Book Title}", container.bookTitle);
-		template = template.replace("{Book Image}", currentVolume.bookImage);
-		template = template.replace("{Volume Number}", volumeKey);
-		template = template.replace("{Start Date}", currentVolume.startDate);
+		template = template.replaceAll('{Book Title}', container.bookTitle);
+		template = template.replace('{Book Image}', currentVolume.bookImage);
+		template = template.replace('{Volume Number}', volumeKey);
+		template = template.replace('{Volume Start Date}', currentVolume.startDate);
+		template = template.replace('{Volume Start Timestamp}', '[date=' + formatDate(currentVolume.startDate, 'YYYY-MM-DD') + ' timezone="Japan"]');
 		template = formatVolumeThreadJoin(template, container);
 		template = formatVolumeThreadWhereToBuy(template);
 		template = formatVolumeThreadReadingSchedule(template, currentVolume.weeks, currentVolume.chapters, container.shortDateFormat);
 		template = formatVolumeThreadVocabularyList(template, currentVolume);
 		template = formatVolumeThreadDiscussionRules(template);
-		template = template.replaceAll("{Series Home Link}", 'https://community.wanikani.com/t/' + container.seriesHomeThread);
+		template = template.replaceAll('{Series Home Link}', 'https://community.wanikani.com/t/' + container.seriesHomeThread);
 
 		navigator.clipboard.writeText(template);
 		console.log(template);
@@ -33,7 +34,7 @@ function copyVolumeThread() {
 
 function copyWeekThread() {
 
-	navigator.clipboard.writeText("")
+	navigator.clipboard.writeText('')
 
 	const container = readFromHtml();
 
@@ -59,16 +60,18 @@ function copyWeekThread() {
 			case 0:
 				break;
 			case 1:
-				template = template.replaceAll("{Chapters}", "Chapter " + weekChapters[0]);
+				template = template.replaceAll('{Chapters}', 'Chapter ' + weekChapters[0]);
 				break;
 			case 2:
-				template = template.replaceAll("{Chapters}", "Chapters " + weekChapters.join(" and "));
+				template = template.replaceAll('{Chapters}', 'Chapters ' + weekChapters.join(' and '));
 				break;
 			default:
-				template = template.replaceAll("{Chapters}", "Chapters " + weekChapters[0] + "–" + weekChapters[weekChapters.length - 1]);
+				template = template.replaceAll('{Chapters}', 'Chapters ' + weekChapters[0] + '–' + weekChapters[weekChapters.length - 1]);
 		}
 
-		template = template.replace("{Week Start Date}", formatDate(currentVolume.startDate, container.shortDateFormat));
+		// TODO: Is this the correct start date?
+		template = template.replace('{Week Start Date}', formatDate(currentWeek.startDate, container.shortDateFormat));
+		template = template.replace('{Week Start Timestamp}', '[date=' + formatDate(currentWeek.startDate, 'YYYY-MM-DD') + ' timezone="Japan"]');
 
 		navigator.clipboard.writeText(template);
 		console.log(template);
@@ -84,14 +87,14 @@ function formatDate(unparsedDate, format) {
 	let userTimezoneOffset = parsedLocalDate.getTimezoneOffset() * 60000;
 	let parsedUtcDate = new Date(parsedLocalDate.getTime() + userTimezoneOffset);
 	return format.
-		replace("dd", ("0" + parsedUtcDate.getDate()).slice(-2)).
-		replace("d", parsedUtcDate.getDate()).
-		replace("yyyy", parsedUtcDate.getFullYear()).
-		replace("yy", ("" + parsedUtcDate.getFullYear()).slice(-2)).
-		replace("MMMM", parsedUtcDate.toLocaleString('default', { month: 'long' })) .
-		replace("MMM", parsedUtcDate.toLocaleString('default', { month: 'short' })) .
-		replace("MM", ("0" + parsedUtcDate.getMonth()).slice(-2)).
-		replace("M", parsedUtcDate.getMonth());
+		replace('DD', ('0' + parsedUtcDate.getDate()).slice(-2)).
+		replace('D', parsedUtcDate.getDate()).
+		replace('YYYY', parsedUtcDate.getFullYear()).
+		replace('YY', ('' + parsedUtcDate.getFullYear()).slice(-2)).
+		replace('MMMM', parsedUtcDate.toLocaleString('default', { month: 'long' })) .
+		replace('MMM', parsedUtcDate.toLocaleString('default', { month: 'short' })) .
+		replace('MM', ('0' + parsedUtcDate.getMonth()).slice(-2)).
+		replace('M', parsedUtcDate.getMonth());
 }
 
 function formatVolumeThreadJoin(template, series) {
@@ -101,25 +104,25 @@ function formatVolumeThreadJoin(template, series) {
 	switch(series.bookClub) {
 		case 'abbc':
 			clubName = 'Absolute Beginner'
-			clubID = "34698"
+			clubID = '34698'
 			break;
 		case 'bbc':
 			clubName = 'Beginner'
-			clubID = "19766"
+			clubID = '19766'
 			break;
 		case 'ibc':
 			clubName = 'Intermediate'
-			clubID = "18908"
+			clubID = '18908'
 			break;
 		case 'abc':
 			clubName = 'Advanced'
-			clubID = "44685"
+			clubID = '44685'
 			break;
 	}
 
 	return template.
-		replace("{Club Level}", clubName).
-		replace("{Club Link}", 'https://community.wanikani.com/t/' + clubID);
+		replace('{Club Level}', clubName).
+		replace('{Club Link}', 'https://community.wanikani.com/t/' + clubID);
 
 }
 
@@ -146,18 +149,18 @@ function formatVolumeThreadReadingSchedule(template, weeks, chapters, shortDateF
 			if (!currentWeek.chapters.includes(chapterKey)) {
 				continue
 			}
-			weekChapters.push(("Ch " + chapterKey + " " + chapters[chapterKey].title).trim());
+			weekChapters.push(('Ch ' + chapterKey + ' ' + chapters[chapterKey].title).trim());
 		}
 		// TODO: If there are no chapter titles, should the delimiter be ", " instead?
 		// TODO: Support Start Page and End Page.
 
 		weekMarkdown += weekTemplate[1].
-			replace("{Week Number}", weekKey).
-			replace("{Week Start Date}", formatDate(currentWeek.startDate, shortDateFormat)).
-			replace("{Start Page}", currentWeek.startPage).
-			replace("{End Page}", currentWeek.endPage).
-			replace("{Chapters}", weekChapters.join('<br/>')).
-			replace("{Page Count}", (currentWeek.endPage - currentWeek.startPage + 1)) +
+			replace('{Week Number}', weekKey).
+			replace('{Week Start Date}', formatDate(currentWeek.startDate, shortDateFormat)).
+			replace('{Start Page}', currentWeek.startPage).
+			replace('{End Page}', currentWeek.endPage).
+			replace('{Chapters}', weekChapters.join('<br/>')).
+			replace('{Page Count}', (currentWeek.endPage - currentWeek.startPage + 1)) +
 			'\n';
 	}
 
@@ -166,7 +169,7 @@ function formatVolumeThreadReadingSchedule(template, weeks, chapters, shortDateF
 
 function formatVolumeThreadVocabularyList(template, currentVolume) {
 
-	return template.replace("{Vocabulary List}", currentVolume.vocabularyList)
+	return template.replace('{Vocabulary List}', currentVolume.vocabularyList)
 
 }
 

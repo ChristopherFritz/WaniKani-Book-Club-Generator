@@ -12,7 +12,9 @@ The following placeholders can be used in **volume thread** a template:
 
 `{Volume Number}`
 
-`{Start Date}`
+`{Volume Start Date}`
+
+`{Volume Start Timestamp}`
 
 `{Club Level}`
 
@@ -29,6 +31,8 @@ A weekly schedule may additionally include the following placeholders:
 `{Week Number}`
 
 `{Week Start Date}`
+
+`{Week Start Timestamp}`
 
 `{Start Page}`
 
