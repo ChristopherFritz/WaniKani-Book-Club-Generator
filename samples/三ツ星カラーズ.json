@@ -79,6 +79,6 @@
 
   "templates": {
     "Offshoot Volume Thread": "PENDING",
-    "Offshoot Week Thread": "# 第{Chapters}話\t事件日和\n\n**Start Date:** [date={Short Start Date} timezone=\"Japan\"]\n\n[PASTE CHAPTER IMAGE HERE]\n"
+    "Offshoot Week Thread": "# 第{Chapters}話\t事件日和\n\n**Start Date:** [date={Week Start Date} timezone=\"Japan\"]\n\n[PASTE CHAPTER IMAGE HERE]\n"
   }
 }

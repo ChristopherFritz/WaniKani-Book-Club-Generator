@@ -3,12 +3,15 @@
  */
 function download() {
 
+	clearErrorMessage();
+
 	const container = readFromHtml();
 
 	var element = document.createElement('a')
 
 	var filename = document.getElementsByName('bookTitle')[0].value
 	if (!filename) {
+		setErrorMessage("Cannot save without a series title.");
 		return
 	}
 

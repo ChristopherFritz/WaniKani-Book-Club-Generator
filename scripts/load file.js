@@ -1,21 +1,15 @@
-// TODO: In the select boxes, select the appropriate item on load so it is highlighted.
-
-function setErrorMessage(message) {
-
-	if (message != "") {
-		message = "Error: " + message;
-	}
-
-	document.getElementById('errors').innerText = message;
-
-}
+// TODO: Add an "add template" button.
+// TODO: Afterwards, test loading a file with no template array, and one with an empty template array.
+// TODO: Have default values for various fields.
+// TODO: Do not allow saving without a title.
 
 // Ensure there is file API support.
 if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
 	setErrorMessage('File APIs are not fully supported.');
 }
 
-let dropZone = document.getElementById('target');
+//let dropZone = document.getElementById('target');
+let dropZone = document.getElementsByTagName('body')[0];
 
 // Show copy icon when dragging over.
 dropZone.addEventListener('dragover', function(e) {
@@ -27,7 +21,7 @@ dropZone.addEventListener('dragover', function(e) {
 // Get the file data on drop.
 dropZone.addEventListener('drop', function(e) {
 
-	setErrorMessage("");
+	clearErrorMessage();
 
 	e.stopPropagation();
 	e.preventDefault();
@@ -70,6 +64,11 @@ dropZone.addEventListener('drop', function(e) {
 
 function loadTemplates(templates) {
 
+	// TODO: Test that this still allows adding a template (once an add template button has been implemented).
+	if (null == templates) {
+		return;
+	}
+
 	// First, set the list of templates to select which template is visible.
 	const templatesList = document.getElementById('templatesList');
 	templatesList.replaceChildren();
@@ -99,7 +98,7 @@ function loadTemplates(templates) {
 		'</colgroup>\n' +
 		'<tbody>\n' +
 		'<tr><td><label>Template&nbsp;name:</label></td><td><input name="templateName" type="text"/></td></tr>\n' +
-		'<tr><td>Template&nbsp;markdown:</td><td><textarea name="templateMarkdown"rows="20" cols="100"></textarea></td></tr>\n' +
+		'<tr><td>Template&nbsp;markdown:</td><td><textarea name="templateMarkdown"rows="40" cols="100"></textarea></td></tr>\n' +
 		'</tbody>\n' +
 		'</table>\n';
 
@@ -143,30 +142,31 @@ function loadSeries(series) {
 	seriesTableBody.replaceChildren();
 	for (const seriesKey in seriesKeys) {
 		const tableRow = htmlToElement('<tr><td>' + seriesKeys[seriesKey] + ':</td><td><input name="' + seriesKey + '" type="text"/></td></tr>\n');
-		tableRow.querySelector('input[name="' + seriesKey + '"]').value = series[seriesKey];
+
+		if (undefined != series[seriesKey]) {
+			tableRow.querySelector('input[name="' + seriesKey + '"]').value = series[seriesKey];
+		}
+
 		seriesTableBody.appendChild(tableRow);
 	}
 
 }
 
-function loadVolumes(volumes, currentVolume) {
+function addVolumeToList(volumesList, volumeNumber, selectVolume) {
 
-	// First, set the list of volumes to select which volume is visible.
-	const volumesList = document.getElementById('volumesList');
-	volumesList.replaceChildren();
+	const volumeListItem = document.createElement('option');
 
-	Object.keys(volumes).forEach(function(key, index) {
-		const volumeListItem = document.createElement('option');
+	if (selectVolume) {
+		volumeListItem.selected = true;
+	}
 
-		if (currentVolume == key) {
-			volumeListItem.selected = true;
-		}
+	volumeListItem.innerText = "Volume " + volumeNumber;
+	volumeListItem.value = "volume" + volumeNumber;
+	volumesList.appendChild(volumeListItem);
 
-		volumeListItem.innerText = "Volume " + key;
-		volumeListItem.value = "volume" + key;
-		//volumeListItem.addEventListener('mouseup', function() {displayVolume(key);}, false);
-		volumesList.appendChild(volumeListItem);
-	}, volumes);
+}
+
+function addVolumeTable(volumesElement, volumeNumber) {
 
 	let volumeTemplate = '<div class="volumeContainer">' +
 		'<div name="volume">\n' +
@@ -184,25 +184,49 @@ function loadVolumes(volumes, currentVolume) {
 		'</table>\n' +
 		'</div>\n';
 
+	const volumeContainer = htmlToElement(volumeTemplate);
+	volumeContainer.id = "volume" + volumeNumber;
+
+	volumeContainer.querySelector('input[name="volumeNumber"]').value = volumeNumber;
+	volumesElement.appendChild(volumeContainer);
+	return volumeContainer;
+
+}
+
+function loadVolumes(volumes, currentVolume) {
+
+	if (null == volumes) {
+		return;
+	}
+
+	// First, set the list of volumes to select which volume is visible.
+	const volumesList = document.getElementById('volumesList');
+	volumesList.replaceChildren();
+
+	Object.keys(volumes).forEach(function(key, index) {
+		addVolumeToList(volumesList, key, currentVolume == key);
+	}, volumes);
+
 	const volumesElement = document.getElementById('volumeTables');
 	volumesElement.replaceChildren();
 	// Next, create a separate container for each volume.
 	Object.keys(volumes).forEach(function(key, index) {
-		const volumeContainer = htmlToElement(volumeTemplate);
-		volumeContainer.id = "volume" + key;
 
+		const volumeContainer = addVolumeTable(volumesElement, key);
 		// Hide if this isn't the current volume.
 		if (key != currentVolume) {
 			volumeContainer.style.display = 'none';
 		}
-
-		volumeContainer.querySelector('input[name="volumeNumber"]').value = key;
+		// Populate volume information.
 		for (const volumeKey in volumeKeys) {
+			if (undefined == this[key][volumeKey]) {
+				continue;
+			}
 			volumeContainer.querySelector('input[name="' + volumeKey + '"]').value = this[key][volumeKey];
 		}
 		loadChapters(this[key].chapters, volumeContainer);
 		loadWeeks(this[key].weeks, volumeContainer);
-		volumesElement.appendChild(volumeContainer);
+
 	}, volumes);
 
 }
@@ -222,7 +246,7 @@ function displayVolume(volumeList) {
 
 }
 
-function loadChapters(chapters, element) {
+function addChaptersTable(volumeContainer) {
 
 	const chaptersContainer = htmlToElement('<div name="chapters" style="display: none">\n</div>\n')
 
@@ -243,7 +267,22 @@ function loadChapters(chapters, element) {
 		'</table>\n';
 
 	const chaptersTable = htmlToElement(chaptersTemplate);
+	chaptersContainer.appendChild(chaptersTable);
+	volumeContainer.appendChild(chaptersContainer);
+
+	return chaptersTable;
+
+}
+
+function loadChapters(chapters, volumeContainer) {
+
+	const chaptersTable = addChaptersTable(volumeContainer)
 	const chaptersBody = chaptersTable.getElementsByTagName('tbody')[0];
+
+	if (null == chapters) {
+		return;
+	}
+
 	Object.keys(chapters).forEach(function(key, index) {
 		const singleChapterElement = createEmptyChapter();
 		singleChapterElement.querySelector('input[name="number"]').value = key;
@@ -256,12 +295,9 @@ function loadChapters(chapters, element) {
 		chaptersBody.appendChild(singleChapterElement);
 	}, chapters);
 
-	chaptersContainer.appendChild(chaptersTable);
-	element.appendChild(chaptersContainer)
-
 }
 
-function loadWeeks(weeks, element) {
+function addWeeksTable(volumeContainer) {
 
 	const weeksContainer = htmlToElement('<div name="weeks" style="display: none">\n</div>\n')
 
@@ -290,7 +326,22 @@ function loadWeeks(weeks, element) {
 		'</table>\n';
 
 	const weeksTable = htmlToElement(weeksTemplate);
+	weeksContainer.appendChild(weeksTable);
+	volumeContainer.appendChild(weeksContainer);
+
+	return weeksTable;
+
+}
+
+function loadWeeks(weeks, volumeContainer) {
+
+	const weeksTable = addWeeksTable(volumeContainer);
 	const weeksBody = weeksTable.getElementsByTagName('tbody')[0];
+
+	if (null == weeks) {
+		return;
+	}
+
 	Object.keys(weeks).forEach(function(key, index) {
 		const singleWeekElement = createEmptyWeek();
 		singleWeekElement.querySelector('input[name="number"]').value = key;
@@ -302,9 +353,6 @@ function loadWeeks(weeks, element) {
 		}
 		weeksBody.appendChild(singleWeekElement);
 	}, weeks);
-
-	weeksContainer.appendChild(weeksTable);
-	element.appendChild(weeksContainer);
 
 }
 

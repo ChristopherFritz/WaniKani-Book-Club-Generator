@@ -1,3 +1,19 @@
+function setErrorMessage(message) {
+
+	if ('' != message) {
+		message = 'Error: ' + message;
+	}
+
+	document.getElementById('errors').innerText = message;
+
+}
+
+function clearErrorMessage() {
+
+	document.getElementById('errors').innerText = '';
+
+}
+
 /* Series buttons */
 
 function showSeries() {
@@ -21,8 +37,6 @@ function showTemplates() {
 function showSeriesSection(sectionToShow) {
 
 	const volumes = document.getElementById('content');
-	console.log(volumes)
-
 	volumes.querySelector('div[id="series"]').style.display = 'none';
 	volumes.querySelector('div[id="volumes"]').style.display = 'none';
 	volumes.querySelector('div[id="templates"]').style.display = 'none';
@@ -59,29 +73,30 @@ function showWeeks() {
 
 function showVolumeSection(sectionToShow) {
 
-	console.log(1)
-	const volumes = document.getElementById("volumes");
+	const volume = currentVolume();
 
-	volumes.querySelector('div[name="volume"]').style.display = 'none';
-	volumes.querySelector('div[name="chapters"]').style.display = 'none';
-	volumes.querySelector('div[name="weeks"]').style.display = 'none';
+	Array.from(['volume', 'chapters', 'weeks']).forEach(function(name) {
+		const elementByName = volume.querySelector('div[name="' + name + '"]');
+		if (null == elementByName) {
+			return;
+		}
+		elementByName.style.display = 'none';
+	});
 
 	// Hide add buttons except for what's for the current section.
-	document.getElementById('addNewVolume').style.display = 'none';
 	document.getElementById('addNewChapter').style.display = 'none';
 	document.getElementById('addNewWeek').style.display = 'none';
 
 	let sectionButtonName = null;
 	switch(sectionToShow) {
-		case 'volume':   sectionButtonName = 'addNewVolume';  break;
 		case 'chapters': sectionButtonName = 'addNewChapter'; break;
 		case 'weeks':    sectionButtonName = 'addNewWeek';    break;
 	}
-	if (sectionButtonName != null) {
+	if (null != sectionButtonName) {
 		document.getElementById(sectionButtonName).style.removeProperty('display');
 	}
 
-	volumes.querySelector('div[name="' + sectionToShow + '"]').style.display = 'grid';
+	volume.querySelector('div[name="' + sectionToShow + '"]').style.display = 'grid';
 
 }
 
@@ -92,16 +107,10 @@ function allVolumes() {
 
 }
 
-function addNewVolume() {
-	alert("Not yet implemented.");
-}
-
 // Returns the current volume's container element.
 function currentVolume() {
 
 	const volumeElements = allVolumes();
-	console.log(volumeElements);
-
 	let currentElement = null;
 
 	Array.from(volumeElements).forEach(function(element) {
@@ -115,7 +124,26 @@ function currentVolume() {
 }
 
 function addNewVolume() {
-	alert("Not yet implemented.");
+
+	// Add a new volume to the volumes list.  Ask for volume number if it cannot be auto-determined.
+	const volumesList = document.getElementById('volumesList');
+	const volumesListItems = volumesList.getElementsByTagName('option');
+	let lastVolumeNumber = 0
+	console.log("Length:")
+	console.log(volumesListItems.length)
+	if (0 < volumesListItems.length) {
+		lastVolumeNumber = volumesListItems[volumesListItems.length - 1].value.replace('volume', '');
+	}
+	const newVolumeNumber = Number(lastVolumeNumber) + 1
+
+	const volumesElement = document.getElementById('volumeTables');
+	const volumeContainer = addVolumeTable(volumesElement, newVolumeNumber);
+	addChaptersTable(volumeContainer);
+	addWeeksTable(volumeContainer);
+
+	addVolumeToList(volumesList, newVolumeNumber, true);
+	displayVolume(volumesList);
+
 }
 
 function createEmptyChapter() {
@@ -130,6 +158,8 @@ function createEmptyChapter() {
 }
 
 function addNewChapter() {
+
+	// TODO: Ask for chapter number if it cannot be auto-determined.  Otherwise, auto-determine week number and add it in.
 
 	const volumeContainer = currentVolume();
 	const chaptersContainer = volumeContainer.querySelector('table[name="chapters"]');
@@ -155,6 +185,8 @@ function createEmptyWeek() {
 }
 
 function addNewWeek() {
+
+	// TODO: Auto-determine week number and add it in.
 
 	const volumeContainer = currentVolume();
 	const weeksContainer = volumeContainer.querySelector('table[name="weeks"]');

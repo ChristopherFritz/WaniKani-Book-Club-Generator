@@ -7,7 +7,7 @@
 
 <body>
 
-<p>Drag a saved JSON file onto Takagi to load it:</p>
+<p>Drag a saved JSON file any on page load it.</p>
 
 <div id="errors"></div>
 
@@ -17,9 +17,9 @@
 </div>
 
 <div id="buttons">
-  <p><button id="save" disabled style="">💾 Save Backup</button></p>
-  <p><button id="copyVolumeThread" disabled style="height: 2em;">📋 Copy Volume Thread</button></p>
-  <p><button id="copyWeekThread" disabled style="height: 2em;">📋 Copy Week Thread/Post</button></p>
+  <p><button id="save" disabled style="">💾&nbsp;Save&nbsp;Backup</button></p>
+  <p><button id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button></p>
+  <p><button id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button></p>
 </div>
 
 <div id="content" style="display: none;">
@@ -42,13 +42,15 @@
   </div>
 
   <div id="volumes">
+    <div id="addNewVolumeContainer"><button id="addNewVolume">➕ Add a volume</button></div>
+
     <select id="volumesList" size="2" onchange="displayVolume(this);"></select>
+
     <div id="volumeButtons">
     <button id="showVolume">Volume</button>
     <button id="showChapters">Chapters</button>
     <button id="showWeeks">Weeks</button>
 
-    <button id="addNewVolume" style="display: none">➕ Add a volume</button>
     <button id="addNewChapter" style="display: none">➕ Add a chapter</button>
     <button id="addNewWeek" style="display: none">➕ Add a week</button>
     </div>
@@ -61,14 +63,6 @@
   </div>
 
 </div>
-
-
-<script>
-const min = 1;
-const max = 7;
-const targetImageNumber = Math.floor(Math.random() * (max - min + 1) + min);
-document.getElementById('target').style.backgroundImage = 'url(images/Target%20' + targetImageNumber +'.png)';
-</script>
 
 <script src="scripts/keys.js"></script>
 <script src="scripts/interface.js"></script>
@@ -90,7 +84,7 @@ document.getElementById('showSeries').onclick = function() { showSeries() }
 document.getElementById('showVolumes').onclick = function() { showVolumes() }
 document.getElementById('showTemplates').onclick = function() { showTemplates() }
 
-document.getElementById('addNewVolume').onclick = function() { addNewChapter() }
+document.getElementById('addNewVolume').onclick = function() { addNewVolume() }
 document.getElementById('addNewChapter').onclick = function() { addNewChapter() }
 document.getElementById('addNewWeek').onclick = function() { addNewWeek() }
 </script>
