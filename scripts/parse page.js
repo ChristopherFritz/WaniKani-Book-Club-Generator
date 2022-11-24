@@ -12,7 +12,7 @@ function readFromHtml() {
 	}
 
 	container["volumes"] = {};
-	const volumeContainerElements = document.getElementsByClassName('volumeContainer');
+	const volumeContainerElements = allVolumes();
 	console.log(volumeContainerElements);
 	for (const containerElement of volumeContainerElements) {
 		const volumeElements = containerElement.querySelector('table[name="volume"]');

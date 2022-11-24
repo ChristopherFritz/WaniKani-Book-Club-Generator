@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<title>WaniKani Book Club Manager version 0.0.1</title>
+<title>WaniKani Book Club Manager version 0.0.2</title>
 <link rel="stylesheet" href="styles/styles.css">
 </head>
 
@@ -42,17 +42,21 @@
   </div>
 
   <div id="volumes">
-    <select id="volumesList" multiple="multiple"></select>
+    <select id="volumesList" size="2" onchange="displayVolume(this);"></select>
     <div id="volumeButtons">
     <button id="showVolume">Volume</button>
     <button id="showChapters">Chapters</button>
     <button id="showWeeks">Weeks</button>
+
+    <button id="addNewVolume" style="display: none">➕ Add a volume</button>
+    <button id="addNewChapter" style="display: none">➕ Add a chapter</button>
+    <button id="addNewWeek" style="display: none">➕ Add a week</button>
     </div>
     <div id="volumeTables"></div>
   </div>
 
   <div id="templates">
-    <select id="templatesList" multiple="multiple"></select>
+    <select id="templatesList" size="2"  onchange="displayTemplate(this);"></select>
     <div id="templateTables"></div>
   </div>
 
@@ -67,11 +71,11 @@ document.getElementById('target').style.backgroundImage = 'url(images/Target%20'
 </script>
 
 <script src="scripts/keys.js"></script>
+<script src="scripts/interface.js"></script>
+<script src="scripts/load%20file.js"></script>
 <script src="scripts/parse%20page.js"></script>
 <script src="scripts/copy%20template.js"></script>
-<script src="scripts/load%20file.js"></script>
 <script src="scripts/save%20file.js"></script>
-<script src="scripts/interface.js"></script>
 
 <script>
 document.getElementById('save').onclick = function() { download() }
@@ -85,6 +89,10 @@ document.getElementById('showWeeks').onclick = function() { showWeeks() }
 document.getElementById('showSeries').onclick = function() { showSeries() }
 document.getElementById('showVolumes').onclick = function() { showVolumes() }
 document.getElementById('showTemplates').onclick = function() { showTemplates() }
+
+document.getElementById('addNewVolume').onclick = function() { addNewChapter() }
+document.getElementById('addNewChapter').onclick = function() { addNewChapter() }
+document.getElementById('addNewWeek').onclick = function() { addNewWeek() }
 </script>
 
 </body>
