@@ -14,10 +14,10 @@ function copyVolumeThread() {
 		template = container.templates[container.volumes[volumeKey].volumeTemplate];
 
 		template = template.replaceAll('{Book Title}', container.bookTitle);
-		template = template.replace('{Book Image}', currentVolume.bookImage);
+		template = template.replace('{Book Image}', currentVolume.coverImage);
 		template = template.replace('{Volume Number}', volumeKey);
 		template = template.replace('{Volume Start Date}', currentVolume.startDate);
-		template = template.replace('{Volume Start Timestamp}', '[date=' + formatDate(currentVolume.startDate, 'YYYY-MM-DD') + ' timezone="Japan"]');
+		template = template.replace('{Volume Start Timestamp}', '[date=' + currentVolume.startDate + ' timezone="Japan"]');
 		template = formatVolumeThreadJoin(template, container);
 		template = formatVolumeThreadWhereToBuy(template);
 		template = formatVolumeThreadReadingSchedule(template, currentVolume.weeks, currentVolume.chapters, container.shortDateFormat);
@@ -53,6 +53,12 @@ function copyWeekThread() {
 			}
 			weekChapters.push(chapterKey);
 		}
+		// If there are no chapters defined, get the chapter numbers from the week definition.
+		if (0 == weekChapters.length) {
+			for (const weekKey in currentWeek.chapters) {
+				weekChapters.push(currentWeek.chapters[weekKey]);
+			}
+		}
 
 		template = container.templates[container.volumes[volumeKey].weeklyTemplate];
 
@@ -60,18 +66,18 @@ function copyWeekThread() {
 			case 0:
 				break;
 			case 1:
-				template = template.replaceAll('{Chapters}', 'Chapter ' + weekChapters[0]);
+				template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + container.chapterNumberSuffix);
 				break;
 			case 2:
-				template = template.replaceAll('{Chapters}', 'Chapters ' + weekChapters.join(' and '));
+				template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapters ' : container.chapterNumberPrefix) + weekChapters.join(' and ') + container.chapterNumberSuffix);
 				break;
 			default:
-				template = template.replaceAll('{Chapters}', 'Chapters ' + weekChapters[0] + '–' + weekChapters[weekChapters.length - 1]);
+				template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + '–' + weekChapters[weekChapters.length - 1] + container.chapterNumberSuffix);
 		}
 
 		// TODO: Is this the correct start date?
 		template = template.replace('{Week Start Date}', formatDate(currentWeek.startDate, container.shortDateFormat));
-		template = template.replace('{Week Start Timestamp}', '[date=' + formatDate(currentWeek.startDate, 'YYYY-MM-DD') + ' timezone="Japan"]');
+		template = template.replace('{Week Start Timestamp}', '[date=' + currentWeek.startDate + ' timezone="Japan"]');
 
 		navigator.clipboard.writeText(template);
 		console.log(template);

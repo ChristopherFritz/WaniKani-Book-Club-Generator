@@ -5,6 +5,8 @@ const seriesKeys = {
   "seriesHomeThread": "Home thread",
   "shortDateFormat": "Short date format",
   "longDateFormat": "Long date format",
+  "chapterNumberPrefix": "Chapter # prefix",
+  "chapterNumberSuffix": "Chapter # suffix",
   "currentVolume": "Current volume",
   "currentWeek": "Current week"
 }
@@ -14,7 +16,7 @@ const volumeKeys = {
 	"threadType": "Thread\u00a0type",
 	"volumeTemplate": "Volume\u00a0template",
 	"weeklyTemplate": "Weekly\u00a0template",
-	"bookImage": "Book\u00a0image",
+	"coverImage": "Cover\u00a0image",
 	"vocabularyList": "Vocabulary\u00a0list",
 	"startDate": "Start\u00a0date"}
 

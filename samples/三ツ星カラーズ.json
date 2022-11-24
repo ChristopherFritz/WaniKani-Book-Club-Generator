@@ -6,7 +6,9 @@
   "shortDateFormat": "MMM D",
   "longDateFormat": "MMMM D",
   "currentVolume": 6,
-  "currentWeek": 3,
+  "currentWeek": 4,
+  "chapterNumberPrefix": "第",
+  "chapterNumberSuffix": "話",
   "volumes": {
 
     "6": {
@@ -14,30 +16,30 @@
       "threadType": "single",
       "volumeTemplate": "Offshoot Volume Thread",
       "weeklyTemplate": "Offshoot Week Thread",
-      "bookImage": "![cover|351x500, 75%](upload://aPU7CTqpDn0RdShqYhE8g50xs0w.jpeg)",
+      "coverImage": "![cover|351x500, 75%](upload://aPU7CTqpDn0RdShqYhE8g50xs0w.jpeg)",
       "vocabularyList": "https://docs.google.com/spreadsheets/d/15Fcf2BwX0z9FpT4E9JFDFP7vVUTaH2s3Icv60WbYYXU/edit#gid=0",
       "startDate": "2022-11-05",
       "chapters": {
-        "44": {"title": "割りばし鉄砲"},
-        "45": {"title": "合流"},
-        "46": {"title": "事件日和"},
-        "47": {"title": "カラーズドッキリ"},
-        "48": {"title": "巨大ロボを探せ 〜前編〜"},
-        "49": {"title": "巨大ロボを探せ 〜後編〜"},
-        "50": {"title": "猛暑"},
-        "51": {"title": "カラーズファミリー"},
-        "52": {"title": "青山琴葉"}
+        "４４": {"title": "割りばし鉄砲"},
+        "４５": {"title": "合流"},
+        "４６": {"title": "事件日和"},
+        "４７": {"title": "カラーズドッキリ"},
+        "４８": {"title": "巨大ロボを探せ 〜前編〜"},
+        "４９": {"title": "巨大ロボを探せ 〜後編〜"},
+        "５０": {"title": "猛暑"},
+        "５１": {"title": "カラーズファミリー"},
+        "５２": {"title": "青山琴葉"}
       },
       "weeks": {
-        "1": {"startDate": "2022-11-05", "chapters": [44]},
-        "2": {"startDate": "2022-11-12", "chapters": [45]},
-        "3": {"startDate": "2022-11-19", "chapters": [46]},
-        "4": {"startDate": "2022-11-26", "chapters": [47]},
-        "5": {"startDate": "2022-12-03", "chapters": [48]},
-        "6": {"startDate": "2022-12-10", "chapters": [49]},
-        "7": {"startDate": "2022-12-17", "chapters": [50]},
-        "8": {"startDate": "2022-12-24", "chapters": [51]},
-        "9": {"startDate": "2022-12-31", "chapters": [52]}
+        "1": {"startDate": "2022-11-05", "chapters": ["４４"]},
+        "2": {"startDate": "2022-11-12", "chapters": ["４５"]},
+        "3": {"startDate": "2022-11-19", "chapters": ["４６"]},
+        "4": {"startDate": "2022-11-26", "chapters": ["４７"]},
+        "5": {"startDate": "2022-12-03", "chapters": ["４８"]},
+        "6": {"startDate": "2022-12-10", "chapters": ["４９"]},
+        "7": {"startDate": "2022-12-17", "chapters": ["５０"]},
+        "8": {"startDate": "2022-12-24", "chapters": ["５１"]},
+        "9": {"startDate": "2022-12-31", "chapters": ["５２"]}
       }
     },
 
@@ -46,7 +48,7 @@
       "threadType": "single",
       "volumeTemplate": "Offshoot Volume Thread",
       "weeklyTemplate": "Offshoot Week Thread",
-      "bookImage": "PENDING",
+      "coverImage": "PENDING",
       "vocabularyList": "PENDING",
       "startDate": "PENDING",
       "chapters": {
@@ -79,6 +81,6 @@
 
   "templates": {
     "Offshoot Volume Thread": "PENDING",
-    "Offshoot Week Thread": "# 第{Chapters}話\t事件日和\n\n**Start Date:** {Week Start Timestamp}\n\n[PASTE CHAPTER IMAGE HERE]\n"
+    "Offshoot Week Thread": "# {Chapters}\t事件日和\n\n**Start Date:** {Week Start Timestamp}\n\nPLACE CHAPTER IMAGE\n"
   }
 }

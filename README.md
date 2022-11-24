@@ -6,48 +6,49 @@
 
 The following placeholders can be used in **volume thread** a template:
 
-`{Book Title}`
+`{Book Title}`: Title of the book.  Note: For a series, this currently only supports one title for the whole series (such as manga volumes).
 
-`{Book Image}`
+`{Cover Image}`: Markdown for the book cover.
 
-`{Volume Number}`
+`{Volume Number}`: Sequential number of the book volume.
 
-`{Volume Start Date}`
+`{Volume Start Date}`: Start date for reading the book.  Currently uses the format set in "Short Date Format".
 
-`{Volume Start Timestamp}`
+`{Volume Start Timestamp}`:  Start date for reading the book as a Markdown `[date]`.
 
-`{Club Level}`
+`{Club Level}`: Book club level.  One of: `abbc`, `bbc`, `ibc`, `abc`
 
-`{Club Link}`
+`{Club Link}`: Address of the main book club thread.
 
-`{Vocabulary List}`
+`{Vocabulary List}`: Address of the vocabulary list.
 
-`{Series Home Link}`
+`{Series Home Link}`: Address of the series book club home thread.  This is typically used for an offshoot club, and this may point either to the volume one home thread or a separate thread acting as the home thread for the series.
 
-To populate a weekly schedule, enclose a single week's markdown between `{Week}` and `{/Week}`.
+#### Volume thread weekly schedule
 
-A weekly schedule may additionally include the following placeholders:
+To repeat HTML/Markdown for a weekly schedule, enclose a single week's HTML/Markdown between `{Week}` and `{/Week}`.
 
-`{Week Number}`
+Within these tags, a weekly schedule may additionally include the following placeholders:
 
-`{Week Start Date}`
+`{Week Number}`: Week number of the week.
 
-`{Week Start Timestamp}`
+`{Week Start Date}`: Start date for the week's reading.  Currently uses the format set in "Short Date Format".
 
-`{Start Page}`
+`{Week Start Timestamp}`: Start date for the week's reading as a Markdown `[date]`.
 
-`{End Page}`
+`{Start Page}`: Week's reading's starting page number.
 
-`{Chapters}`
+`{End Page}`: Week's reading's ending page number.
 
-`{Page Count}`
+`{Chapters}`: Chapter or chapters being read during the week.
 
+`{Page Count}`: Number of pages included in week's reading.
 
 ### Weekly thread template
 
 The following placeholders can be used in **weekly thread** a template:
 
-`{Chapters}`
+`{Chapters}`: Chapter or chapters being read during the week.
 
-`{Week Start Date}`
+`{Week Start Date}`: Start date for the week's reading.  Currently uses the format set in "Short Date Format".
 

@@ -7,6 +7,8 @@
   "longDateFormat": "MMMM D",
   "currentVolume": 11,
   "currentWeek": 1,
+  "chapterNumberPrefix": "第",
+  "chapterNumberSuffix": "局",
   "volumes": {
 
     "11": {
@@ -14,7 +16,7 @@
       "threadType": "single",
       "volumeTemplate": "Offshoot Volume Thread",
       "weeklyTemplate": "Offshoot Week Thread",
-      "bookImage": "PENDING",
+      "coverImage": "PENDING",
       "vocabularyList": "PENDING",
       "startDate": "PENDING",
       "chapters": {},
@@ -33,6 +35,6 @@
 
   "templates": {
     "Offshoot Volume Thread": "{Book Image}\n\n[Offshoot Home Thread](https://community.wanikani.com/t/x/{Series Home Link}/)\n\n---\n\nLooking for general info about the book? Check the [Nomination post](https://community.wanikani.com/t/x/34698/1135/) for more details (´｡• ᵕ •｡`) Also, note that this is an offshoot club's thread, meaning that we have already finished reading the first volume, that you can find at [{Book Title} - Volume 1](https://community.wanikani.com/t/x/51926/) thread (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧\n\n---\n\n## Reading Schedule\n\n|Week | Start Date | Chapters |\n|--|--|--|\n{Week}| Week {Week Number} | {Week Start Date} | 第{Chapters}局 |{/Week}\n\n## Vocabulary List\n\n{Vocabulary List}\n\n*Please read the guidelines on the first page of the sheet before adding any words.*\n\n## Members\n\nMark your participation status by voting in this poll:\n\n[poll type=regular public=true]\n* I'm reading along\n* I'm planning to catch up later\n[/poll]\n",
-    "Offshoot Week Thread": "PENDING"
+    "Offshoot Week Thread": "# {Chapters}\n\n"
   }
 }
