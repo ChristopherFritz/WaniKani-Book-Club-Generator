@@ -4,31 +4,24 @@ function copyVolumeThread() {
 
 	const container = readFromHtml();
 
-	for (const volumeKey in container.volumes) {
-		if (volumeKey != container.currentVolume) {
-			continue;
-		}
+	const currentVolume = currentVolumeFromHtml(container);
 
-		const currentVolume = container.volumes[volumeKey];
+	template = container.templates[currentVolume.volumeTemplate];
 
-		template = container.templates[container.volumes[volumeKey].volumeTemplate];
+	template = template.replaceAll('{Book Title}', container.bookTitle);
+	template = template.replace('{Book Image}', currentVolume.coverImage);
+	template = template.replace('{Volume Number}', currentVolume.volumeNumber);
+	template = template.replace('{Volume Start Date}', currentVolume.startDate);
+	template = template.replace('{Volume Start Timestamp}', '[date=' + currentVolume.startDate + ' timezone="Japan"]');
+	template = formatVolumeThreadJoin(template, container);
+	template = formatVolumeThreadWhereToBuy(template);
+	template = formatVolumeThreadReadingSchedule(template, currentVolume.weeks, currentVolume.chapters, container.shortDateFormat);
+	template = formatVolumeThreadVocabularyList(template, currentVolume);
+	template = formatVolumeThreadDiscussionRules(template);
+	template = template.replaceAll('{Series Home Link}', 'https://community.wanikani.com/t/' + container.seriesHomeThread);
 
-		template = template.replaceAll('{Book Title}', container.bookTitle);
-		template = template.replace('{Book Image}', currentVolume.coverImage);
-		template = template.replace('{Volume Number}', volumeKey);
-		template = template.replace('{Volume Start Date}', currentVolume.startDate);
-		template = template.replace('{Volume Start Timestamp}', '[date=' + currentVolume.startDate + ' timezone="Japan"]');
-		template = formatVolumeThreadJoin(template, container);
-		template = formatVolumeThreadWhereToBuy(template);
-		template = formatVolumeThreadReadingSchedule(template, currentVolume.weeks, currentVolume.chapters, container.shortDateFormat);
-		template = formatVolumeThreadVocabularyList(template, currentVolume);
-		template = formatVolumeThreadDiscussionRules(template);
-		template = template.replaceAll('{Series Home Link}', 'https://community.wanikani.com/t/' + container.seriesHomeThread);
-
-		navigator.clipboard.writeText(template);
-		console.log(template);
-		return;
-	}
+	navigator.clipboard.writeText(template);
+	console.log(template);
 
 }
 
@@ -38,51 +31,43 @@ function copyWeekThread() {
 
 	const container = readFromHtml();
 
-	for (const volumeKey in container.volumes) {
-		if (volumeKey != container.currentVolume) {
+	const currentVolume = currentVolumeFromHtml(container);
+
+	const currentWeek = currentVolume.weeks[container.currentWeek];
+	weekChapters = []
+	for (const chapterKey in currentVolume.chapters) {
+		if (!currentWeek.chapters.includes(chapterKey)) {
 			continue;
 		}
-
-		const currentVolume = container.volumes[volumeKey];
-
-		const currentWeek = currentVolume.weeks[container.currentWeek];
-		weekChapters = []
-		for (const chapterKey in currentVolume.chapters) {
-			if (!currentWeek.chapters.includes(chapterKey)) {
-				continue;
-			}
-			weekChapters.push(chapterKey);
-		}
-		// If there are no chapters defined, get the chapter numbers from the week definition.
-		if (0 == weekChapters.length) {
-			for (const weekKey in currentWeek.chapters) {
-				weekChapters.push(currentWeek.chapters[weekKey]);
-			}
-		}
-
-		template = container.templates[container.volumes[volumeKey].weeklyTemplate];
-
-		switch (weekChapters.length) {
-			case 0:
-				break;
-			case 1:
-				template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + container.chapterNumberSuffix);
-				break;
-			case 2:
-				template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapters ' : container.chapterNumberPrefix) + weekChapters.join(' and ') + container.chapterNumberSuffix);
-				break;
-			default:
-				template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + '–' + weekChapters[weekChapters.length - 1] + container.chapterNumberSuffix);
-		}
-
-		// TODO: Is this the correct start date?
-		template = template.replace('{Week Start Date}', formatDate(currentWeek.startDate, container.shortDateFormat));
-		template = template.replace('{Week Start Timestamp}', '[date=' + currentWeek.startDate + ' timezone="Japan"]');
-
-		navigator.clipboard.writeText(template);
-		console.log(template);
-		return;
+		weekChapters.push(chapterKey);
 	}
+	// If there are no chapters defined, get the chapter numbers from the week definition.
+	if (0 == weekChapters.length) {
+		for (const weekKey in currentWeek.chapters) {
+			weekChapters.push(currentWeek.chapters[weekKey]);
+		}
+	}
+
+	template = container.templates[currentVolume.weeklyTemplate];
+
+	switch (weekChapters.length) {
+		case 0:
+			break;
+		case 1:
+			template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + container.chapterNumberSuffix);
+			break;
+		case 2:
+			template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapters ' : container.chapterNumberPrefix) + weekChapters.join(' and ') + container.chapterNumberSuffix);
+			break;
+		default:
+			template = template.replaceAll('{Chapters}', ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + '–' + weekChapters[weekChapters.length - 1] + container.chapterNumberSuffix);
+	}
+
+	template = template.replace('{Week Start Date}', formatDate(currentWeek.startDate, container.shortDateFormat));
+	template = template.replace('{Week Start Timestamp}', '[date=' + currentWeek.startDate + ' timezone="Japan"]');
+
+	navigator.clipboard.writeText(template);
+	console.log(template);
 
 }
 
@@ -183,4 +168,5 @@ function formatVolumeThreadDiscussionRules(template) {
 
 	return template
 }
+
 

@@ -1,7 +1,4 @@
-// TODO: Add an "add template" button.
-// TODO: Afterwards, test loading a file with no template array, and one with an empty template array.
 // TODO: Have default values for various fields.
-// TODO: Do not allow saving without a title.
 
 // Ensure there is file API support.
 if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
@@ -54,6 +51,7 @@ dropZone.addEventListener('drop', function(e) {
 		showSeriesSection("series");
 
 		document.getElementById('save').disabled = false;
+		document.getElementById('copySheetsMacro').disabled = false;
 		document.getElementById('copyVolumeThread').disabled = false;
 		document.getElementById('copyWeekThread').disabled = false;
 	}

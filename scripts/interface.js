@@ -159,8 +159,6 @@ function createEmptyChapter() {
 
 function addNewChapter() {
 
-	// TODO: Ask for chapter number if it cannot be auto-determined.  Otherwise, auto-determine week number and add it in.
-
 	const volumeContainer = currentVolume();
 	const chaptersContainer = volumeContainer.querySelector('table[name="chapters"]');
 	const tableBody = chaptersContainer.getElementsByTagName("tbody")[0];
@@ -185,8 +183,6 @@ function createEmptyWeek() {
 }
 
 function addNewWeek() {
-
-	// TODO: Auto-determine week number and add it in.
 
 	const volumeContainer = currentVolume();
 	const weeksContainer = volumeContainer.querySelector('table[name="weeks"]');

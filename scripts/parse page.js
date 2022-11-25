@@ -13,11 +13,11 @@ function readFromHtml() {
 
 	container["volumes"] = {};
 	const volumeContainerElements = allVolumes();
-	console.log(volumeContainerElements);
 	for (const containerElement of volumeContainerElements) {
 		const volumeElements = containerElement.querySelector('table[name="volume"]');
 		volumeNumber = volumeElements.querySelector('input[name="volumeNumber"]').value
 		container["volumes"][volumeNumber] = {};
+		container["volumes"][volumeNumber]['volumeNumber'] = volumeNumber;
 		for (const volumeKey in volumeKeys) {
 			container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('input[name="' + volumeKey + '"]').value
 		}
@@ -28,6 +28,7 @@ function readFromHtml() {
 		for (const chapterRowElement of chapterRowElements) {
 			chapterNumber = chapterRowElement.querySelector('input[name="number"]').value
 			container["volumes"][volumeNumber]['chapters'][chapterNumber] = {};
+			container["volumes"][volumeNumber]['chapters'][chapterNumber]['chapterNumber'] = chapterNumber;
 			for (const chapterKey in chapterKeys) {
 				container["volumes"][volumeNumber]['chapters'][chapterNumber][chapterKey] = chapterRowElement.querySelector('input[name="' + chapterKey + '"]').value
 			}
@@ -39,6 +40,7 @@ function readFromHtml() {
 		for (const weekRowElement of weekRowElements) {
 			weekNumber = weekRowElement.querySelector('input[name="number"]').value
 			container["volumes"][volumeNumber]['weeks'][weekNumber] = {};
+			container["volumes"][volumeNumber]['weeks'][weekNumber]['weekNumber'] = weekNumber;
 			for (const weekKey in weekKeys) {
 				container["volumes"][volumeNumber]['weeks'][weekNumber][weekKey] = weekRowElement.querySelector('input[name="' + weekKey + '"]').value
 			}
@@ -57,3 +59,18 @@ function readFromHtml() {
 	return container;
 
 }
+
+// container = readFromHtml();
+function currentVolumeFromHtml(container) {
+
+	for (const volumeKey in container.volumes) {
+		if (volumeKey != container.currentVolume) {
+			continue;
+		}
+		return container.volumes[volumeKey];
+	}
+
+}
+
+
+

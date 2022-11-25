@@ -18,6 +18,7 @@
 
 <div id="buttons">
   <p><button id="save" disabled style="">💾&nbsp;Save&nbsp;Backup</button></p>
+  <p><button id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button></p>
   <p><button id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button></p>
   <p><button id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button></p>
 </div>
@@ -68,12 +69,14 @@
 <script src="scripts/interface.js"></script>
 <script src="scripts/load%20file.js"></script>
 <script src="scripts/parse%20page.js"></script>
-<script src="scripts/copy%20template.js"></script>
 <script src="scripts/save%20file.js"></script>
+<script src="scripts/copy%20template.js"></script>
+<script src="scripts/copy%20macro.js"></script>
 
 <script>
 document.getElementById('save').onclick = function() { download() }
 document.getElementById('copyVolumeThread').onclick = function() { copyVolumeThread() }
+document.getElementById('copySheetsMacro').onclick = function() { copySheetsMacro() }
 document.getElementById('copyWeekThread').onclick = function() { copyWeekThread() }
 
 document.getElementById('showVolume').onclick = function() { showVolume() }
