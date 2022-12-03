@@ -7,6 +7,12 @@
   "longDateFormat": "MMMM D",
   "chapterNumberPrefix": "第",
   "chapterNumberSuffix": "局",
+  "vocabularySheet": {
+    "useBanding": true,
+    "showTitleRow": false,
+    "colorUnsureUnknown": false,
+    "colorPageNumbers": false
+  },
   "volumes": {
 
     "11": {

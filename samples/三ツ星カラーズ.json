@@ -7,6 +7,12 @@
   "longDateFormat": "MMMM D",
   "chapterNumberPrefix": "第",
   "chapterNumberSuffix": "話",
+  "vocabularySheet": {
+    "useBanding": false,
+    "showTitleRow": true,
+    "colorUnsureUnknown": false,
+    "colorPageNumbers": true
+  },
   "volumes": {
 
     "6": {

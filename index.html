@@ -3,6 +3,8 @@
 <head>
 <title>WaniKani Book Club Manager version 0.1.0</title>
 <link rel="stylesheet" href="styles/styles.css">
+<link rel="stylesheet" href="styles/grid.css">
+<!--<link rel="stylesheet" href="styles/vertical.css">-->
 </head>
 
 <body>
@@ -29,18 +31,12 @@
     <button id="showSeries">Series</button>
     <button id="showVolumes">Volumes</button>
     <button id="showTemplates">Templates</button>
+    <button id="showVocabulary">Vocabulary</button>
   </div>
 
-  <div id="series">
-    <table id="seriesTable">
-    <colgroup>
-    <col style="width: 10em;">
-    <col style="width: 50em;">
-    </colgroup>
-    <tbody>
-    </tbody>
-    </table>
-  </div>
+  <div id="series"></div>
+
+  <div id="vocabulary"></div>
 
   <div id="volumes">
     <div id="addNewVolumeContainer"><button id="addNewVolume">➕ Add a volume</button></div>
@@ -55,7 +51,7 @@
     <button id="addNewChapter" style="display: none">➕ Add a chapter</button>
     <button id="addNewWeek" style="display: none">➕ Add a week</button>
     </div>
-    <div id="volumeTables"></div>
+    <div id="volumesContainer"></div>
   </div>
 
   <div id="templates">
@@ -86,6 +82,7 @@ document.getElementById('showWeeks').onclick = function() { showWeeks() }
 document.getElementById('showSeries').onclick = function() { showSeries() }
 document.getElementById('showVolumes').onclick = function() { showVolumes() }
 document.getElementById('showTemplates').onclick = function() { showTemplates() }
+document.getElementById('showVocabulary').onclick = function() { showVocabulary() }
 
 document.getElementById('addNewVolume').onclick = function() { addNewVolume() }
 document.getElementById('addNewChapter').onclick = function() { addNewChapter() }
