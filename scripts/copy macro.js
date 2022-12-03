@@ -36,7 +36,7 @@ sheets[0].setName('Remove Me');
 	for (const chapterKey in currentVolume.chapters) {
 		const chapter = currentVolume.chapters[chapterKey];
 		const chapterNumber = ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + chapterKey + container.chapterNumberSuffix;
-		macroCode += insertChapterSheet(chapter, chapterNumber)
+		macroCode += insertChapterSheet(chapter, chapterNumber, container.vocabularySheet)
 	}
 
 	macroCode += insertGuidelinesSheet();
@@ -51,12 +51,9 @@ workbook.deleteSheet(SpreadsheetApp.getActive().getSheetByName('Remove Me'));
 
 }
 
-function insertChapterSheet(chapter, chapterNumber) {
+function insertChapterSheet(chapter, chapterNumber, vocabularySheet) {
 
 	chapterSheetMacroCode = '';
-
-	// TODO: Allow user to set this value..
-	showTitleRow = true;
 
 	chapterSheetMacroCode += `
 chapterSheet = workbook.insertSheet('` + chapterNumber + `');
@@ -74,7 +71,7 @@ chapterSheet.setColumnWidth(5, 570);
 var currentRow = 1;
 `
 
-		if (showTitleRow) {
+		if (vocabularySheet.showTitleRow) {
 			chapterSheetMacroCode += `
 // This format uses a header row with the chapter's number and title.
 chapterSheet.getRange('A1:E1').mergeAcross();
@@ -112,13 +109,12 @@ chapterSheet.getRange(currentRow, 1, chapterSheet.getMaxRows() - currentRow, 2)
   .setFontFamily('Zen Kaku Gothic New');
 `
 
-// TODO: Support zebra stripes.
 	firstRow = showTitleRow ? 3 : 2;
 	lastRow = 1000;
-	if (false) {
+	if (vocabularySheet.useBanding) {
 		chapterSheetMacroCode += insertBanding(firstRow - 1, lastRow);
 	}
-	chapterSheetMacroCode += insertConditionalFormatting(firstRow, lastRow);
+	chapterSheetMacroCode += insertConditionalFormatting(firstRow, lastRow, vocabularySheet);
 
 	return chapterSheetMacroCode;
 }
@@ -142,17 +138,19 @@ chapterSheet.getRange('A` + firstRow + `:E` + lastRow + `')
 
 }
 
-function insertConditionalFormatting(firstRow, lastRow) {
+function insertConditionalFormatting(firstRow, lastRow, vocabularySheet) {
 
 	conditionalFormatting = '';
 	conditionalFormatting += `
 var conditionalFormatRules = chapterSheet.getConditionalFormatRules();
 `
 	// TODO: Allow selecting which conditional formatting to use.
-	if (false) { // use unknown and unsure row colors
+    // TODO: Read true/false from page.
+	if (vocabularySheet.colorUnsureUnknown) { // use unknown and unsure row colors
 		conditionalFormatting += insertUnsureAndUnknownConditionalFormatting(firstRow, lastRow);
 	}
-	if (true) { // use pastel page numbers
+    // TODO: Read true/false from page.
+	if (vocabularySheet.colorPageNumbers) { // use pastel page numbers
 		conditionalFormatting += insertPastelPageNumbersConditionalFormatting(firstRow, lastRow);
 	}
 	conditionalFormatting += `

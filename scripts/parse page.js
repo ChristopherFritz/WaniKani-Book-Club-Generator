@@ -67,6 +67,15 @@ function readFromHtml() {
 		container["templates"][templateName] = templateMarkdown;
 	}
 
+
+	container["vocabularySheet"] = {};
+	const vocabularyContainerElements = document.getElementById('vocabulary').getElementsByTagName('input');
+	for (const containerElement of vocabularyContainerElements) {
+		templateName = containerElement.id;
+		templateValue = containerElement.checked;
+		container["vocabularySheet"][templateName] = templateValue;
+	}
+
 	return container;
 
 }

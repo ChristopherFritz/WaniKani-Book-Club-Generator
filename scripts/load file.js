@@ -45,6 +45,7 @@ dropZone.addEventListener('drop', function(e) {
 		document.getElementById('content').style.removeProperty('display');
 
 		loadSeries(data);
+		loadVocabularySheet(data);
 		loadVolumes(data.volumes, getCurrentVolume(data));
 		loadTemplates(data.templates);
 
@@ -136,16 +137,33 @@ function displayTemplate(templateList) {
 
 function loadSeries(series) {
 
-	const seriesTableBody = document.getElementById("seriesTable").getElementsByTagName("tbody")[0];
-	seriesTableBody.replaceChildren();
+	const seriesContainer = document.getElementById("series");
+	seriesContainer.replaceChildren();
 	for (const seriesKey in seriesKeys) {
-		const tableRow = htmlToElement('<tr><td>' + seriesKeys[seriesKey] + ':</td><td><input name="' + seriesKey + '" type="text"/></td></tr>\n');
+		const label = htmlToElement('<label for="' + seriesKey + '">' + seriesKeys[seriesKey] + '</label>\n');
+		const value = htmlToElement('<input name="' + seriesKey + '" id="' + seriesKey + '" type="text"/>\n');
 
 		if (undefined != series[seriesKey]) {
-			tableRow.querySelector('input[name="' + seriesKey + '"]').value = series[seriesKey];
+			value.value = series[seriesKey];
 		}
 
-		seriesTableBody.appendChild(tableRow);
+		seriesContainer.appendChild(label);
+		seriesContainer.appendChild(value);
+	}
+
+}
+
+function loadVocabularySheet(series) {
+
+	const vocabularyContainer = document.getElementById("vocabulary");
+	vocabularyContainer.replaceChildren();
+	for (const vocabularyKey in vocabularyKeys) {
+		const label = htmlToElement('<label for="' + vocabularyKey + '"><input name="' + vocabularyKey + '" id="' + vocabularyKey + '" type="checkbox" /> ' + vocabularyKeys[vocabularyKey] + '</label>');
+		if (undefined != series['vocabularySheet'] && undefined != series['vocabularySheet'][vocabularyKey] && series['vocabularySheet'][vocabularyKey]) {
+			label.querySelector('input').checked = true;
+		}
+
+		vocabularyContainer.appendChild(label);
 	}
 
 }
@@ -166,23 +184,19 @@ function addVolumeToList(volumesList, volumeNumber, selectVolume) {
 
 function addVolumeTable(volumesElement, volumeNumber) {
 
-	let volumeTemplate = '<div class="volumeContainer">' +
+	let volumeTemplate = '<div class="volumeContainer">\n' +
 		'<div name="volume">\n' +
-		'<table name="volume">\n' +
-		'<colgroup>\n' +
-		'<col style="width: 10em;">\n' +
-		'<col style="width: 50em;">\n' +
-		'</colgroup>\n' +
-		'<tbody>\n' +
-		'<tr><td>Volume&nbsp;number:</td><td><input name="volumeNumber" type="text"/></td></tr>\n';
+		'<label for="volumeNumber">Volume&nbsp;number</label>\n<input name="volumeNumber" type="text"/>\n';
+
 	for (const volumeKey in volumeKeys) {
-		volumeTemplate += '<tr><td>' + volumeKeys[volumeKey] + ':</td><td><input name="' + volumeKey + '" type="text"/></td></tr>\n';
+		volumeTemplate += '<label for="' + volumeKey + '">' + volumeKeys[volumeKey] + '</label><input name="' + volumeKey + '" id="' + volumeKey + '" type="text"/>\n';
 	}
-	volumeTemplate += '</tbody>\n' +
-		'</table>\n' +
+	volumeTemplate += '</div>\n' +
 		'</div>\n';
+	console.log(volumeTemplate)
 
 	const volumeContainer = htmlToElement(volumeTemplate);
+	console.log(volumeContainer)
 	volumeContainer.id = "volume" + volumeNumber;
 
 	volumeContainer.querySelector('input[name="volumeNumber"]').value = volumeNumber;
@@ -205,7 +219,7 @@ function loadVolumes(volumes, currentVolume) {
 		addVolumeToList(volumesList, key, currentVolume == volumes[key]);
 	}, volumes);
 
-	const volumesElement = document.getElementById('volumeTables');
+	const volumesElement = document.getElementById('volumesContainer');
 	volumesElement.replaceChildren();
 	// Next, create a separate container for each volume.
 	Object.keys(volumes).forEach(function(key, index) {

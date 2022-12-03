@@ -17,7 +17,6 @@
   margin: 0;
   padding: 5px 10px;
 }
-#volumesTables { padding: 0 10px; background-color: #CEF; }
 #volumes {
   display: grid;
   grid-template-columns: min-content auto;
@@ -28,7 +27,7 @@
 #addNewVolumeContainer { grid-area: 1 / 1 / 2 / 3;}
 #volumesList { grid-area: 2 / 1 / 4 / 2; border: solid thin black; }
 #volumeButtons { grid-area: 2 / 2 / 3 / 3; border: solid thin black; border-left-width: 0; border-bottom-width: 0; padding-left: 10px; }
-#volumeTables { grid-area: 3 / 2 / 4 / 3; border: solid thin black; border-top-width: 0; border-left-width: 0; padding-left: 10px; min-height: 10em; }
+#volumesContainer { grid-area: 3 / 2 / 4 / 3; border: solid thin black; border-top-width: 0; border-left-width: 0; padding-left: 10px; min-height: 10em; }
 #volumesList li:hover { cursor: pointer; }
 
 #templates { margin-top: 1em; }
@@ -54,11 +53,20 @@
 summary:hover,
 .clickable { cursor: pointer; }
 
-input {width: 100%;}
+label:after { content: ":"; }
+#vocabulary label:after { content: ""; }
 
-xdiv {
-  border: solid thin red;
-  margin: 10px;
-  padding: 10px;
+#series input,
+.volumesContainer input
+{ width: 500px; }
+
+table[name=chapters] input {
+  width: 100%;
+}
+
+#series,
+.volumeContainer>div
+{
+  margin: 5px 0;
 }
 

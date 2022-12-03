@@ -34,20 +34,21 @@ function showTemplates() {
 
 }
 
+function showVocabulary() {
+
+	showSeriesSection('vocabulary');
+
+}
+
 function showSeriesSection(sectionToShow) {
 
 	const volumes = document.getElementById('content');
 	volumes.querySelector('div[id="series"]').style.display = 'none';
 	volumes.querySelector('div[id="volumes"]').style.display = 'none';
 	volumes.querySelector('div[id="templates"]').style.display = 'none';
+	volumes.querySelector('div[id="vocabulary"]').style.display = 'none';
 
-		if ('series' == sectionToShow) {
-			volumes.querySelector('div[id="' + sectionToShow + '"]').style.display = 'block';
-		}
-		else {
-			volumes.querySelector('div[id="' + sectionToShow + '"]').style.display = 'grid';
-		}
-
+	volumes.querySelector('div[id="' + sectionToShow + '"]').style.display = 'grid';
 
 }
 
@@ -136,7 +137,7 @@ function addNewVolume() {
 	}
 	const newVolumeNumber = Number(lastVolumeNumber) + 1
 
-	const volumesElement = document.getElementById('volumeTables');
+	const volumesElement = document.getElementById('volumesContainer');
 	const volumeContainer = addVolumeTable(volumesElement, newVolumeNumber);
 	addChaptersTable(volumeContainer);
 	addWeeksTable(volumeContainer);

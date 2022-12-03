@@ -10,6 +10,13 @@ const seriesKeys = {
   "currentVolume": "Current volume",
 }
 
+const vocabularyKeys = {
+    "showTitleRow": "Show\u00a0title\u00a0row",
+    "useBanding": "Alternate\u00a0row\u00a0colors",
+    "colorUnsureUnknown": "Color\u00a0unsure\u00a0and\u00a0unknown",
+    "colorPageNumbers": "Color\u00a0page\u00a0numbers"
+}
+
 const volumeKeys = {
 	"volumeHomeThread": "Thread",
 	"threadType": "Thread\u00a0type",
