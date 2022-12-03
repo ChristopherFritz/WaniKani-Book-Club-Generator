@@ -45,7 +45,7 @@ dropZone.addEventListener('drop', function(e) {
 		document.getElementById('content').style.removeProperty('display');
 
 		loadSeries(data);
-		loadVolumes(data.volumes, data.currentVolume);
+		loadVolumes(data.volumes, getCurrentVolume(data));
 		loadTemplates(data.templates);
 
 		showSeriesSection("series");
@@ -202,7 +202,7 @@ function loadVolumes(volumes, currentVolume) {
 	volumesList.replaceChildren();
 
 	Object.keys(volumes).forEach(function(key, index) {
-		addVolumeToList(volumesList, key, currentVolume == key);
+		addVolumeToList(volumesList, key, currentVolume == volumes[key]);
 	}, volumes);
 
 	const volumesElement = document.getElementById('volumeTables');
@@ -212,7 +212,7 @@ function loadVolumes(volumes, currentVolume) {
 
 		const volumeContainer = addVolumeTable(volumesElement, key);
 		// Hide if this isn't the current volume.
-		if (key != currentVolume) {
+		if (currentVolume != volumes[key]) {
 			volumeContainer.style.display = 'none';
 		}
 		// Populate volume information.

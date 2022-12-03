@@ -5,8 +5,8 @@
   "seriesHomeThread": 58406,
   "shortDateFormat": "MMM D",
   "longDateFormat": "MMMM D",
-  "currentVolume": 3,
-  "currentWeek": 6,
+  "chapterNumberPrefix": "第",
+  "chapterNumberSuffix": "話",
   "volumes": {
 
     "3": {
@@ -16,7 +16,6 @@
       "weeklyTemplate": "Offshoot Week Thread",
       "coverImage": "![08891363891184325501_cover|351x500, 75%](upload://sGHeK9UQtLFUgDOmKQlytJelTGL.jpeg)",
       "vocabularyList": "https://docs.google.com/spreadsheets/d/12aaCFxSeyNobqY3sQqxUU6rRUJXN6knJgf2kxqhQg4I/edit?usp=sharing",
-      "startDate": "2022-10-22",
       "chapters": {
         "25": {"title": "審査基準"},
         "26": {"title": "不揃いな道具たち"},
@@ -39,13 +38,48 @@
         "5": {"weekThread": "", "startDate": "2022-11-19", "chapters": [33, 34], "startPage": 105, "endPage": 128},
         "6": {"weekThread": "", "startDate": "2022-11-26", "chapters": [35, 36], "startPage": 129, "endPage": 155}
       }
+    },
+
+
+    "4": {
+      "volumeHomeThread": 59014,
+      "threadType": "single",
+      "volumeTemplate": "Offshoot Volume Thread",
+      "weeklyTemplate": "Offshoot Week Thread",
+      "coverImage": "![08891461891184325501_cover|351x500](upload://abVmfG4DSbfvIBCgrVNBkpqFOn8.jpeg)",
+      "vocabularyList": "https://docs.google.com/spreadsheets/d/1jOWlvgb2uijOywDxMZN2s1wEDZdwg5Mkz3VtVvWhbj8/edit?usp=sharing",
+      "chapters": {
+        "37": {"title": "「顔」"},
+        "38": {"title": "合格"},
+        "39": {"title": "一番かわいそうな"},
+        "40": {"title": "不安の煤"},
+        "41": {"title": "島籠と花"},
+        "42": {"title": "解"},
+        "43": {"title": "最後の一対"},
+        "44": {"title": "成人になるということ"},
+        "45": {"title": "総評"},
+        "46": {"title": "いきにんぎょう"},
+        "47": {"title": "すすによる病"},
+        "48": {"title": "日常生活の影"},
+        "49": {"title": "すすの能力"},
+        "50": {"title": "手紙"}
+      },
+      "weeks": {
+        "1": {"weekThread": "", "startDate": "2022-12-03", "chapters": [37, 38], "startPage": 5, "endPage": 28},
+        "2": {"weekThread": "", "startDate": "2022-12-10", "chapters": [39, 40], "startPage": 29, "endPage": 53},
+        "3": {"weekThread": "", "startDate": "2022-12-17", "chapters": [41, 42], "startPage": 54, "endPage": 82},
+        "4": {"weekThread": "", "startDate": "2022-12-24", "chapters": [43, 44], "startPage": 83, "endPage": 108},
+        "5": {"weekThread": "", "startDate": "2022-12-31", "chapters": [45, 46], "startPage": 109, "endPage": 132},
+        "6": {"weekThread": "", "startDate": "2023-01-07", "chapters": [47, 48], "startPage": 133, "endPage": 158},
+        "6": {"weekThread": "", "startDate": "2023-01-14", "chapters": [49, 50], "startPage": 159, "endPage": 187}
+      }
     }
 
   },
 
   "templates": {
-    "Club Home Thread": "[Join the {Club Level} Book Club here!]({Club Link})\n\n# Welcome to {Book Title}\n\n{Book Image}\n\nIf you want to take part, just buy the book and join in the discussion! We also recommend setting this thread to \"watching\" so that you get notified when the discussion threads are posted.\n\nNot sure if this is for you? Check out the [Nomination Post](https://community.wanikani.com/t/x/19766/4356) and read the [first chapter for free on bookwalker](https://viewer-trial.bookwalker.jp/03/13/viewer.html?cid=ba552d9e-d5fc-4781-a71d-cce260087308&cty=2) - remember that your fellow book club members and the vocab sheet will be here to help you out though!\n\n\n## Where to buy\n\nPhysical: [Amazon ](https://www.amazon.co.jp/-/en/dp/4088911849) | [CD Japan](https://www.cdjapan.co.jp/product/NEOBK-2306784)\nDigital Mono: [Kindle](https://www.amazon.co.jp/-/en/gp/product/B07M8RP82M) | [Bookwalker](https://bookwalker.jp/de28945f07-f2ad-4d4a-8200-52c639ec61be/)\nDigital Color: [Kindle](https://www.amazon.co.jp/-/en/gp/product/B07M7X4RSD) | [Bookwalker](https://bookwalker.jp/deba552d9e-d5fc-4781-a71d-cce260087308/)\n\n\n## Reading Schedule\n\n|Week|Start Date|Chapter|Page Count|\n|---|---|---|---|\n{Week}|Wk {Week Number}|{Week Start Date}|{Chapters}|{Page Count}|{/Week}\n\n\n## Vocabulary List\n\n{Vocabulary List}\n\n\n## Discussion Rules\n\n* Please use spoiler tags for ***major*** events in the current chapter(s) and ***any*** content in future chapters.\n* When asking for help, please mention the chapter and page number. Also mention what version of the book you are reading.\n* Don't be afraid of asking questions, even if they seem embarrassing at first. All of us are here to learn.\n* To you lurkers out there: Join the conversation, it's fun!\n\n\n## Member List\n\nAre you planning to read {Book Title} with the book club?\n\n[poll type=regular results=always public=true]\n* Yes\n* Yes, but I might start late\n* Not sure\n* No\n[/poll]\n\nIf so, which version will you be reading?\n\n[poll name=poll2 type=regular results=always public=true]\n* eBook color\n* eBook mono\n* Paperback\n[/poll]\n",
-    "Offshoot Volume Thread": "# Volume {Volume Number} Discussion Thread\n\n**Start Date:** {Volume Start Timestamp}\n\n{Book Image}\n\n[{Book Title} Reading Club Home Thread]({Series Home Link})\n\n## Vocabulary Lists\n\n{Vocabulary List}\n\n## Reading Schedule\n\n|Week|Start Date|Pages|No. of Pages|Chapter|\n|---|---|---|---:|---|\n{Week}|Week {Week Number}|{Week Start Date}|{Start Page}–{End Page}|{Page Count} pages|{Chapters}|{/Week}\n\n## Discussion Rules\n\n* If you have any questions, don't hesitate to ask.\n* Please mention the chapter and page number.\n* Please use spoiler tags for  ***major***  events.\n* If you read ahead, please hold questions until during or after the appropriate week.\n",
+    "Club Home Thread": "[Join the {Club Level} Book Club here!]({Club Link})\n\n# Welcome to {Book Title}\n\n{Book Image}\n\nIf you want to take part, just buy the book and join in the discussion! We also recommend setting this thread to \"watching\" so that you get notified when the discussion threads are posted.\n\nNot sure if this is for you? Check out the [Nomination Post](https://community.wanikani.com/t/x/19766/4356) and read the [first chapter for free on bookwalker](https://viewer-trial.bookwalker.jp/03/13/viewer.html?cid=ba552d9e-d5fc-4781-a71d-cce260087308&cty=2) - remember that your fellow book club members and the vocab sheet will be here to help you out though!\n\n\n## Where to buy\n\nPhysical: [Amazon ](https://www.amazon.co.jp/-/en/dp/4088911849) | [CD Japan](https://www.cdjapan.co.jp/product/NEOBK-2306784)\nDigital Mono: [Kindle](https://www.amazon.co.jp/-/en/gp/product/B07M8RP82M) | [Bookwalker](https://bookwalker.jp/de28945f07-f2ad-4d4a-8200-52c639ec61be/)\nDigital Color: [Kindle](https://www.amazon.co.jp/-/en/gp/product/B07M7X4RSD) | [Bookwalker](https://bookwalker.jp/deba552d9e-d5fc-4781-a71d-cce260087308/)\n\n\n## Reading Schedule\n\n|Week|Start Date|Chapter|Page Count|\n|---|---|---|---|\n{Week}|Wk {Week Number}|{Week Start Date}|{Week Chapters}|{Page Count}|{/Week}\n\n\n## Vocabulary List\n\n{Vocabulary List}\n\n\n## Discussion Rules\n\n* Please use spoiler tags for ***major*** events in the current chapter(s) and ***any*** content in future chapters.\n* When asking for help, please mention the chapter and page number. Also mention what version of the book you are reading.\n* Don't be afraid of asking questions, even if they seem embarrassing at first. All of us are here to learn.\n* To you lurkers out there: Join the conversation, it's fun!\n\n\n## Member List\n\nAre you planning to read {Book Title} with the book club?\n\n[poll type=regular results=always public=true]\n* Yes\n* Yes, but I might start late\n* Not sure\n* No\n[/poll]\n\nIf so, which version will you be reading?\n\n[poll name=poll2 type=regular results=always public=true]\n* eBook color\n* eBook mono\n* Paperback\n[/poll]\n",
+    "Offshoot Volume Thread": "# Volume {Volume Number} Discussion Thread\n\n**Start Date:** {Volume Start Timestamp}\n\n{Book Image}\n\n[{Book Title} Reading Club Home Thread]({Series Home Link})\n\n## Vocabulary Lists\n\n{Vocabulary List}\n\n## Reading Schedule\n\n|Week|Start Date|Pages|No. of Pages|Chapter|\n|---|---|---|---:|---|\n{Week}|Week {Week Number}|{Week Start Date}|{Start Page}–{End Page}|{Page Count} pages|{Week Chapters}|{/Week}\n\n## Discussion Rules\n\n* If you have any questions, don't hesitate to ask.\n* Please mention the chapter and page number.\n* Please use spoiler tags for  ***major***  events.\n* If you read ahead, please hold questions until during or after the appropriate week.\n",
     "Offshoot Week Thread": "# {Chapters}\n**Start Date:** {Week Start Timestamp}\n\nPLACE CHAPTER IMAGE HERE\n\n## Participation\n\nMark your participation status by voting in this poll. (You can change your answer later if you'd like.)\n\n[poll type=regular results=always public=true chartType=bar]\n* I'm reading along.\n* I have finished this part.\n* I will catch up later.\n[/poll]\n\n<small>*If you've read it before but will join in the discussion (or have read ahead), please select \"I'm reading along\"!*</small>\n"
   }
 }

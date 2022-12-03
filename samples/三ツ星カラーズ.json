@@ -5,8 +5,6 @@
   "seriesHomeThread": 56044,
   "shortDateFormat": "MMM D",
   "longDateFormat": "MMMM D",
-  "currentVolume": 6,
-  "currentWeek": 4,
   "chapterNumberPrefix": "第",
   "chapterNumberSuffix": "話",
   "volumes": {
@@ -18,7 +16,6 @@
       "weeklyTemplate": "Offshoot Week Thread",
       "coverImage": "![cover|351x500, 75%](upload://aPU7CTqpDn0RdShqYhE8g50xs0w.jpeg)",
       "vocabularyList": "https://docs.google.com/spreadsheets/d/15Fcf2BwX0z9FpT4E9JFDFP7vVUTaH2s3Icv60WbYYXU/edit#gid=0",
-      "startDate": "2022-11-05",
       "chapters": {
         "４４": {"title": "割りばし鉄砲"},
         "４５": {"title": "合流"},
@@ -50,7 +47,6 @@
       "weeklyTemplate": "Offshoot Week Thread",
       "coverImage": "PENDING",
       "vocabularyList": "PENDING",
-      "startDate": "PENDING",
       "chapters": {
         "53": {"title": "ロカソーチ"},
         "54": {"title": "平和"},
@@ -64,7 +60,7 @@
         "62": {"title": "ハズレバンダ"}
       },
       "weeks": {
-        "1": {"startDate": "PENDING", "chapters": [53]},
+        "1": {"startDate": "2023-01-07", "chapters": [53]},
         "2": {"startDate": "PENDING", "chapters": [54]},
         "3": {"startDate": "PENDING", "chapters": [55]},
         "4": {"startDate": "PENDING", "chapters": [56]},
@@ -80,7 +76,7 @@
   },
 
   "templates": {
-    "Offshoot Volume Thread": "PENDING",
-    "Offshoot Week Thread": "# {Chapters}\t事件日和\n\n**Start Date:** {Week Start Timestamp}\n\nPLACE CHAPTER IMAGE\n"
+    "Offshoot Volume Thread": "Volume {Volume Number}",
+    "Offshoot Week Thread": "# {Chapters}\n\n**Start Date:** {Week Start Timestamp}\n\nPLACE CHAPTER IMAGE\n"
   }
 }

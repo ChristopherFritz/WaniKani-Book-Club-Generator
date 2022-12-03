@@ -40,7 +40,7 @@ Within these tags, a weekly schedule may additionally include the following plac
 
 `{End Page}`: Week's reading's ending page number.
 
-`{Chapters}`: Chapter or chapters being read during the week.
+`{Week Chapters}`: Chapter or chapters being read during the week.
 
 `{Page Count}`: Number of pages included in week's reading.
 

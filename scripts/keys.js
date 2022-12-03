@@ -8,7 +8,6 @@ const seriesKeys = {
   "chapterNumberPrefix": "Chapter # prefix",
   "chapterNumberSuffix": "Chapter # suffix",
   "currentVolume": "Current volume",
-  "currentWeek": "Current week"
 }
 
 const volumeKeys = {
@@ -18,7 +17,7 @@ const volumeKeys = {
 	"weeklyTemplate": "Weekly\u00a0template",
 	"coverImage": "Cover\u00a0image",
 	"vocabularyList": "Vocabulary\u00a0list",
-	"startDate": "Start\u00a0date"}
+}
 
 const chapterKeys = {
 	"title": "Title"

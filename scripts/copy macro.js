@@ -1,4 +1,11 @@
+// TODO: Support different templates for the guidelines sheet.
+// TODO: Lock the guidelines sheet.
+// TODO: Support an option for whether or not to include the title row.
+
 function copySheetsMacro() {
+
+	navigator.clipboard.writeText('')
+	clearErrorMessage();
 
 	// Create a new Google Sheet document.
 	// Select the "Extentions" menu, then the "Apps Scripts" submenu.
@@ -7,10 +14,9 @@ function copySheetsMacro() {
 	// Paste the copied text into this function.
 	// Click on "Run" button.  You will need to give the Apps Script access to the Sheets document.
 
-
 	const container = readFromHtml();
 
-	const currentVolume = currentVolumeFromHtml(container);
+	const currentVolume = getNextVolume(container);
 
 	let macroCode = ''
 
@@ -23,9 +29,221 @@ for (i = 1; i < sheets.length; i++) {
   workbook.deleteSheet(sheets[i]);
 }
 sheets[0].setName('Remove Me');
+`
 
+	// For now, assume we're going with one spreadsheet per chapter.  Missing support: Weekly where multiple chapters are on one sheet, and weekly where split chapters put one chapter across multiple sheets.
+
+	for (const chapterKey in currentVolume.chapters) {
+		const chapter = currentVolume.chapters[chapterKey];
+		const chapterNumber = ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + chapterKey + container.chapterNumberSuffix;
+		macroCode += insertChapterSheet(chapter, chapterNumber)
+	}
+
+	macroCode += insertGuidelinesSheet();
+
+	macroCode += `
+// Remove the initial sheet.
+workbook.deleteSheet(SpreadsheetApp.getActive().getSheetByName('Remove Me'));
+`
+
+	navigator.clipboard.writeText(macroCode);
+	console.log(macroCode);
+
+}
+
+function insertChapterSheet(chapter, chapterNumber) {
+
+	chapterSheetMacroCode = '';
+
+	// TODO: Allow user to set this value..
+	showTitleRow = true;
+
+	chapterSheetMacroCode += `
+chapterSheet = workbook.insertSheet('` + chapterNumber + `');
+
+// Remove excess colums.
+chapterSheet.deleteColumns(6, 21);
+
+// Set the widths of columns.
+chapterSheet.setColumnWidth(1, 120);
+chapterSheet.setColumnWidth(2, 150);
+chapterSheet.setColumnWidth(3, 350);
+chapterSheet.setColumnWidth(4, 50);
+chapterSheet.setColumnWidth(5, 570);
+
+var currentRow = 1;
+`
+
+		if (showTitleRow) {
+			chapterSheetMacroCode += `
+// This format uses a header row with the chapter's number and title.
+chapterSheet.getRange('A1:E1').mergeAcross();
+chapterSheet.setRowHeight(1, 40);
+// TODO: Test if this is working when there is an apostrophe in the title.
+chapterSheet.getRange(1, 1)
+  .setValue('　` + chapterNumber + `　` + chapter.title.replaceAll("'", "\\\'") + `')
+  .setFontSize(18)
+  .setFontWeight("bold")
+  .setVerticalAlignment('middle');
+currentRow++;
+`
+		}
+
+		chapterSheetMacroCode += `
+// Freeze header.
+chapterSheet.setFrozenRows(currentRow);
+
+// Populate header row values.
+chapterSheet.getRange(currentRow, 1).setValue('Vocab (Kanji)');
+chapterSheet.getRange(currentRow, 2).setValue('Vocab (Kana)');
+chapterSheet.getRange(currentRow, 3).setValue('Meaning');
+chapterSheet.getRange(currentRow, 4).setValue('Page #');
+chapterSheet.getRange(currentRow, 5).setValue('Notes');
+
+// Format header row.
+chapterSheet.getRange(currentRow, 1, 1, 5)
+  .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID)
+  .setFontWeight("bold")
+  .setHorizontalAlignment('center');
+
+// Set font defaults.
+chapterSheet.getRange(currentRow, 1, chapterSheet.getMaxRows() - currentRow, 2)
+  .setFontSize(12)
+  .setFontFamily('Zen Kaku Gothic New');
+`
+
+// TODO: Support zebra stripes.
+	firstRow = showTitleRow ? 3 : 2;
+	lastRow = 1000;
+	if (false) {
+		chapterSheetMacroCode += insertBanding(firstRow - 1, lastRow);
+	}
+	chapterSheetMacroCode += insertConditionalFormatting(firstRow, lastRow);
+
+	return chapterSheetMacroCode;
+}
+
+
+function insertBanding(firstRow, lastRow) {
+
+	banding = '';
+	// TODO: Properly handle column letters.
+	banding += `
+
+chapterSheet.getRange('A` + firstRow + `:E` + lastRow + `')
+  .applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY)
+  .setHeaderRowColor('#4dd0e1')
+  .setFirstRowColor('#ffffff')
+  .setSecondRowColor('#e0f7fa')
+  .setFooterRowColor(null);
+`
+
+	return banding;
+
+}
+
+function insertConditionalFormatting(firstRow, lastRow) {
+
+	conditionalFormatting = '';
+	conditionalFormatting += `
+var conditionalFormatRules = chapterSheet.getConditionalFormatRules();
+`
+	// TODO: Allow selecting which conditional formatting to use.
+	if (false) { // use unknown and unsure row colors
+		conditionalFormatting += insertUnsureAndUnknownConditionalFormatting(firstRow, lastRow);
+	}
+	if (true) { // use pastel page numbers
+		conditionalFormatting += insertPastelPageNumbersConditionalFormatting(firstRow, lastRow);
+	}
+	conditionalFormatting += `
+chapterSheet.setConditionalFormatRules(conditionalFormatRules);
+`
+
+	return conditionalFormatting;
+
+}
+
+function insertUnsureAndUnknownConditionalFormatting(firstRow, lastRow) {
+
+	// TODO: Find a better way to handle column letters.
+	let kanjiColumn = 'A';
+	let kanaColumn = 'B';
+	let englishColumn = 'C';
+	let pageColumn = 'D';
+	let notesColumn = 'E';
+
+	return `
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('` + kanjiColumn + firstRow + `:` + notesColumn + lastRow + `')])
+  .whenFormulaSatisfied('=AND(ISTEXT($` + kanaColumn + firstRow + `),ISBLANK($` + englishColumn + firstRow + `),ISNUMBER($` + pageColumn + firstRow + `))')
+  .setBackground('#E06666')
+  .build());
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('` + kanjiColumn + firstRow + `:` + notesColumn + lastRow + `')])
+  .whenFormulaSatisfied('=SEARCH("unsure",$` + notesColumn + firstRow + `,1)')
+  .setBackground('#FFD966')
+  .build());
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('` + kanjiColumn + firstRow + `:` + notesColumn + lastRow + `')])
+  .whenFormulaSatisfied('=AND(ISTEXT($` + kanjiColumn + firstRow + `),ISBLANK($` + kanaColumn + firstRow + `),ISNUMBER($` + pageColumn + firstRow + `))')
+  .setBackground('#E06666')
+  .build());
+`
+
+}
+
+function insertPastelPageNumbersConditionalFormatting(firstRow, lastRow) {
+
+	return `
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('D` + firstRow + `:D` + lastRow + `')])
+  .whenCellEmpty()
+  .build());
+
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('D` + firstRow + `:D` + lastRow + `')])
+  .whenFormulaSatisfied('=MOD(count(unique($D$` + firstRow + `:D` + firstRow + `)),6)=1')
+  .setBackground('#F4CCCC')
+  .build());
+
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('D` + firstRow + `:D` + lastRow + `')])
+  .whenFormulaSatisfied('=MOD(count(unique($D$` + firstRow + `:D` + firstRow + `)),6)=2')
+  .setBackground('#FCE5CD')
+  .build());
+
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('D` + firstRow + `:D` + lastRow + `')])
+  .whenFormulaSatisfied('=MOD(count(unique($D$` + firstRow + `:D` + firstRow + `)),6)=3')
+  .setBackground('#FFF2CC')
+  .build());
+
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('D` + firstRow + `:D` + lastRow + `')])
+  .whenFormulaSatisfied('=MOD(count(unique($D$` + firstRow + `:D` + firstRow + `)),6)=4')
+  .setBackground('#D9EAD3')
+  .build());
+
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('D` + firstRow + `:D` + lastRow + `')])
+  .whenFormulaSatisfied('=MOD(count(unique($D$` + firstRow + `:D` + firstRow + `)),6)=5')
+  .setBackground('#D0E0E3')
+  .build());
+
+conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
+  .setRanges([chapterSheet.getRange('D` + firstRow + `:D` + lastRow + `')])
+  .whenFormulaSatisfied('=MOD(count(unique($D$` + firstRow + `:D` + firstRow + `)),6)=0')
+  .setBackground('#D9D2E9')
+  .build());
+`
+
+}
+
+function insertGuidelinesSheet() {
+
+guidelinesSheetMacroCode = `
 // Create the guidelines sheet.
-guidelinesSheet = workbook.insertSheet('Guidelines');
+guidelinesSheet = workbook.insertSheet('Guidelines', 1);
 
 // Remove excess colums and rows.
 guidelinesSheet.deleteColumns(2, 25);
@@ -79,74 +297,12 @@ guidelinesSheet.getRange(11, 1).setRichTextValue(SpreadsheetApp.newRichTextValue
   .setTextStyle(244, 283, SpreadsheetApp.newTextStyle().setBold(true).build())
   .setTextStyle(374, 411, SpreadsheetApp.newTextStyle().setForegroundColor('#1155cc').setUnderline(true).build())
   .build());
+
+var protection = guidelinesSheet
+  .protect()
+  .setDescription('Guidelines');
 `
 
-	// For now, assume we're going with one spreadsheet per chapter.  Missing support: Weekly where multiple chapters are on one sheet, and weekly where split chapters put one chapter across multiple sheets.
-
-	for (const chapterKey in currentVolume.chapters) {
-		const chapter = currentVolume.chapters[chapterKey];
-
-		const chapterNumber = ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + chapterKey + container.chapterNumberSuffix;
-
-	macroCode += `
-chapterSheet = workbook.insertSheet('` + chapterNumber + `');
-
-// Remove excess colums.
-chapterSheet.deleteColumns(6, 21);
-
-// Set the widths of columns.
-chapterSheet.setColumnWidth(1, 120);
-chapterSheet.setColumnWidth(2, 150);
-chapterSheet.setColumnWidth(3, 350);
-chapterSheet.setColumnWidth(4, 50);
-chapterSheet.setColumnWidth(5, 570);
-
-var currentRow = 1;
-
-// This format uses a header row with the chapter's number and title.
-chapterSheet.getRange('A1:E1').mergeAcross();
-chapterSheet.setRowHeight(1, 40);
-// TODO: Test if this is working when there is an apostrophe in the title.
-chapterSheet.getRange(1, 1)
-  .setValue('　` + chapterNumber + `　` + chapter.title.replaceAll("'", "\\\'") + `')
-  .setFontSize(14)
-  .setFontWeight("bold")
-  .setVerticalAlignment('middle');
-currentRow++;
-
-// Freeze header.
-chapterSheet.setFrozenRows(currentRow);
-
-// Populate header row values.
-chapterSheet.getRange(currentRow, 1).setValue('Vocab (Kanji)');
-chapterSheet.getRange(currentRow, 2).setValue('Vocab (Kana)');
-chapterSheet.getRange(currentRow, 3).setValue('Meaning');
-chapterSheet.getRange(currentRow, 4).setValue('Page #');
-chapterSheet.getRange(currentRow, 5).setValue('Notes');
-
-// Format header row.
-chapterSheet.getRange(currentRow, 1, 1, 5)
-  .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID)
-  .setFontWeight("bold")
-  .setHorizontalAlignment('center');
-
-// Set font defaults.
-chapterSheet.getRange(currentRow, 1, chapterSheet.getMaxRows() - currentRow, 2)
-  .setFontSize(12)
-  .setFontFamily('Zen Kaku Gothic New');
-`
-	}
-
-	macroCode += `
-// Remove the initial sheet.
-workbook.deleteSheet(sheets[0]);
-
-// Set the guidelines sheet as the active sheet.
-guidelinesSheet.active();
-`
-
-	navigator.clipboard.writeText(macroCode);
-	console.log(macroCode);
+	return guidelinesSheetMacroCode;
 
 }
-

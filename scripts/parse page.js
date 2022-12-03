@@ -19,7 +19,13 @@ function readFromHtml() {
 		container["volumes"][volumeNumber] = {};
 		container["volumes"][volumeNumber]['volumeNumber'] = volumeNumber;
 		for (const volumeKey in volumeKeys) {
-			container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('input[name="' + volumeKey + '"]').value
+			if (volumeKey.includes('Date')) {
+				container["volumes"][volumeNumber][volumeKey] = new Date(volumeElements.querySelector('input[name="' + volumeKey + '"]').value);
+			}
+			else {
+				container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('input[name="' + volumeKey + '"]').value;
+			}
+
 		}
 
 		const chapterElements = containerElement.querySelector('table[name="chapters"]');
@@ -30,7 +36,7 @@ function readFromHtml() {
 			container["volumes"][volumeNumber]['chapters'][chapterNumber] = {};
 			container["volumes"][volumeNumber]['chapters'][chapterNumber]['chapterNumber'] = chapterNumber;
 			for (const chapterKey in chapterKeys) {
-				container["volumes"][volumeNumber]['chapters'][chapterNumber][chapterKey] = chapterRowElement.querySelector('input[name="' + chapterKey + '"]').value
+				container["volumes"][volumeNumber]['chapters'][chapterNumber][chapterKey] = chapterRowElement.querySelector('input[name="' + chapterKey + '"]').value;
 			}
 		}
 
@@ -42,7 +48,12 @@ function readFromHtml() {
 			container["volumes"][volumeNumber]['weeks'][weekNumber] = {};
 			container["volumes"][volumeNumber]['weeks'][weekNumber]['weekNumber'] = weekNumber;
 			for (const weekKey in weekKeys) {
-				container["volumes"][volumeNumber]['weeks'][weekNumber][weekKey] = weekRowElement.querySelector('input[name="' + weekKey + '"]').value
+				if (weekKey.includes('Date')) {
+					container["volumes"][volumeNumber]['weeks'][weekNumber][weekKey] = new Date(weekRowElement.querySelector('input[name="' + weekKey + '"]').value);
+				}
+				else {
+					container["volumes"][volumeNumber]['weeks'][weekNumber][weekKey] = weekRowElement.querySelector('input[name="' + weekKey + '"]').value;
+				}
 			}
 		}
 
@@ -60,15 +71,65 @@ function readFromHtml() {
 
 }
 
-// container = readFromHtml();
-function currentVolumeFromHtml(container) {
+function volumeStartDate(volume) {
 
+	// TODO: What if there are no weeks?
+	return volume.weeks[Object.keys(volume.weeks).sort()[0]].startDate;
+
+}
+
+// Return the current volume.  This is needed to get the current week from the current volume.
+function getCurrentVolume(container) {
+
+	let today = new Date();
+	let soonestVolume = null
 	for (const volumeKey in container.volumes) {
-		if (volumeKey != container.currentVolume) {
+		const startDate = volumeStartDate(container.volumes[volumeKey]);
+		// Skip future volumes.
+		if (today < startDate) {
 			continue;
 		}
-		return container.volumes[volumeKey];
+		// Take the first avaialble date.
+		if (null == soonestVolume) {
+			soonestVolume = container.volumes[volumeKey];
+			continue;
+		}
+		// Take subsequent dates if they are older than the first available date.  This is unlikely, but could happen.
+		if (startDate < soonestVolume.startDate) {
+			soonestVolume = container.volumes[volumeKey];
+			continue;
+		}
 	}
+	return soonestVolume;
+
+}
+
+// Get the next volume.  This is needed to create the next volume's thread.
+function getNextVolume(container) {
+
+	// Assume that a volume thread will be posted before the start date, but no later than one week after the start date.
+	// By this logic, the next volume's thread should be gotten a thread with a date after "today - 7 days".
+	let today = new Date();
+	let oldestDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+	let soonestVolume = null
+	for (const volumeKey in container.volumes) {
+		const startDate = volumeStartDate(container.volumes[volumeKey]);
+		// Skip much older dates.
+		if (startDate < oldestDate) {
+			continue;
+		}
+		// Take the first avaialble date.
+		if (null == soonestVolume) {
+			soonestVolume = container.volumes[volumeKey];
+			continue;
+		}
+		// Take subsequent dates if they are older than the first available date.  This is unlikely, but could happen.
+		if (startDate < soonestVolume.startDate) {
+			soonestVolume = container.volumes[volumeKey];
+			continue;
+		}
+	}
+	return soonestVolume;
 
 }
 
