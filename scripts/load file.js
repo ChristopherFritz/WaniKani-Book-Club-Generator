@@ -286,6 +286,7 @@ function addChaptersTable(volumeContainer) {
 		'<tr>\n' +
 		'<th>Number</th>\n' +
 		'<th>Title</th>\n' +
+		'<th>Remove</th>\n' +
 		'</tr>\n' +
 		'</thead>\n' +
 		'<tbody>\n' +
@@ -345,6 +346,7 @@ function addWeeksTable(volumeContainer) {
 		'<th>Chapters</th>\n' +
 		'<th>Start&nbsp;Page</th>\n' +
 		'<th>End&nbsp;Page</th>\n' +
+		'<th>Remove</th>\n' +
 		'</tr>\n' +
 		'</thead>\n' +
 		'<tbody>\n' +

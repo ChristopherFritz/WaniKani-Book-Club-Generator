@@ -158,6 +158,7 @@ function createEmptyChapter() {
 		'<tr>\n' +
 		'<td><input name="number"></td>\n' +
 		'<td><input name="title"></td>\n' +
+		'<td class="clickable" onclick="removeChapter(this)">➖</td>\n' +
 		'</tr>'
 	return htmlToElement(emptyRow);
 
@@ -173,6 +174,12 @@ function addNewChapter() {
 
 }
 
+function removeChapter(element) {
+
+	element.parentNode.remove();
+
+}
+
 function createEmptyWeek() {
 
 	const emptyRow =
@@ -183,6 +190,7 @@ function createEmptyWeek() {
 		'<td><input name="chapters"></td>\n' +
 		'<td><input name="startPage"></td>\n' +
 		'<td><input name="endPage"></td>\n' +
+		'<td class="clickable" onclick="removeWeek(this)">➖</td>\n' +
 		'</tr>'
 	return htmlToElement(emptyRow);
 
@@ -195,6 +203,12 @@ function addNewWeek() {
 	const tableBody = weeksContainer.getElementsByTagName("tbody")[0];
 	const weekRowElement = createEmptyWeek();
 	tableBody.appendChild(weekRowElement);
+
+}
+
+function removeWeek(element) {
+
+	element.parentNode.remove();
 
 }
 
