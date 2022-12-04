@@ -130,8 +130,6 @@ function addNewVolume() {
 	const volumesList = document.getElementById('volumesList');
 	const volumesListItems = volumesList.getElementsByTagName('option');
 	let lastVolumeNumber = 0
-	console.log("Length:")
-	console.log(volumesListItems.length)
 	if (0 < volumesListItems.length) {
 		lastVolumeNumber = volumesListItems[volumesListItems.length - 1].value.replace('volume', '');
 	}
@@ -191,4 +189,9 @@ function addNewWeek() {
 	const weekRowElement = createEmptyWeek();
 	tableBody.appendChild(weekRowElement);
 
+}
+
+// TODO: Move to a common functions file.
+function isDate(date) {
+	return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
 }

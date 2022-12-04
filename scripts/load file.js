@@ -193,10 +193,8 @@ function addVolumeTable(volumesElement, volumeNumber) {
 	}
 	volumeTemplate += '</div>\n' +
 		'</div>\n';
-	console.log(volumeTemplate)
 
 	const volumeContainer = htmlToElement(volumeTemplate);
-	console.log(volumeContainer)
 	volumeContainer.id = "volume" + volumeNumber;
 
 	volumeContainer.querySelector('input[name="volumeNumber"]').value = volumeNumber;

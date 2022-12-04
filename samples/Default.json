@@ -1,8 +1,8 @@
 {
-  "bookTitle": "それでも歩は寄せてくる ・ When will Ayumu Make his Move?",
-  "bookEmoji": "",
+  "bookTitle": "俺物語!!",
+  "bookEmoji": "💕",
   "bookClub": "abbc",
-  "seriesHomeThread": 53589,
+  "seriesHomeThread": "",
   "shortDateFormat": "MMM D",
   "longDateFormat": "MMMM D",
   "chapterNumberPrefix": "第",
@@ -24,50 +24,13 @@
       "vocabularyList": "PENDING",
       "chapters": {},
       "weeks": {
-        "1": {"startDate": "2023-01-07", "chapters": [136, 137]},
+        "1": {"startDate": "PENDING", "chapters": [136, 137]},
         "2": {"startDate": "PENDING", "chapters": [138, 139]},
         "3": {"startDate": "PENDING", "chapters": [140, 141]},
         "4": {"startDate": "PENDING", "chapters": [142, 143]},
         "5": {"startDate": "PENDING", "chapters": [144, 145]},
         "6": {"startDate": "PENDING", "chapters": [146, 147]},
         "7": {"startDate": "PENDING", "chapters": [148, 149]}
-      }
-    },
-
-    "12": {
-      "volumeHomeThread": "",
-      "threadType": "single",
-      "volumeTemplate": "Offshoot Volume Thread",
-      "weeklyTemplate": "Offshoot Week Thread",
-      "coverImage": "PENDING",
-      "vocabularyList": "PENDING",
-      "chapters": {},
-      "weeks": {
-        "1": {"startDate": "PENDING", "chapters": [150, 151]},
-        "2": {"startDate": "PENDING", "chapters": [152, 153]},
-        "3": {"startDate": "PENDING", "chapters": [154, 155]},
-        "4": {"startDate": "PENDING", "chapters": [156, 157]},
-        "5": {"startDate": "PENDING", "chapters": [158, 159]},
-        "6": {"startDate": "PENDING", "chapters": [160, 161, "omake"]}
-      }
-    },
-
-    "13": {
-      "volumeHomeThread": "",
-      "threadType": "single",
-      "volumeTemplate": "Offshoot Volume Thread",
-      "weeklyTemplate": "Offshoot Week Thread",
-      "coverImage": "PENDING",
-      "vocabularyList": "PENDING",
-      "chapters": {},
-      "weeks": {
-        "1": {"startDate": "PENDING", "chapters": [162, 163]},
-        "2": {"startDate": "PENDING", "chapters": [164, 165]},
-        "3": {"startDate": "PENDING", "chapters": [166, 167]},
-        "4": {"startDate": "PENDING", "chapters": [168, 169]},
-        "5": {"startDate": "PENDING", "chapters": [170, 171]},
-        "6": {"startDate": "PENDING", "chapters": [172, 173]},
-        "6": {"startDate": "PENDING", "chapters": [173, "omake"]}
       }
     }
 

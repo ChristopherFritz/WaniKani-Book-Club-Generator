@@ -67,6 +67,31 @@
       },
       "weeks": {
         "1": {"startDate": "2023-01-07", "chapters": [53]},
+        "2": {"startDate": "2023-01-14", "chapters": [54]},
+        "3": {"startDate": "2023-01-21", "chapters": [55]},
+        "4": {"startDate": "2023-01-28", "chapters": [56]},
+        "5": {"startDate": "2023-02-04", "chapters": [57]},
+        "6": {"startDate": "2023-02-11", "chapters": [58]},
+        "7": {"startDate": "2023-02-18", "chapters": [59]},
+        "8": {"startDate": "2023-02-25", "chapters": [60]},
+        "9": {"startDate": "2023-03-04", "chapters": [61]},
+        "10": {"startDate": "2023-03-11", "chapters": [62]}
+      }
+    },
+
+    "8": {
+      "volumeHomeThread": "PENDING",
+      "threadType": "single",
+      "volumeTemplate": "Offshoot Volume Thread",
+      "weeklyTemplate": "Offshoot Week Thread",
+      "coverImage": "PENDING",
+      "vocabularyList": "PENDING",
+      "chapters": {
+        "63": {"title": ""},
+        "64": {"title": ""}
+      },
+      "weeks": {
+        "1": {"startDate": "2023-03-18", "chapters": [53]},
         "2": {"startDate": "PENDING", "chapters": [54]},
         "3": {"startDate": "PENDING", "chapters": [55]},
         "4": {"startDate": "PENDING", "chapters": [56]},

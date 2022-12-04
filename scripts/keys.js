@@ -6,8 +6,7 @@ const seriesKeys = {
   "shortDateFormat": "Short date format",
   "longDateFormat": "Long date format",
   "chapterNumberPrefix": "Chapter # prefix",
-  "chapterNumberSuffix": "Chapter # suffix",
-  "currentVolume": "Current volume",
+  "chapterNumberSuffix": "Chapter # suffix"
 }
 
 const vocabularyKeys = {

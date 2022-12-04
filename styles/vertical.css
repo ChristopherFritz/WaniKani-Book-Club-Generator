@@ -1,8 +1,0 @@
-.volumeContainer>div label {display: block;}
-
-
-#series input+label,
-.volumeContainer>div input+label
-{
-  margin-top: 1em;
-}

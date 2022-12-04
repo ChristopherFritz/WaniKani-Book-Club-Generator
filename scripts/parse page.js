@@ -14,7 +14,7 @@ function readFromHtml() {
 	container["volumes"] = {};
 	const volumeContainerElements = allVolumes();
 	for (const containerElement of volumeContainerElements) {
-		const volumeElements = containerElement.querySelector('table[name="volume"]');
+		const volumeElements = containerElement.querySelector('div[name="volume"]');
 		volumeNumber = volumeElements.querySelector('input[name="volumeNumber"]').value
 		container["volumes"][volumeNumber] = {};
 		container["volumes"][volumeNumber]['volumeNumber'] = volumeNumber;
@@ -94,21 +94,21 @@ function getCurrentVolume(container) {
 	let soonestVolume = null
 	for (const volumeKey in container.volumes) {
 		const startDate = volumeStartDate(container.volumes[volumeKey]);
+
+		// Skip if there isn't a date set.
+		if (!isDate(startDate)) {
+			continue;
+		}
+
 		// Skip future volumes.
-		if (today < startDate) {
+		if (today < Date.parse(startDate)) {
 			continue;
 		}
-		// Take the first avaialble date.
-		if (null == soonestVolume) {
-			soonestVolume = container.volumes[volumeKey];
-			continue;
-		}
-		// Take subsequent dates if they are older than the first available date.  This is unlikely, but could happen.
-		if (startDate < soonestVolume.startDate) {
-			soonestVolume = container.volumes[volumeKey];
-			continue;
-		}
+
+		// This assumes the volumes are in order.  The last volume not skipped will be returned.
+		soonestVolume = container.volumes[volumeKey];
 	}
+
 	return soonestVolume;
 
 }
@@ -123,6 +123,11 @@ function getNextVolume(container) {
 	let soonestVolume = null
 	for (const volumeKey in container.volumes) {
 		const startDate = volumeStartDate(container.volumes[volumeKey]);
+
+		if (!isDate(startDate)) {
+			continue;
+		}
+
 		// Skip much older dates.
 		if (startDate < oldestDate) {
 			continue;

@@ -19,8 +19,10 @@ function copyVolumeThread() {
 	template = template.replace('{Book Image}', currentVolume.coverImage);
 	template = template.replace('{Volume Number}', currentVolume.volumeNumber);
 	const startDate = volumeStartDate(currentVolume);
-	template = template.replace('{Volume Start Date}', startDate);
-	template = template.replace('{Volume Start Timestamp}', '[date=' + startDate.toISOString().split('T')[0] + ' timezone="Japan"]');
+	if (isDate(startDate)) {
+		template = template.replace('{Volume Start Date}', startDate);
+		template = template.replace('{Volume Start Timestamp}', '[date=' + startDate.toISOString().split('T')[0] + ' timezone="Japan"]');
+	}
 	template = formatVolumeThreadJoin(template, container);
 	template = formatVolumeThreadWhereToBuy(template);
 	template = formatVolumeThreadReadingSchedule(template, currentVolume.weeks, currentVolume.chapters, container.shortDateFormat);
@@ -39,9 +41,6 @@ function getCurrentWeek(currentVolume) {
 	let today = new Date();
 	let oldestDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6);
 	let newestDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6);
-	console.log(currentVolume)
-	console.log(oldestDate)
-	console.log(newestDate)
 
 	for (const weekKey in currentVolume.weeks) {
 		if (oldestDate < currentVolume.weeks[weekKey].startDate && currentVolume.weeks[weekKey].startDate < newestDate) {
@@ -68,7 +67,6 @@ function copyWeekThread() {
 		currentVolume = getNextVolume(container);
 		currentWeek = getCurrentWeek(currentVolume);
 	}
-	console.log(currentWeek);
 
 	if (null == currentWeek) {
 		// TODO: Show an error message about being unable to determine the week?  Or else ask for week number?
