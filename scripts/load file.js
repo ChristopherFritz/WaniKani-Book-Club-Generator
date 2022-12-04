@@ -75,48 +75,64 @@ function loadTemplates(templates) {
 	let templateItems = [];
 	const templateToShow =  Object.keys(templates)[0]
 	Object.keys(templates).forEach(function(key, index) {
-		const templateListItem = document.createElement('option');
-
-		if (key == templateToShow) {
-			templateListItem.selected = true;
-		}
-
-		templateListItem.innerText = key;
-		templateListItem.value = key.replaceAll(' ', '');
-		templatesList.appendChild(templateListItem);
+		addTemplateListItem(key, key == templateToShow)
 	}, templates);
 
 	const templateTables = document.getElementById("templateTables");
 	templateTables.replaceChildren();
 
-	let templateTemplate =
+	// Next, create a separate container each template.
+	let isFirstTemplate = true;
+	Object.keys(templates).forEach(function(key, index) {
+		addTemplateTable(key, this[key], isFirstTemplate);
+		if (isFirstTemplate) {
+			isFirstTemplate = false
+		}
+	}, templates);
+
+}
+
+function addTemplateListItem(templateName, selectItem) {
+
+	const templatesList = document.getElementById('templatesList');
+
+	const templateListItem = document.createElement('option');
+
+	if (selectItem) {
+		templateListItem.selected = true;
+	}
+
+	templateListItem.innerText = templateName;
+	templateListItem.value = templateName.replaceAll(' ', '');
+	templatesList.appendChild(templateListItem);
+
+}
+
+function addTemplateTable(templateName, templateText, isFirstTemplate) {
+
+	const templateTables = document.getElementById("templateTables");
+
+	const templateTemplate =
 		'<table class="templateTable">\n' +
 		'<colgroup>\n' +
 		'<col style="width: 10em;">\n' +
 		'<col style="width: 50em;">\n' +
 		'</colgroup>\n' +
 		'<tbody>\n' +
-		'<tr><td><label>Template&nbsp;name:</label></td><td><input name="templateName" type="text"/></td></tr>\n' +
-		'<tr><td>Template&nbsp;markdown:</td><td><textarea name="templateMarkdown"rows="40" cols="100"></textarea></td></tr>\n' +
+		'<tr><td><label>Template&nbsp;name</label></td><td><input name="templateName" type="text"/></td></tr>\n' +
+		'<tr><td><label>Template&nbsp;markdown</label></td><td><textarea name="templateMarkdown"rows="30" cols="100"></textarea></td></tr>\n' +
 		'</tbody>\n' +
 		'</table>\n';
 
-	// Next, create a separate container each template.
-	let isFirstTemplate = true;
-	Object.keys(templates).forEach(function(key, index) {
-		const table = htmlToElement(templateTemplate);
-		table.id = "template" + key.replaceAll(' ','');
-		// Hide templates after the first.  This causes the first to show by default.
-		if (isFirstTemplate) {
-			isFirstTemplate = false
-		}
-		else {
-			table.style.display = 'none';
-		}
-		table.querySelector('input[name="templateName"]').value = key;
-		table.querySelector('textarea[name="templateMarkdown"]').value = this[key];
-		templateTables.appendChild(table);
-	}, templates);
+	const table = htmlToElement(templateTemplate);
+	table.id = "template" + templateName.replaceAll(' ','');
+	// Hide templates after the first.  This causes the first to show by default.
+	if (!isFirstTemplate) {
+		table.style.display = 'none';
+	}
+	table.querySelector('input[name="templateName"]').value = templateName;
+	table.querySelector('textarea[name="templateMarkdown"]').value = templateText;
+	templateTables.appendChild(table);
 
 }
 
@@ -182,7 +198,7 @@ function addVolumeToList(volumesList, volumeNumber, selectVolume) {
 
 }
 
-function addVolumeTable(volumesElement, volumeNumber) {
+function addVolumeFields(volumesElement, volumeNumber) {
 
 	let volumeTemplate = '<div class="volumeContainer">\n' +
 		'<div name="volume">\n' +
@@ -222,7 +238,7 @@ function loadVolumes(volumes, currentVolume) {
 	// Next, create a separate container for each volume.
 	Object.keys(volumes).forEach(function(key, index) {
 
-		const volumeContainer = addVolumeTable(volumesElement, key);
+		const volumeContainer = addVolumeFields(volumesElement, key);
 		// Hide if this isn't the current volume.
 		if (currentVolume != volumes[key]) {
 			volumeContainer.style.display = 'none';
@@ -364,17 +380,4 @@ function loadWeeks(weeks, volumeContainer) {
 		weeksBody.appendChild(singleWeekElement);
 	}, weeks);
 
-}
-
-// https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
-
-/**
- * @param {String} HTML representing a single element
- * @return {Element}
- */
-function htmlToElement(html) {
-    let template = document.createElement('template');
-    html = html.trim(); // Never return a text node of whitespace as the result
-    template.innerHTML = html;
-    return template.content.firstChild;
 }

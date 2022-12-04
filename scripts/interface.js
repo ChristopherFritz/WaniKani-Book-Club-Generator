@@ -48,7 +48,15 @@ function showSeriesSection(sectionToShow) {
 	volumes.querySelector('div[id="templates"]').style.display = 'none';
 	volumes.querySelector('div[id="vocabulary"]').style.display = 'none';
 
+	volumes.querySelector('button[id="showSeries"]').style.removeProperty("color");
+	volumes.querySelector('button[id="showVolumes"]').style.removeProperty("color");
+	volumes.querySelector('button[id="showTemplates"]').style.removeProperty("color");
+	volumes.querySelector('button[id="showVocabulary"]').style.removeProperty("color");
+
 	volumes.querySelector('div[id="' + sectionToShow + '"]').style.display = 'grid';
+
+	const clickedButtonId = 'show' + sectionToShow.charAt(0).toUpperCase() + sectionToShow.slice(1)
+	volumes.querySelector('button[id="' + clickedButtonId + '"]').style.color = 'blue';
 
 }
 
@@ -101,7 +109,6 @@ function showVolumeSection(sectionToShow) {
 
 }
 
-
 function allVolumes() {
 
 	return document.getElementsByClassName('volumeContainer');
@@ -126,7 +133,7 @@ function currentVolume() {
 
 function addNewVolume() {
 
-	// Add a new volume to the volumes list.  Ask for volume number if it cannot be auto-determined.
+	// Add a new volume to the volumes list.
 	const volumesList = document.getElementById('volumesList');
 	const volumesListItems = volumesList.getElementsByTagName('option');
 	let lastVolumeNumber = 0
@@ -136,7 +143,7 @@ function addNewVolume() {
 	const newVolumeNumber = Number(lastVolumeNumber) + 1
 
 	const volumesElement = document.getElementById('volumesContainer');
-	const volumeContainer = addVolumeTable(volumesElement, newVolumeNumber);
+	const volumeContainer = addVolumeFields(volumesElement, newVolumeNumber);
 	addChaptersTable(volumeContainer);
 	addWeeksTable(volumeContainer);
 
@@ -191,7 +198,55 @@ function addNewWeek() {
 
 }
 
-// TODO: Move to a common functions file.
-function isDate(date) {
-	return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
+function addNewTemplate() {
+
+	// Add a new template to the templates list.  Ask for template name.
+	const templatesList = document.getElementById('templatesList');
+	const templatesListItems = templatesList.getElementsByTagName('option');
+
+	// Ask for the name of the template.
+	// TODO: Disallow any characters that will cause an issue for templates.  Maybe allow only alphanumeric characters?
+	let newTemplateName = prompt("Name of new template:");
+	if (null == newTemplateName || '' == newTemplateName.trim()) {
+		return;
+	}
+
+	// Remove leading and trailing whitespace to ensure it doesn't cause any issues.
+	newTemplateName = newTemplateName.trim();
+
+	addTemplateTable(newTemplateName, '', true);
+	addTemplateListItem(newTemplateName, true);
+	displayTemplate(templatesList);
+
+}
+
+function removeSelectedTemplate() {
+
+	// TODO: Remove selected template.
+	// TODO: Disable remove button.
+	// TODO: Enable remove button when a template has been selected.
+
+	const templatesList = document.getElementById('templatesList');
+
+	// Remove the template table.
+	const templateTableId = "template" + templatesList.value;
+	const table = document.getElementById(templateTableId);
+	if (null != table) {
+		table.remove();
+	}
+
+	// Remove from the template list.
+	for (var i=0; i<templatesList.length; i++) {
+		if (templatesList.options[i].selected) {
+			templatesList.remove(i);
+			break;
+		}
+	}
+
+	// Select the first template from the list.
+	if (0 < templatesList.childElementCount) {
+		templatesList.firstChild.selected = true;
+		displayTemplate(templatesList);
+	}
+
 }

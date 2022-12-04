@@ -54,12 +54,15 @@
   </div>
 
   <div id="templates">
+    <div id="addNewTemplateContainer"><button id="addNewTemplate">➕ Add a template</button> <button id="removeSelectedTemplate">➖ Remove selected template</button></div>
+
     <select id="templatesList" size="2"  onchange="displayTemplate(this);"></select>
     <div id="templateTables"></div>
   </div>
 
 </div>
 
+<script src="scripts/common.js"></script>
 <script src="scripts/keys.js"></script>
 <script src="scripts/interface.js"></script>
 <script src="scripts/load%20file.js"></script>
@@ -86,6 +89,8 @@ document.getElementById('showVocabulary').onclick = function() { showVocabulary(
 document.getElementById('addNewVolume').onclick = function() { addNewVolume() }
 document.getElementById('addNewChapter').onclick = function() { addNewChapter() }
 document.getElementById('addNewWeek').onclick = function() { addNewWeek() }
+document.getElementById('addNewTemplate').onclick = function() { addNewTemplate() }
+document.getElementById('removeSelectedTemplate').onclick = function() { removeSelectedTemplate() }
 </script>
 
 </body>
