@@ -17,7 +17,6 @@
 
     "6": {
       "volumeHomeThread": 59174,
-      "threadType": "single",
       "volumeTemplate": "Offshoot Volume Thread",
       "weeklyTemplate": "Offshoot Week Thread",
       "coverImage": "![cover|351x500, 75%](upload://aPU7CTqpDn0RdShqYhE8g50xs0w.jpeg)",
@@ -48,7 +47,6 @@
 
     "7": {
       "volumeHomeThread": "PENDING",
-      "threadType": "single",
       "volumeTemplate": "Offshoot Volume Thread",
       "weeklyTemplate": "Offshoot Week Thread",
       "coverImage": "PENDING",
@@ -81,7 +79,6 @@
 
     "8": {
       "volumeHomeThread": "PENDING",
-      "threadType": "single",
       "volumeTemplate": "Offshoot Volume Thread",
       "weeklyTemplate": "Offshoot Week Thread",
       "coverImage": "PENDING",

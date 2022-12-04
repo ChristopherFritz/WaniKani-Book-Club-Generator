@@ -18,7 +18,6 @@ const vocabularyKeys = {
 
 const volumeKeys = {
 	"volumeHomeThread": "Thread",
-	"threadType": "Thread\u00a0type",
 	"volumeTemplate": "Volume\u00a0template",
 	"weeklyTemplate": "Weekly\u00a0template",
 	"coverImage": "Cover\u00a0image",

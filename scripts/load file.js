@@ -157,7 +157,21 @@ function loadSeries(series) {
 	seriesContainer.replaceChildren();
 	for (const seriesKey in seriesKeys) {
 		const label = htmlToElement('<label for="' + seriesKey + '">' + seriesKeys[seriesKey] + '</label>\n');
-		const value = htmlToElement('<input name="' + seriesKey + '" id="' + seriesKey + '" type="text"/>\n');
+
+		let value = null
+		if ('bookClub' == seriesKey) {
+			value = htmlToElement(
+				'<select name="' + seriesKey + '" id="' + seriesKey + '" >' +
+				'<option></option>' +
+				'<option value="abbc">Absolute Beginner</option>' +
+				'<option value="bbc">Beginner</option>' +
+				'<option value="ibc">Intermediate</option>' +
+				'<option value="abc">Advanced</option>' +
+				'</select>')
+		}
+		else {
+			value = htmlToElement('<input name="' + seriesKey + '" id="' + seriesKey + '" type="text"/>\n');
+		}
 
 		if (undefined != series[seriesKey]) {
 			value.value = series[seriesKey];

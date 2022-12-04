@@ -8,7 +8,7 @@ function readFromHtml() {
 
 	const seriesElements = document.querySelector('div[id="series"]');
 	for (const seriesKey in seriesKeys) {
-		container[seriesKey] = seriesElements.querySelector('input[name="' + seriesKey + '"]').value
+		container[seriesKey] = seriesElements.querySelector('[name="' + seriesKey + '"]').value
 	}
 
 	container["volumes"] = {};
