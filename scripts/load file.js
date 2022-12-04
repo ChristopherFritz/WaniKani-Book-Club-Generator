@@ -40,26 +40,33 @@ dropZone.addEventListener('drop', function(e) {
 
 	reader.onload = function(e2) {
 
-		const data = JSON.parse(e2.target.result);
+		loadFromFileText(e2.target.result);
 
-		document.getElementById('content').style.removeProperty('display');
-
-		loadSeries(data);
-		loadVocabularySheet(data);
-		loadVolumes(data.volumes, getCurrentVolume(data));
-		loadTemplates(data.templates);
-
-		showSeriesSection("series");
-
-		document.getElementById('save').disabled = false;
-		document.getElementById('copySheetsMacro').disabled = false;
-		document.getElementById('copyVolumeThread').disabled = false;
-		document.getElementById('copyWeekThread').disabled = false;
 	}
 
 	reader.readAsText(file);
 
 });
+
+function loadFromFileText(text) {
+
+	const data = JSON.parse(text);
+
+	document.getElementById('content').style.removeProperty('display');
+
+	loadSeries(data);
+	loadVocabularySheet(data);
+	loadVolumes(data.volumes, getCurrentVolume(data));
+	loadTemplates(data.templates);
+
+	showSeriesSection("series");
+
+	document.getElementById('save').disabled = false;
+	document.getElementById('copySheetsMacro').disabled = false;
+	document.getElementById('copyVolumeThread').disabled = false;
+	document.getElementById('copyWeekThread').disabled = false;
+
+}
 
 function loadTemplates(templates) {
 

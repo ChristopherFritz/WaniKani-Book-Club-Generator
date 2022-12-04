@@ -109,10 +109,10 @@ chapterSheet.getRange(currentRow, 1, chapterSheet.getMaxRows() - currentRow, 2)
   .setFontFamily('Zen Kaku Gothic New');
 `
 
-	firstRow = showTitleRow ? 3 : 2;
+	firstRow = vocabularySheet.showTitleRow ? 3 : 2;
 	lastRow = 1000;
 	if (vocabularySheet.useBanding) {
-		chapterSheetMacroCode += insertBanding(firstRow - 1, lastRow);
+		chapterSheetMacroCode += insertBanding(firstRow - 1, firstRow);
 	}
 	chapterSheetMacroCode += insertConditionalFormatting(firstRow, lastRow, vocabularySheet);
 
@@ -128,10 +128,6 @@ function insertBanding(firstRow, lastRow) {
 
 chapterSheet.getRange('A` + firstRow + `:E` + lastRow + `')
   .applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY)
-  .setHeaderRowColor('#4dd0e1')
-  .setFirstRowColor('#ffffff')
-  .setSecondRowColor('#e0f7fa')
-  .setFooterRowColor(null);
 `
 
 	return banding;
