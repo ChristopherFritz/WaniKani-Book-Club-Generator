@@ -1,12 +1,12 @@
 {
-  "bookTitle": "俺物語!!",
-  "bookEmoji": "💕",
-  "bookClub": "abbc",
+  "bookTitle": "",
+  "bookEmoji": "",
+  "bookClub": "",
   "seriesHomeThread": "",
   "shortDateFormat": "MMM D",
   "longDateFormat": "MMMM D",
-  "chapterNumberPrefix": "第",
-  "chapterNumberSuffix": "局",
+  "chapterNumberPrefix": "",
+  "chapterNumberSuffix": "",
   "vocabularySheet": {
     "useBanding": true,
     "showTitleRow": false,
@@ -15,28 +15,24 @@
   },
   "volumes": {
 
-    "11": {
-      "volumeHomeThread": 59174,
+    "1": {
+      "volumeHomeThread": "",
       "volumeTemplate": "Offshoot Volume Thread",
       "weeklyTemplate": "Offshoot Week Thread",
       "coverImage": "PENDING",
       "vocabularyList": "PENDING",
       "chapters": {},
       "weeks": {
-        "1": {"startDate": "PENDING", "chapters": [136, 137]},
-        "2": {"startDate": "PENDING", "chapters": [138, 139]},
-        "3": {"startDate": "PENDING", "chapters": [140, 141]},
-        "4": {"startDate": "PENDING", "chapters": [142, 143]},
-        "5": {"startDate": "PENDING", "chapters": [144, 145]},
-        "6": {"startDate": "PENDING", "chapters": [146, 147]},
-        "7": {"startDate": "PENDING", "chapters": [148, 149]}
+        "1": {"startDate": "PENDING", "chapters": ""}
       }
     }
 
   },
 
   "templates": {
-    "Offshoot Volume Thread": "{Book Image}\n\n[Offshoot Home Thread](https://community.wanikani.com/t/x/{Series Home Link}/)\n\n---\n\nLooking for general info about the book? Check the [Nomination post](https://community.wanikani.com/t/x/34698/1135/) for more details (´｡• ᵕ •｡`) Also, note that this is an offshoot club's thread, meaning that we have already finished reading the first volume, that you can find at [{Book Title} - Volume 1](https://community.wanikani.com/t/x/51926/) thread (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧\n\n---\n\n## Reading Schedule\n\n|Week | Start Date | Chapters |\n|--|--|--|\n{Week}| Week {Week Number} | {Week Start Date} | {Week Chapters} |{/Week}\n\n## Vocabulary List\n\n{Vocabulary List}\n\n*Please read the guidelines on the first page of the sheet before adding any words.*\n\n## Members\n\nMark your participation status by voting in this poll:\n\n[poll type=regular public=true]\n* I'm reading along\n* I'm planning to catch up later\n[/poll]\n",
-    "Offshoot Week Thread": "# {Chapters}\n\n"
+    "Book Club Home Thread": "\n",
+    "Book Club Week Thread": "\n",
+    "Offshoot Volume Thread": "\n",
+    "Offshoot Week Thread": "\n"
   }
 }

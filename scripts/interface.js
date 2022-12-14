@@ -14,6 +14,33 @@ function clearErrorMessage() {
 
 }
 
+function showBookList() {
+
+	// TODO: Have a "new series" button that clears out current fields.  Need to request series name which cannot(?) be changed after.  Or allow name change, but then the key changes, so when saving the old entry needs to be removed at the time of saving.
+	const keys = Object.keys(localStorage)
+	const bookList = document.getElementById('bookList');
+
+	for (let key of keys) {
+		if (!key.startsWith(storagePrefix)) {
+			continue;
+		}
+		if (null == localStorage.getItem(key)) {
+			continue;
+		}
+		const value = JSON.parse(localStorage.getItem(key));
+
+		const bookEntry = document.createElement('option');
+		bookEntry.innerText = value.bookTitle;
+		bookList.appendChild(bookEntry);
+	}
+}
+
+function refreshButtons() {
+
+	document.getElementById('deleteStorage').disabled = 0 == document.getElementById('bookList').selectedIndex;
+
+}
+
 /* Series buttons */
 
 function showSeries() {

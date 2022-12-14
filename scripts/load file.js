@@ -41,12 +41,28 @@ dropZone.addEventListener('drop', function(e) {
 	reader.onload = function(e2) {
 
 		loadFromFileText(e2.target.result);
+		const bookList = document.getElementById('bookList');
+		bookList.selectedIndex = 0;
 
 	}
 
 	reader.readAsText(file);
 
 });
+
+function loadFromStorage(title) {
+
+	const fileText = localStorage.getItem(`${storagePrefix}${title}`);
+
+	if (null == fileText) {
+		loadFromFileText('{}');
+		return;
+	}
+
+	loadFromFileText(fileText);
+	refreshButtons();
+
+}
 
 function loadFromFileText(text) {
 
@@ -61,6 +77,7 @@ function loadFromFileText(text) {
 
 	showSeriesSection("series");
 
+	document.getElementById('saveStorage').disabled = false;
 	document.getElementById('save').disabled = false;
 	document.getElementById('copySheetsMacro').disabled = false;
 	document.getElementById('copyVolumeThread').disabled = false;

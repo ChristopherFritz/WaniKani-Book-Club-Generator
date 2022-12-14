@@ -8,7 +8,8 @@
 
 <body>
 
-<p>Drag a saved JSON file onto the page to load it.</p>
+<p>Select a saved entry below or drag a saved JSON file onto the page to load it.</p>
+<p><select id="bookList"><option hidden disabled selected value>Select Book/Series</option></select></p>
 
 <div id="errors"></div>
 
@@ -18,7 +19,11 @@
 </div>
 
 <div id="buttons">
-  <button id="save" disabled style="">💾&nbsp;Save&nbsp;Backup</button>
+  <button id="saveStorage" disabled style="">💾&nbsp;Save&nbsp;to&nbsp;Browser</button>
+  <button id="save" disabled style="">💾&nbsp;Save&nbsp;to&nbsp;File</button>
+  <button id="deleteStorage" disabled style="">❌&nbsp;Delete&nbsp;from&nbsp;Browser</button>
+<br/>
+<br/>
   <button id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
   <button id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button>
   <button id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button>
@@ -72,6 +77,8 @@
 <script src="scripts/copy%20macro.js"></script>
 
 <script>
+document.getElementById('saveStorage').onclick = function() { save() }
+document.getElementById('deleteStorage').onclick = function() { deleteFromStorage(true) }
 document.getElementById('save').onclick = function() { download() }
 document.getElementById('copyVolumeThread').onclick = function() { copyVolumeThread() }
 document.getElementById('copySheetsMacro').onclick = function() { copySheetsMacro() }
@@ -92,8 +99,22 @@ document.getElementById('addNewWeek').onclick = function() { addNewWeek() }
 document.getElementById('addNewTemplate').onclick = function() { addNewTemplate() }
 document.getElementById('removeSelectedTemplate').onclick = function() { removeSelectedTemplate() }
 
+document.getElementById('bookList').onchange = function() { loadFromStorage(this.value) }
+
+showBookList();
+
 loadFromFileText('{}');
 </script>
+
+<script>
+
+/*
+METHOD              DESCRIPTION
+removeItem(key)     Remove an item by its key
+*/
+
+</script>
+</select>
 
 </body>
 
