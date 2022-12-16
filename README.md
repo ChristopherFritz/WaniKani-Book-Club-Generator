@@ -4,7 +4,7 @@
 
 ### Volume thread template
 
-The following placeholders can be used in **volume thread** a template:
+The following placeholders can be used in a **volume thread** template:
 
 `{Book Title}`: Title of the book.  Note: For a series, this currently only supports one title for the whole series (such as manga volumes).
 
@@ -46,7 +46,7 @@ Within these tags, a weekly schedule may additionally include the following plac
 
 ### Weekly thread template
 
-The following placeholders can be used in **weekly thread** a template:
+The following placeholders can be used in a **weekly thread** template:
 
 `{Chapters}`: Chapter or chapters being read during the week.
 
