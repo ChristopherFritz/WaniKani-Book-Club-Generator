@@ -1,0 +1,30 @@
+{Book Image}
+
+[Offshoot Home Thread]({Series Home Link}/)
+
+---
+
+Looking for general info about the book? Check the [Nomination post](https://community.wanikani.com/t/x/34698/1135/) for more details (´｡• ᵕ •｡`) Also, note that this is an offshoot club's thread, meaning that we have already finished reading the first volume, that you can find at [{Book Title} - Volume 1](https://community.wanikani.com/t/x/51926/) thread (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
+
+---
+
+## Reading Schedule
+
+|Week | Start Date | Chapters |
+|--|--|--|
+{Week}| Week {Week Number} | {Week Start Date} | {Week Chapters} |{/Week}
+
+## Vocabulary List
+
+{Vocabulary List}
+
+*Please read the guidelines on the first page of the sheet before adding any words.*
+
+## Members
+
+Mark your participation status by voting in this poll:
+
+[poll type=regular public=true]
+* I'm reading along
+* I'm planning to catch up later
+[/poll]

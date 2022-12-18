@@ -1,0 +1,24 @@
+# Volume {Volume Number} Discussion Thread
+
+**Start Date:** {Volume Start Timestamp}
+
+{Book Image}
+
+[{Book Title} Reading Club Home Thread]({Series Home Link})
+
+## Vocabulary Lists
+
+{Vocabulary List}
+
+## Reading Schedule
+
+|Week|Start Date|Pages|No. of Pages|Chapter|
+|---|---|---|---:|---|
+{Week}|Week {Week Number}|{Week Start Date}|{Start Page}–{End Page}|{Page Count} pages|{Week Chapters}|{/Week}
+
+## Discussion Rules
+
+* If you have any questions, don't hesitate to ask.
+* Please mention the chapter and page number.
+* Please use spoiler tags for  ***major***  events.
+* If you read ahead, please hold questions until during or after the appropriate week.

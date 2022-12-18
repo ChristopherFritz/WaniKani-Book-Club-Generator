@@ -1,0 +1,56 @@
+[Join the {Club Level} Book Club here!]({Club Link})
+
+# Welcome to {Book Title}
+
+{Book Image}
+
+If you want to take part, just buy the book and join in the discussion! We also recommend setting this thread to "watching" so that you get notified when the discussion threads are posted.
+
+Not sure if this is for you? Check out the [Nomination Post](https://community.wanikani.com/t/x/19766/4356) and read the [first chapter for free on bookwalker](https://viewer-trial.bookwalker.jp/03/13/viewer.html?cid=ba552d9e-d5fc-4781-a71d-cce260087308&cty=2) - remember that your fellow book club members and the vocab sheet will be here to help you out though!
+
+
+## Where to buy
+
+Physical: [Amazon ](https://www.amazon.co.jp/-/en/dp/4088911849) | [CD Japan](https://www.cdjapan.co.jp/product/NEOBK-2306784)
+Digital Mono: [Kindle](https://www.amazon.co.jp/-/en/gp/product/B07M8RP82M) | [Bookwalker](https://bookwalker.jp/de28945f07-f2ad-4d4a-8200-52c639ec61be/)
+Digital Color: [Kindle](https://www.amazon.co.jp/-/en/gp/product/B07M7X4RSD) | [Bookwalker](https://bookwalker.jp/deba552d9e-d5fc-4781-a71d-cce260087308/)
+
+
+## Reading Schedule
+
+|Week|Start Date|Chapter|Page Count|
+|---|---|---|---|
+{Week}|Wk {Week Number}|{Week Start Date}|{Week Chapters}|{Page Count}|{/Week}
+
+
+## Vocabulary List
+
+{Vocabulary List}
+
+
+## Discussion Rules
+
+* Please use spoiler tags for ***major*** events in the current chapter(s) and ***any*** content in future chapters.
+* When asking for help, please mention the chapter and page number. Also mention what version of the book you are reading.
+* Don't be afraid of asking questions, even if they seem embarrassing at first. All of us are here to learn.
+* To you lurkers out there: Join the conversation, it's fun!
+
+
+## Member List
+
+Are you planning to read {Book Title} with the book club?
+
+[poll type=regular results=always public=true]
+* Yes
+* Yes, but I might start late
+* Not sure
+* No
+[/poll]
+
+If so, which version will you be reading?
+
+[poll name=poll2 type=regular results=always public=true]
+* eBook color
+* eBook mono
+* Paperback
+[/poll]

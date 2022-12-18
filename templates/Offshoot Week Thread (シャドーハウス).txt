@@ -1,0 +1,16 @@
+# {Chapters}
+**Start Date:** {Week Start Timestamp}
+
+PLACE CHAPTER IMAGE HERE
+
+## Participation
+
+Mark your participation status by voting in this poll. (You can change your answer later if you'd like.)
+
+[poll type=regular results=always public=true chartType=bar]
+* I'm reading along.
+* I have finished this part.
+* I will catch up later.
+[/poll]
+
+<small>*If you've read it before but will join in the discussion (or have read ahead), please select "I'm reading along"!*</small>
