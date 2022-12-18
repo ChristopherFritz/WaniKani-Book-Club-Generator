@@ -68,7 +68,9 @@ function loadFromFileText(text) {
 
 	const data = JSON.parse(text);
 
-	document.getElementById('content').style.removeProperty('display');
+	if (0 !== Object.keys(data).length) {
+		document.getElementById('content').style.removeProperty('display');
+	}
 
 	loadSeries(data);
 	loadVocabularySheet(data);

@@ -83,6 +83,10 @@ function readFromHtml() {
 function volumeStartDate(volume) {
 
 	// TODO: What if there are no weeks?
+	if (0 === Object.keys(volume.weeks).length) {
+		return;
+	}
+
 	return volume.weeks[Object.keys(volume.weeks).sort()[0]].startDate;
 
 }
