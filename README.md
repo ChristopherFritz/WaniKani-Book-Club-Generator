@@ -106,6 +106,8 @@ These fields are used for the *Copy Sheets Macro* button.
 
 `Color page numbers`: When checked, page numbers are colored in pastel colors, with repeated page numbers sharing a color.  This allows a subtle visual grouping of vocabulary words from the same page.
 
+These fields are only applicable for generating a new vocabulary spreadsheet.  Once the spreadsheet has been generated, adjusting these values will not impact the existing spreadsheet.
+
 ## Template Placeholders
 
 Templates use placeholders to insert text from a book/volume into a template's output.
