@@ -4,6 +4,12 @@
 
 When loading the HTML page, a blank entry is available.  Under "Series", enter a "Title", then click on "Save to Browser" or "Save to File" (depending on where you wish to save the entry).
 
+## Loading a Save Entry
+
+Entries saved to the browser appear in the dropdown at the top of the page.  Select one to load it.
+
+Entries saved to a file can be loaded by dragging the file onto the HTML page loaded in a browser window.
+
 ## Populating Fields
 
 All fields are optional unless specified as required.
