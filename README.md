@@ -6,9 +6,12 @@ When loading the HTML page, a blank entry is available.  Under "Series", enter a
 
 ## Populating Fields
 
+All fields are optional unless specified as required.
+
 ### Series Fields
 
-All fields are optional unless specified as required.
+<details>
+<summary>Series fields define information about a series.</summary>
 
 `Title`: This is the name of the book or manga series.  Required.
 
@@ -25,10 +28,14 @@ All fields are optional unless specified as required.
 `Chapter # prefix`: The prefix to show before a chapter number.
 
 `Chapter # suffix`: The suffix to show after a chapter number.
+</details>
 
 ### Volume Fields
 
 #### Volume's Volume Fields
+
+<details>
+<summary>Volume fields define information about a volume in a series.</summary>
 
 `Volume number`: The volume number of the volume.  Required.
 
@@ -41,20 +48,26 @@ All fields are optional unless specified as required.
 `Cover image`: The Markdown tag for the volume's cover image after it has been uploaded to the WaniKani forum.
 
 `Vocabulary list:` The full URL to the vocabulary list.
+</details>
 
 #### Volume's Chapter Fields
 
-Currently chapters are required for generating a per-chapter vocabulary sheet.  In the future, a per-week vocabulary sheet option should be implemented at which time adding chapters will be completely optional.
+<details>
+<summary>Chapter fields define information about an individual chapter within a volume.</summary>
 
 `Number`: The chapter number.  Required.
 
 `Title`: The chapter's title.
 
 `Remove`: Removes the chapter.
+</details>
+
+Currently chapters are required for generating a per-chapter vocabulary sheet.  In the future, a per-week vocabulary sheet option should be implemented at which time adding chapters will be completely optional.
 
 #### Volume's Week Fields
 
-Weeks are required, as the first week's start date will be used as the volume's start date.
+<details>
+<summary>Week fields define the weeks a book club is split across.</summary>
 
 `Week`: The week number.  Required.
 
@@ -69,6 +82,9 @@ Weeks are required, as the first week's start date will be used as the volume's 
 `End page`: The page number of the last page for the week's reading.
 
 `Remove`: Removes the week.
+</details>
+
+Weeks are required, as the first week's start date is used as the volume's start date.
 
 ### Template Fields
 
