@@ -18,10 +18,10 @@ const vocabularyKeys = {
 
 const volumeKeys = {
 	"volumeHomeThread": "Thread",
-	"volumeTemplate": "Volume\u00a0template",
-	"weeklyTemplate": "Weekly\u00a0template",
 	"coverImage": "Cover\u00a0image",
 	"vocabularyList": "Vocabulary\u00a0list",
+	"volumeTemplate": "Volume\u00a0template",
+	"weeklyTemplate": "Weekly\u00a0template"
 }
 
 const chapterKeys = {

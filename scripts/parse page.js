@@ -23,7 +23,7 @@ function readFromHtml() {
 				container["volumes"][volumeNumber][volumeKey] = new Date(volumeElements.querySelector('input[name="' + volumeKey + '"]').value);
 			}
 			else if (volumeKey.includes('Template')) {
-				container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('select[name="' + volumeKey + '"]').text;
+				container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('select[name="' + volumeKey + '"]').value;
 			}
 			else {
 				container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('input[name="' + volumeKey + '"]').value;
@@ -65,7 +65,7 @@ function readFromHtml() {
 	container["templates"] = {};
 	const templateContainerElements = document.getElementsByClassName('templateTable');
 	for (const containerElement of templateContainerElements) {
-		templateName = containerElement.querySelector('span[name="templateName"]').value;
+		templateName = containerElement.querySelector('span[name="templateName"]').innerText;
 		templateMarkdown = containerElement.querySelector('textarea[name="templateMarkdown"]').value;
 		container["templates"][templateName] = templateMarkdown;
 	}

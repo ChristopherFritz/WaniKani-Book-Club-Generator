@@ -14,6 +14,10 @@ function copyVolumeThread() {
 	}
 
 	template = container.templates[currentVolume.volumeTemplate];
+	if (undefined === template) {
+		setErrorMessage('A volume template needs to be selected first.');
+		return;
+	}
 
 	template = template.replaceAll('{Book Title}', container.bookTitle);
 	template = template.replace('{Book Image}', currentVolume.coverImage);
@@ -88,6 +92,11 @@ function copyWeekThread() {
 	}
 
 	template = container.templates[currentVolume.weeklyTemplate];
+	if (undefined === template) {
+		setErrorMessage('A weekly template needs to be selected first.');
+		return;
+	}
+
 	chaptersText = ''
 
 	// TODO: Is this necessary?
