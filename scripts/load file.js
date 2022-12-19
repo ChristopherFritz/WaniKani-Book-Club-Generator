@@ -72,8 +72,8 @@ function loadFromFileText(text) {
 
 	loadSeries(data);
 	loadVocabularySheet(data);
-	loadVolumes(data.volumes, getCurrentVolume(data));
 	loadTemplates(data.templates);
+	loadVolumes(data.volumes, getCurrentVolume(data));
 
 	showSeriesSection("series");
 
@@ -143,7 +143,7 @@ function addTemplateTable(templateName, templateText, isFirstTemplate) {
 		'<col style="width: 50em;">\n' +
 		'</colgroup>\n' +
 		'<tbody>\n' +
-		'<tr><td><label>Template&nbsp;name</label></td><td><input name="templateName" type="text"/></td></tr>\n' +
+		'<tr><td><label>Template&nbsp;name</label></td><td><span name="templateName"></span></td></tr>\n' +
 		'<tr><td><label>Template&nbsp;markdown</label></td><td><textarea name="templateMarkdown"rows="30" cols="100"></textarea></td></tr>\n' +
 		'</tbody>\n' +
 		'</table>\n';
@@ -154,7 +154,7 @@ function addTemplateTable(templateName, templateText, isFirstTemplate) {
 	if (!isFirstTemplate) {
 		table.style.display = 'none';
 	}
-	table.querySelector('input[name="templateName"]').value = templateName;
+	table.querySelector('span[name="templateName"]').innerText = templateName;
 	table.querySelector('textarea[name="templateMarkdown"]').value = templateText;
 	templateTables.appendChild(table);
 
@@ -212,7 +212,7 @@ function loadVocabularySheet(series) {
 	const vocabularyContainer = document.getElementById("vocabulary");
 	vocabularyContainer.replaceChildren();
 	for (const vocabularyKey in vocabularyKeys) {
-		const label = htmlToElement('<label for="' + vocabularyKey + '"><input name="' + vocabularyKey + '" id="' + vocabularyKey + '" type="checkbox" /> ' + vocabularyKeys[vocabularyKey] + '</label>');
+		const label = htmlToElement('<label for="' + vocabularyKey + '"><input name="' + vocabularyKey + '" type="checkbox" /> ' + vocabularyKeys[vocabularyKey] + '</label>');
 		if (undefined != series['vocabularySheet'] && undefined != series['vocabularySheet'][vocabularyKey] && series['vocabularySheet'][vocabularyKey]) {
 			label.querySelector('input').checked = true;
 		}
@@ -238,12 +238,29 @@ function addVolumeToList(volumesList, volumeNumber, selectVolume) {
 
 function addVolumeFields(volumesElement, volumeNumber) {
 
+	let templateNames = new Array();
+	const templateContainerElements = document.getElementsByClassName('templateTable');
+	for (const containerElement of templateContainerElements) {
+		templateNames.push(containerElement.querySelector('span[name="templateName"]').innerText);
+	}
+
 	let volumeTemplate = '<div class="volumeContainer">\n' +
 		'<div name="volume">\n' +
 		'<label for="volumeNumber">Volume&nbsp;number</label>\n<input name="volumeNumber" type="text"/>\n';
 
 	for (const volumeKey in volumeKeys) {
-		volumeTemplate += '<label for="' + volumeKey + '">' + volumeKeys[volumeKey] + '</label><input name="' + volumeKey + '" id="' + volumeKey + '" type="text"/>\n';
+		if (volumeKey.includes('Template')) {
+			volumeTemplate += '<label for="' + volumeKey + '">' + volumeKeys[volumeKey] + '</label>\n';
+			volumeTemplate += '<select name="' + volumeKey + '" id="' + volumeKey + '" >\n';
+			volumeTemplate += '<option></option>\n';
+			for (const templateName of templateNames) {
+				volumeTemplate += `<option name="${templateName}">${templateName}</option>>\n`;
+			}
+			volumeTemplate += '</select>\n';
+		}
+		else {
+			volumeTemplate += '<label for="' + volumeKey + '">' + volumeKeys[volumeKey] + '</label><input name="' + volumeKey + '" id="' + volumeKey + '" type="text"/>\n';
+		}
 	}
 	volumeTemplate += '</div>\n' +
 		'</div>\n';
@@ -286,7 +303,12 @@ function loadVolumes(volumes, currentVolume) {
 			if (undefined == this[key][volumeKey]) {
 				continue;
 			}
-			volumeContainer.querySelector('input[name="' + volumeKey + '"]').value = this[key][volumeKey];
+			if (volumeKey.includes('Template')) {
+				volumeContainer.querySelector('select[name="' + volumeKey + '"]').value = this[key][volumeKey];
+			}
+			else {
+				volumeContainer.querySelector('input[name="' + volumeKey + '"]').value = this[key][volumeKey];
+			}
 		}
 		loadChapters(this[key].chapters, volumeContainer);
 		loadWeeks(this[key].weeks, volumeContainer);

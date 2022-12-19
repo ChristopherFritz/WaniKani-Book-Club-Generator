@@ -22,6 +22,9 @@ function readFromHtml() {
 			if (volumeKey.includes('Date')) {
 				container["volumes"][volumeNumber][volumeKey] = new Date(volumeElements.querySelector('input[name="' + volumeKey + '"]').value);
 			}
+			else if (volumeKey.includes('Template')) {
+				container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('select[name="' + volumeKey + '"]').text;
+			}
 			else {
 				container["volumes"][volumeNumber][volumeKey] = volumeElements.querySelector('input[name="' + volumeKey + '"]').value;
 			}
@@ -62,11 +65,10 @@ function readFromHtml() {
 	container["templates"] = {};
 	const templateContainerElements = document.getElementsByClassName('templateTable');
 	for (const containerElement of templateContainerElements) {
-		templateName = containerElement.querySelector('input[name="templateName"]').value;
+		templateName = containerElement.querySelector('span[name="templateName"]').value;
 		templateMarkdown = containerElement.querySelector('textarea[name="templateMarkdown"]').value;
 		container["templates"][templateName] = templateMarkdown;
 	}
-
 
 	container["vocabularySheet"] = {};
 	const vocabularyContainerElements = document.getElementById('vocabulary').getElementsByTagName('input');

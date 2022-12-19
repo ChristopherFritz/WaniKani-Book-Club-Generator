@@ -170,6 +170,7 @@ function addNewVolume() {
 	const newVolumeNumber = Number(lastVolumeNumber) + 1
 
 	const volumesElement = document.getElementById('volumesContainer');
+
 	const volumeContainer = addVolumeFields(volumesElement, newVolumeNumber);
 	addChaptersTable(volumeContainer);
 	addWeeksTable(volumeContainer);
@@ -242,8 +243,6 @@ function removeWeek(element) {
 function addNewTemplate() {
 
 	// Add a new template to the templates list.  Ask for template name.
-	const templatesList = document.getElementById('templatesList');
-	const templatesListItems = templatesList.getElementsByTagName('option');
 
 	// Ask for the name of the template.
 	// TODO: Disallow any characters that will cause an issue for templates.  Maybe allow only alphanumeric characters?
@@ -258,6 +257,8 @@ function addNewTemplate() {
 	addTemplateTable(newTemplateName, '', true);
 	addTemplateListItem(newTemplateName, true);
 	displayTemplate(templatesList);
+
+	// TODO: Add a template to all selects with the name "volumeTemplate".
 
 }
 
@@ -289,5 +290,8 @@ function removeSelectedTemplate() {
 		templatesList.firstChild.selected = true;
 		displayTemplate(templatesList);
 	}
+
+
+	// TODO: Remove the template from all selects with the name "volumeTemplate".
 
 }
