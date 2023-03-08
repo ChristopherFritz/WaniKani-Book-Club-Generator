@@ -1,0 +1,45 @@
+#modalBlocker {
+    position: fixed;
+    top: 100vh;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    overflow: auto;
+    padding-top: 150px;
+}
+
+#modalBlocker.open {
+    top: 0;
+    opacity: 1;
+}
+
+.modal {
+    background: #FFF;
+    position: relative;
+    overflow: hidden;
+    min-height: 200px;
+    width: 600px;
+    border: solid thin black;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalTitle {
+    text-align: center;
+    margin-top: 0;
+}
+
+#closeModal {
+    color: #FFF;
+    background: #D00;
+    font-weight: bold;
+    font-size: 1em;
+    border: solid thin black;
+    border-width: 0 0 1px 1px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}

@@ -3,52 +3,52 @@
 function copyVolumeThread() {
 
 	navigator.clipboard.writeText('')
-	clearErrorMessage();
+	clearErrorMessage()
 
-	const container = readFromHtml();
+	const container = readFromHtml()
 
-	const currentVolume = getNextVolume(container);
+	const currentVolume = getNextVolume(container)
 	if (null == currentVolume) {
-		setErrorMessage("Add the next volume and its first week's start date to copy template.");
-		return;
+		setErrorMessage("Add the next volume and its first week's start date to copy template.")
+		return
 	}
 
-	template = container.templates[currentVolume.volumeTemplate];
+	template = container.templates[currentVolume.volumeTemplate]
 	if (undefined === template) {
-		setErrorMessage('A volume template needs to be selected first.');
-		return;
+		setErrorMessage('A volume template needs to be selected first.')
+		return
 	}
 
-	template = template.replaceAll('{Book Title}', container.bookTitle);
-	template = template.replace('{Book Image}', currentVolume.coverImage);
-	template = template.replace('{Volume Number}', currentVolume.volumeNumber);
-	const startDate = volumeStartDate(currentVolume);
+	template = template.replaceAll('{Book Title}', container.bookTitle)
+	template = template.replace('{Book Image}', currentVolume.coverImage)
+	template = template.replace('{Volume Number}', currentVolume.volumeNumber)
+	const startDate = volumeStartDate(currentVolume)
 	if (isDate(startDate)) {
-		template = template.replace('{Volume Start Date}', startDate);
-		template = template.replace('{Volume Start Timestamp}', '[date=' + startDate.toISOString().split('T')[0] + ' timezone="Japan"]');
+		template = template.replace('{Volume Start Date}', startDate)
+		template = template.replace('{Volume Start Timestamp}', '[date=' + startDate.toISOString().split('T')[0] + ' timezone="Japan"]')
 	}
-	template = formatVolumeThreadJoin(template, container);
-	template = formatVolumeThreadWhereToBuy(template);
-	template = formatVolumeThreadReadingSchedule(template, currentVolume.weeks, currentVolume.chapters, container.shortDateFormat);
-	template = formatVolumeThreadVocabularyList(template, currentVolume);
-	template = formatVolumeThreadDiscussionRules(template);
-	template = template.replaceAll('{Series Home Link}', 'https://community.wanikani.com/t/' + container.seriesHomeThread);
+	template = formatVolumeThreadJoin(template, container)
+	template = formatVolumeThreadWhereToBuy(template)
+	template = formatVolumeThreadReadingSchedule(template, currentVolume.weeks, currentVolume.chapters, container.shortDateFormat)
+	template = formatVolumeThreadVocabularyList(template, currentVolume)
+	template = formatVolumeThreadDiscussionRules(template)
+	template = template.replaceAll('{Series Home Link}', 'https://community.wanikani.com/t/' + container.seriesHomeThread)
 
-	navigator.clipboard.writeText(template);
-	console.log(template);
+	navigator.clipboard.writeText(template)
+	console.log(template)
 
 }
 
 function getCurrentWeek(currentVolume) {
 
-	let currentWeek = null;
-	let today = new Date();
-	let oldestDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6);
-	let newestDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6);
+	let currentWeek = null
+	let today = new Date()
+	let oldestDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6)
+	let newestDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6)
 
 	for (const weekKey in currentVolume.weeks) {
 		if (oldestDate < currentVolume.weeks[weekKey].startDate && currentVolume.weeks[weekKey].startDate < newestDate) {
-			return currentVolume.weeks[weekKey];
+			return currentVolume.weeks[weekKey]
 		}
 	}
 
@@ -57,19 +57,19 @@ function getCurrentWeek(currentVolume) {
 function copyWeekThread() {
 
 	navigator.clipboard.writeText('')
-	clearErrorMessage();
+	clearErrorMessage()
 
-	const container = readFromHtml();
+	const container = readFromHtml()
 
-	let currentVolume = getCurrentVolume(container);
+	let currentVolume = getCurrentVolume(container)
 
 	// Determine the current week based on the date.  The week's start date should be between "today - 6 days" and "today + 6 days".
-	let currentWeek = getCurrentWeek(currentVolume);
+	let currentWeek = getCurrentWeek(currentVolume)
 
 	if (null == currentWeek) {
 		// It's possible this is the first week of a new volume.
-		currentVolume = getNextVolume(container);
-		currentWeek = getCurrentWeek(currentVolume);
+		currentVolume = getNextVolume(container)
+		currentWeek = getCurrentWeek(currentVolume)
 	}
 
 	if (null == currentWeek) {
@@ -80,76 +80,109 @@ function copyWeekThread() {
 	weekChapters = []
 	for (const chapterKey in currentVolume.chapters) {
 		if (!currentWeek.chapters.includes(chapterKey)) {
-			continue;
+			continue
 		}
-		weekChapters.push(chapterKey);
+		weekChapters.push(chapterKey)
 	}
 	// If there are no chapters defined, get the chapter numbers from the week definition.
 	if (0 == weekChapters.length) {
 		for (const weekKey in currentWeek.chapters) {
-			weekChapters.push(currentWeek.chapters[weekKey]);
+			weekChapters.push(currentWeek.chapters[weekKey])
 		}
 	}
 
-	template = container.templates[currentVolume.weeklyTemplate];
+	template = container.templates[currentVolume.weeklyTemplate]
 	if (undefined === template) {
-		setErrorMessage('A weekly template needs to be selected first.');
-		return;
+		setErrorMessage('A weekly template needs to be selected first.')
+		return
 	}
 
 	chaptersText = ''
 
 	// TODO: Is this necessary?
 	if (null == container.chapterNumberPrefix) {
-		container.chapterNumberPrefix = '';
+		container.chapterNumberPrefix = ''
 	}
 	if (null == container.chapterNumberSuffix) {
-		container.chapterNumberSuffix = '';
+		container.chapterNumberSuffix = ''
 	}
 
 	switch (weekChapters.length) {
 		case 0:
-			break;
+			break
 		case 1:
-			chaptersText = (('' == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + container.chapterNumberSuffix;
+			chaptersText = (('' == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + container.chapterNumberSuffix
 			// TODO: Handle this properly.
-			showTitle = 0 < weekChapters.length && 0 < Object.keys(currentVolume.chapters).length && '' != currentVolume.chapters[weekChapters[0]].title;
+			showTitle = 0 < weekChapters.length && 0 < Object.keys(currentVolume.chapters).length && '' != currentVolume.chapters[weekChapters[0]].title
 			if (showTitle) {
-				chaptersText += '　' + currentVolume.chapters[weekChapters[0]].title;
+				chaptersText += '　' + currentVolume.chapters[weekChapters[0]].title
 			}
 
-			break;
+			break
 		case 2:
-			chaptersText = (('' == container.chapterNumberPrefix) ? 'Chapters ' : container.chapterNumberPrefix) + weekChapters.join(' and ') + container.chapterNumberSuffix;
-			break;
+			chaptersText = (('' == container.chapterNumberPrefix) ? 'Chapters ' : container.chapterNumberPrefix) + weekChapters.join(' and ') + container.chapterNumberSuffix
+			break
 		default:
-			chaptersText = (('' == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + '–' + weekChapters[weekChapters.length - 1] + container.chapterNumberSuffix;
+			chaptersText = (('' == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + weekChapters[0] + '–' + weekChapters[weekChapters.length - 1] + container.chapterNumberSuffix
 	}
-	template = template.replaceAll('{Chapters}', chaptersText);
+	template = template.replaceAll('{Chapters}', chaptersText)
 
-	template = template.replace('{Week Start Date}', formatDate(currentWeek.startDate, container.shortDateFormat));
-	template = template.replace('{Week Start Timestamp}', '[date=' + currentWeek.startDate.toISOString().split('T')[0] + ' timezone="Japan"]');
+	template = template.replace('{Week Start Date}', formatDate(currentWeek.startDate, container.shortDateFormat))
+	template = template.replace('{Week Start Timestamp}', '[date=' + currentWeek.startDate.toISOString().split('T')[0] + ' timezone="Japan"]')
 
-	navigator.clipboard.writeText(template);
-	console.log(template);
+	navigator.clipboard.writeText(template)
+	console.log(template)
 
 }
 
 function formatDate(unparsedDate, format) {
 
 	// Get local time offset and add it to the date to avoid a timezone date difference.
-	const parsedLocalDate = new Date(unparsedDate);
-	//const userTimezoneOffset = parsedLocalDate.getTimezoneOffset() * 60000;
-	//const parsedUtcDate = new Date(parsedLocalDate.getTime() + userTimezoneOffset);
-	return format.
-		replace('DD', ('0' + parsedLocalDate.getUTCDate()).slice(-2)).
-		replace('D', parsedLocalDate.getUTCDate()).
-		replace('YYYY', parsedLocalDate.getFullYear()).
-		replace('YY', ('' + parsedLocalDate.getFullYear()).slice(-2)).
-		replace('MMMM', parsedLocalDate.toLocaleString('default', { month: 'long' })) .
-		replace('MMM', parsedLocalDate.toLocaleString('default', { month: 'short' })) .
-		replace('MM', ('0' + parsedLocalDate.getUTCMonth()).slice(-2)).
-		replace('M', parsedLocalDate.getUTCMonth());
+	const parsedLocalDate = new Date(unparsedDate)
+
+	let output = ''
+	let remainingFormat = format
+	while (0 < remainingFormat.length) {
+
+		if (remainingFormat.startsWith('DD')) {
+			output += ('0' + parsedLocalDate.getUTCDate()).slice(-2)
+			remainingFormat = remainingFormat.substring(2)
+		}
+		else if (remainingFormat.startsWith('D')) {
+			output += parsedLocalDate.getUTCDate()
+			remainingFormat = remainingFormat.substring(1)
+		}
+		else if (remainingFormat.startsWith('YYYY')) {
+			output += parsedLocalDate.getFullYear()
+			remainingFormat = remainingFormat.substring(4)
+		}
+		else if (remainingFormat.startsWith('YY')) {
+			output += ('' + parsedLocalDate.getFullYear()).slice(-2)
+			remainingFormat = remainingFormat.substring(2)
+		}
+		else if (remainingFormat.startsWith('MMMM')) {
+			output += parsedLocalDate.toLocaleString('default', { month: 'long' })
+			remainingFormat = remainingFormat.substring(4)
+		}
+		else if (remainingFormat.startsWith('MMM')) {
+			output += parsedLocalDate.toLocaleString('default', { month: 'short' })
+			remainingFormat = remainingFormat.substring(3)
+		}
+		else if (remainingFormat.startsWith('MM')) {
+			output += ('0' + parsedLocalDate.getUTCMonth()).slice(-2)
+			remainingFormat = remainingFormat.substring(2)
+		}
+		else if (remainingFormat.startsWith('M')) {
+			output += parsedLocalDate.getUTCMonth()
+			remainingFormat = remainingFormat.substring(1)
+		}
+		else {
+			output += remainingFormat.substring(0, 1)
+			remainingFormat = remainingFormat.substring(1)
+		}
+	}
+
+	return output
 }
 
 function formatVolumeThreadJoin(template, series) {
@@ -160,51 +193,51 @@ function formatVolumeThreadJoin(template, series) {
 		case 'abbc':
 			clubName = 'Absolute Beginner'
 			clubID = '34698'
-			break;
+			break
 		case 'bbc':
 			clubName = 'Beginner'
 			clubID = '19766'
-			break;
+			break
 		case 'ibc':
 			clubName = 'Intermediate'
 			clubID = '18908'
-			break;
+			break
 		case 'abc':
 			clubName = 'Advanced'
 			clubID = '44685'
-			break;
+			break
 	}
 
 	return template.
 		replace('{Club Level}', clubName).
-		replace('{Club Link}', 'https://community.wanikani.com/t/' + clubID);
+		replace('{Club Link}', 'https://community.wanikani.com/t/' + clubID)
 
 }
 
 function formatVolumeThreadWhereToBuy(template) {
 
-	return template;
+	return template
 }
 
 function formatVolumeThreadReadingSchedule(template, weeks, chapters, shortDateFormat) {
 
-	const regex = /{Week}(.*){\/Week}/i;
-	const weekTemplate = template.match(regex);
+	const regex = /{Week}(.*){\/Week}/i
+	const weekTemplate = template.match(regex)
 
 	if (null == weekTemplate) {
-		return template;
+		return template
 	}
 
-	let weekMarkdown = '';
+	let weekMarkdown = ''
 
 	for (const weekKey in weeks) {
-		const currentWeek = weeks[weekKey];
+		const currentWeek = weeks[weekKey]
 		weekChapters = []
 		for (const chapterKey in chapters) {
 			if (!currentWeek.chapters.includes(chapterKey)) {
 				continue
 			}
-			weekChapters.push(('Ch ' + chapterKey + ' ' + chapters[chapterKey].title).trim());
+			weekChapters.push(('Ch ' + chapterKey + ' ' + chapters[chapterKey].title).trim())
 		}
 		// TODO: If chapters are not set up, get chapters from the week.
 
@@ -218,11 +251,11 @@ function formatVolumeThreadReadingSchedule(template, weeks, chapters, shortDateF
 			replace('{End Page}', currentWeek.endPage).
 			replace('{Week Chapters}', weekChapters.join('<br/>')).
 			replace('{Page Count}', (currentWeek.endPage - currentWeek.startPage + 1)) +
-			'\n';
+			'\n'
 			// TODO: Separate {Chapters} (volume) and {Chapters} (weekly).
 	}
 
-	return template.replace(weekTemplate[0], weekMarkdown.trim());
+	return template.replace(weekTemplate[0], weekMarkdown.trim())
 }
 
 function formatVolumeThreadVocabularyList(template, currentVolume) {

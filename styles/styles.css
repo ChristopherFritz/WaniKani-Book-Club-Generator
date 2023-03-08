@@ -1,9 +1,20 @@
+body {
+    height: 100vh;
+}
+
+select {
+    height: 1.5em;
+}
+button {
+    height: 1.7em;
+}
+
 #layout {
-  display: grid;
-  grid-template-columns: min-content auto;
-  grid-template-rows: min-content auto;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content auto;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 #target { grid-area: 1 / 1 / 2 / 2; }
 #buttons { grid-area: 2 / 1 / 3 / 2; }
@@ -13,42 +24,14 @@
 
 #volumes { margin-top: 1em; }
 #volumesList {
-  list-style-type: none;
-  margin: 0;
-  padding: 5px 10px;
+    min-width: 100px;
 }
-#volumes {
-  display: grid;
-  grid-template-columns: min-content auto;
-  grid-template-rows: min-content auto;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-}
-#addNewVolumeContainer { grid-area: 1 / 1 / 2 / 3; margin-bottom: 3px; }
-#volumesList { grid-area: 2 / 1 / 4 / 2; border: solid thin black; }
-#volumeButtons { grid-area: 2 / 2 / 3 / 3; border: solid thin black; border-left-width: 0; border-bottom-width: 0; padding-left: 10px; }
-#volumesContainer { grid-area: 3 / 2 / 4 / 3; border: solid thin black; border-top-width: 0; border-left-width: 0; padding-left: 10px; min-height: 10em; }
-#volumesList li:hover { cursor: pointer; }
+#addNewVolume { margin-bottom: 4px; }
 
 #templates { margin-top: 1em; }
-#templatesList {
-  list-style-type: none;
-  margin: 0;
-  padding: 5px 10px;
-}
 #templateTables { padding: 0 10px; }
-#templates {
-  display: grid;
-  grid-template-columns: min-content auto;
-  grid-template-rows: min-content auto;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-}
-#addNewTemplateContainer { grid-area: 1 / 1 / 2 / 3; margin-bottom: 3px; }
-#templatesList { grid-area: 2 / 1 / 3 / 2; border: solid thin black; }
-#templateTables { grid-area: 2 / 2 / 3 / 3; border: solid thin black; border-left-width: 0; }
+#addNewTemplateContainer { margin-bottom: 3px; }
 #templates td { vertical-align: top; }
-
 
 #templatesList li:hover,
 summary:hover,
@@ -57,15 +40,34 @@ summary:hover,
 label:after { content: ":"; }
 #vocabulary label:after { content: ""; }
 
-.volumesContainer input
-{ width: 500px; }
-
-table[name=chapters] input {
-  width: 100%;
+input, select {
+    xfont-size: 1.5em;
 }
 
-.volumeContainer>div
-{
-  margin: 5px 0;
+
+
+
+
+/* If Migaku is enabled, hide the toolbar on this page. */
+#migaku-toolbar-minimized { display: none !important;  }
+
+
+/* Website icons */
+
+.favicon {
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: left;
+    min-height: 16px;
+    padding-left: 20px;
 }
+
+.favicon.amazon { background-image: url("https://www.amazon.com/favicon.ico"); }
+.favicon.book-walker { background-image: url("https://bookwalker.jp/favicon.ico"); }
+.favicon.cd-japan { background-image: url("https://www.cdjapan.co.jp/favicon.ico"); }
+.favicon.kobo, .favicon.rakuten { background-image: url("https://www.rakuten.com/favicon.ico"); }
+.favicon.natively { background-image: url("https://d1sbtzet6n43nd.cloudfront.net/favicon_io/favicon-32x32.35341b5780fe.png"); }
+.favicon.pixiv { background-image: url("https://www.pixiv.net/favicon.ico"); }
+.favicon.yahoo { background-image: url("https://www.yahoo.co.jp/favicon.ico"); }
+
 

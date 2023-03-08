@@ -5,67 +5,166 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="styles/styles.css">
 <link rel="stylesheet" href="styles/grid.css">
+<link rel="stylesheet" href="styles/modal.css">
 </head>
 
 <body>
 
-<p><select id="bookList"><option hidden disabled selected value>Select Book/Series</option></select></p>
+<p>Series: <select id="bookList"><option hidden disabled selected value>Select Book/Series</option></select></p>
 
 <div id="errors"></div>
 
 <div id="layout">
 
-<div id="target">
-</div>
+  <div id="target"></div>
 
-<div id="buttons">
-  <button id="saveStorage" disabled style="">💾&nbsp;Save&nbsp;to&nbsp;Browser</button>
-  <button id="save" disabled style="">💾&nbsp;Save&nbsp;to&nbsp;File</button>
-  <button id="deleteStorage" disabled style="">❌&nbsp;Delete&nbsp;from&nbsp;Browser</button>
-<br/>
-<br/>
-  <button id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
-  <button id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button>
-  <button id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button>
-</div>
-
-<div id="content" style="display: none;">
-
-  <div id="seriesButtons">
-    <button id="showSeries">Series</button>
-    <button id="showVolumes">Volumes</button>
-    <button id="showTemplates">Templates</button>
-    <button id="showVocabulary">Vocabulary</button>
+  <div id="buttons">
+    <button id="saveStorage" disabled>💾&nbsp;Save&nbsp;to&nbsp;Browser</button>
+    <button id="save" disabled>💾&nbsp;Save&nbsp;to&nbsp;File</button>
+    <button id="deleteStorage" disabled>❌&nbsp;Delete&nbsp;from&nbsp;Browser</button>
+    <br/>
+    <br/>
+    <button id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button>
+    <button id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button>
   </div>
 
-  <div id="series"></div>
+  <div id="content" style="display: none;">
 
-  <div id="vocabulary"></div>
-
-  <div id="volumes">
-    <div id="addNewVolumeContainer"><button id="addNewVolume">➕ Add a volume</button></div>
-
-    <select id="volumesList" size="2" onchange="displayVolume(this);"></select>
-
-    <div id="volumeButtons">
-    <button id="showVolume">Volume</button>
-    <button id="showChapters">Chapters</button>
-    <button id="showWeeks">Weeks</button>
-
-    <button id="addNewChapter" style="display: none">➕ Add a chapter</button>
-    <button id="addNewWeek" style="display: none">➕ Add a week</button>
+    <div id="seriesButtons">
+      <button id="showSeries">Series</button>
+      <button id="showVolumes">Volumes</button>
+      <button id="showTemplates">Templates</button>
+      <button id="showVocabulary">Vocabulary</button>
     </div>
-    <div id="volumesContainer"></div>
+
+    <div id="series"></div>
+
+    <div id="vocabulary">
+      <button id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
+    </div>
+
+    <div id="volumes">
+      <div>Volume: <select id="volumesList" onchange="displayVolume(this);"></select> <button id="addNewVolume">➕ Add a volume</button><!-- TODO: Support removing a volume. --></div>
+
+      <div id="volumeButtons">
+        <button id="showVolume">Volume</button>
+        <button id="showVolumeLinks">Links</button>
+        <button id="showChapters">Chapters</button>
+        <button id="showWeeks">Weeks</button>
+
+        <button id="addNewVolumeLink" style="display: none">➕ Add a link</button>
+        <button id="addNewChapter" style="display: none">➕ Add a chapter</button>
+        <button id="addNewWeek" style="display: none">➕ Add a week</button>
+      </div>
+      <div id="volumesContainer"></div>
+    </div>
+
+    <div id="templates">
+      <div id="addNewTemplateContainer">Template: <select id="templatesList" onchange="displayTemplate(this);"></select> <button id="addNewTemplate">➕ Add a template</button> <button id="removeSelectedTemplate">➖ Remove selected template</button></div>
+
+      <div id="templateTables"></div>
+    </div>
+
   </div>
-
-  <div id="templates">
-    <div id="addNewTemplateContainer"><button id="addNewTemplate">➕ Add a template</button> <button id="removeSelectedTemplate">➖ Remove selected template</button></div>
-
-    <select id="templatesList" size="2"  onchange="displayTemplate(this);"></select>
-    <div id="templateTables"></div>
-  </div>
-
 </div>
+
+<!-- Modal window -->
+<div id="modalBlocker">
+  <div class="modal">
+    <button id="closeModal">✕</button>
+    <div id="addVolumeModal">
+      <h2 class='modalTitle'>Modal Title</h2>
+      <div class='modalContent'>
+        <p>Modal Content</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<template id="series-template">
+<div id="series" style="display: grid;">
+<label for="bookTitle">Title</label>
+<input name="bookTitle" id="bookTitle" type="text">
+<label for="bookEmoji">Emoji</label>
+<input name="bookEmoji" id="bookEmoji" type="text">
+<label for="bookClub">Club</label>
+<select name="bookClub" id="bookClub">
+<option>
+</option>
+<option value="abbc">Absolute Beginner</option>
+<option value="bbc">Beginner</option>
+<option value="ibc">Intermediate</option>
+<option value="abc">Advanced</option>
+</select>
+<label for="seriesHomeThread">Home thread</label><input name="seriesHomeThread" id="seriesHomeThread" type="text">
+<label for="shortDateFormat">Short date format</label><input name="shortDateFormat" id="shortDateFormat" type="text">
+<label for="longDateFormat">Long date format</label><input name="longDateFormat" id="longDateFormat" type="text">
+<label for="chapterNumberPrefix">Chapter # prefix</label><input name="chapterNumberPrefix" id="chapterNumberPrefix" type="text">
+<label for="chapterNumberSuffix">Chapter # suffix</label><input name="chapterNumberSuffix" id="chapterNumberSuffix" type="text">
+</div>
+</template>
+
+<template id="volume-template">
+<div class="volumeContainer">
+<div name="volume">
+<label for="volumeNumber">Volume&nbsp;number</label><input name="volumeNumber" type="text">
+<label for="volumeHomeThread">Thread</label><input name="volumeHomeThread" id="volumeHomeThread" type="text">
+<label for="coverImage">Cover&nbsp;image</label><input name="coverImage" id="coverImage" type="text">
+<label for="vocabularyList" type="url">Vocabulary&nbsp;list</label><input name="vocabularyList" id="vocabularyList" type="text">
+<label for="volumeTemplate">Volume&nbsp;template</label><select name="volumeTemplate" id="volumeTemplate"><option></option></select>
+<label for="weeklyTemplate">Weekly&nbsp;template</label><select name="weeklyTemplate" id="weeklyTemplate"><option></option></select>
+</div>
+</div>
+</template>
+
+<template id="templates-template">
+<table class="templateTable">
+<colgroup>
+<col style="width: 10em;">
+<col style="width: 50em;">
+</colgroup>
+<tbody>
+<tr><td><label>Template&nbsp;name</label></td><td><span name="templateName"></span></td></tr>
+<tr><td><label>Template&nbsp;markdown</label></td><td><textarea name="templateMarkdown" rows="30" cols="100"></textarea></td></tr>
+</tbody>
+</table>
+</template>
+
+<template id="chapters-template">
+<div name="chapters" style="display: none">
+<table name="chapters">
+<thead>
+<tr>
+<th>Number</th>
+<th>Title</th>
+<th>Remove</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</template>
+
+<template id="weeks-template">
+<div name="weeks" style="display: none">
+<table name="weeks">
+<thead>
+<tr>
+<th>Week</th>
+<th>Thread</th>
+<th>Start&nbsp;Date</th>
+<th>Chapters</th>
+<th>Start&nbsp;Page</th>
+<th>End&nbsp;Page</th>
+<th>Remove</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</template>
 
 <script src="scripts/common.js"></script>
 <script src="scripts/keys.js"></script>
@@ -87,6 +186,7 @@ document.getElementById('copyWeekThread').onclick = function() { copyWeekThread(
 document.getElementById('showVolume').onclick = function() { showVolume() }
 document.getElementById('showChapters').onclick = function() { showChapters() }
 document.getElementById('showWeeks').onclick = function() { showWeeks() }
+document.getElementById('showVolumeLinks').onclick = function() { showVolumeLinks() }
 
 document.getElementById('showSeries').onclick = function() { showSeries() }
 document.getElementById('showVolumes').onclick = function() { showVolumes() }
@@ -94,6 +194,7 @@ document.getElementById('showTemplates').onclick = function() { showTemplates() 
 document.getElementById('showVocabulary').onclick = function() { showVocabulary() }
 
 document.getElementById('addNewVolume').onclick = function() { addNewVolume() }
+document.getElementById('addNewVolumeLink').onclick = function() { addNewVolumeLink() }
 document.getElementById('addNewChapter').onclick = function() { addNewChapter() }
 document.getElementById('addNewWeek').onclick = function() { addNewWeek() }
 document.getElementById('addNewTemplate').onclick = function() { addNewTemplate() }
@@ -107,6 +208,58 @@ loadFromFileText('{}');
 </script>
 
 </select>
+
+<script>
+const modalWrapper = document.querySelector('#modalBlocker');
+const closeModalButton = document.querySelector('#closeModal');
+closeModalButton.onclick = function() { modalWrapper.classList.remove('open') };
+</script>
+
+<!--
+TODO: Allow adding book store entries by URL.
+Detect site based on URL and store only the unicode code(s) needed to reach the store page.
+The interface for an added item shows the store name with a link that opens in a new tab/window.  There needs to be a field to add extra text, such as for b&w/color variants.  Need also to have if physical or digital.
+
+
+Example:
+
+PHYSICAL:
+
+Amazon:
+https://www.amazon.co.jp/-/en/%E3%82%AA%E3%83%80-%E3%83%88%E3%83%A2%E3%83%92%E3%83%88/dp/4091273432/ref=tmm_other_meta_binding_swatch_0?_encoding=UTF8&qid=1666294059&sr=8-4
+=> 4091273432
+
+CDJapan:
+https://www.cdjapan.co.jp/product/NEOBK-1985640
+=> NEOBK-1985640
+
+DIGITAL:
+
+Amazon:
+https://www.amazon.co.jp/-/en/%E3%82%AA%E3%83%80%E3%83%88%E3%83%A2%E3%83%92%E3%83%88-ebook/dp/B01M0RDBS5/ref=tmm_kin_swatch_0?_encoding=UTF8&qid=1666294059&sr=8-4
+=> B01M0RDBS5
+
+Rakuten:
+https://books.rakuten.co.jp/rk/f4cb7008434635c897fd6961ba780060/
+=> f4cb7008434635c897fd6961ba780060
+
+Kobo:
+https://www.kobo.com/jp/en/ebook/CHDL9EZDyDWX_WlhungAYA
+=> CHDL9EZDyDWX_WlhungAYA
+
+Bookwalker:
+https://bookwalker.jp/defd946944-d78a-42e5-9759-f4dccdce74aa/
+=> defd946944-d78a-42e5-9759-f4dccdce74aa
+
+
+TODO: Consider utilizing sections in place of divs where appropriate.
+-->
+
+<!--
+TODO: Have a "new volume" div that comes up when adding a new volume.  Ask for series name, volume name/number, number of chapters, number of weeks, and start date.  Most of these are optional.
+
+Have a link to click on to being up the current volume thread.
+-->
 
 </body>
 

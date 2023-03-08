@@ -5,7 +5,7 @@
 function copySheetsMacro() {
 
 	navigator.clipboard.writeText('')
-	clearErrorMessage();
+	clearErrorMessage()
 
 	// Create a new Google Sheet document.
 	// Select the "Extentions" menu, then the "Apps Scripts" submenu.
@@ -14,9 +14,9 @@ function copySheetsMacro() {
 	// Paste the copied text into this function.
 	// Click on "Run" button.  You will need to give the Apps Script access to the Sheets document.
 
-	const container = readFromHtml();
+	const container = readFromHtml()
 
-	const currentVolume = getNextVolume(container);
+	const currentVolume = getNextVolume(container)
 
 	let macroCode = ''
 
@@ -34,26 +34,26 @@ sheets[0].setName('Remove Me');
 	// For now, assume we're going with one spreadsheet per chapter.  Missing support: Weekly where multiple chapters are on one sheet, and weekly where split chapters put one chapter across multiple sheets.
 
 	for (const chapterKey in currentVolume.chapters) {
-		const chapter = currentVolume.chapters[chapterKey];
-		const chapterNumber = ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + chapterKey + container.chapterNumberSuffix;
+		const chapter = currentVolume.chapters[chapterKey]
+		const chapterNumber = ((null == container.chapterNumberPrefix) ? 'Chapter ' : container.chapterNumberPrefix) + chapterKey + container.chapterNumberSuffix
 		macroCode += insertChapterSheet(chapter, chapterNumber, container.vocabularySheet)
 	}
 
-	macroCode += insertGuidelinesSheet();
+	macroCode += insertGuidelinesSheet()
 
 	macroCode += `
 // Remove the initial sheet.
 workbook.deleteSheet(SpreadsheetApp.getActive().getSheetByName('Remove Me'));
 `
 
-	navigator.clipboard.writeText(macroCode);
-	console.log(macroCode);
+	navigator.clipboard.writeText(macroCode)
+	console.log(macroCode)
 
 }
 
 function insertChapterSheet(chapter, chapterNumber, vocabularySheet) {
 
-	chapterSheetMacroCode = '';
+	chapterSheetMacroCode = ''
 
 	chapterSheetMacroCode += `
 chapterSheet = workbook.insertSheet('` + chapterNumber + `');
@@ -109,20 +109,20 @@ chapterSheet.getRange(currentRow, 1, chapterSheet.getMaxRows() - currentRow, 2)
   .setFontFamily('Zen Kaku Gothic New');
 `
 
-	firstRow = vocabularySheet.showTitleRow ? 3 : 2;
-	lastRow = 1000;
+	firstRow = vocabularySheet.showTitleRow ? 3 : 2
+	lastRow = 1000
 	if (vocabularySheet.useBanding) {
-		chapterSheetMacroCode += insertBanding(firstRow - 1, firstRow);
+		chapterSheetMacroCode += insertBanding(firstRow - 1, firstRow)
 	}
-	chapterSheetMacroCode += insertConditionalFormatting(firstRow, lastRow, vocabularySheet);
+	chapterSheetMacroCode += insertConditionalFormatting(firstRow, lastRow, vocabularySheet)
 
-	return chapterSheetMacroCode;
+	return chapterSheetMacroCode
 }
 
 
 function insertBanding(firstRow, lastRow) {
 
-	banding = '';
+	banding = ''
 	// TODO: Properly handle column letters.
 	banding += `
 
@@ -130,41 +130,41 @@ chapterSheet.getRange('A` + firstRow + `:E` + lastRow + `')
   .applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY)
 `
 
-	return banding;
+	return banding
 
 }
 
 function insertConditionalFormatting(firstRow, lastRow, vocabularySheet) {
 
-	conditionalFormatting = '';
+	conditionalFormatting = ''
 	conditionalFormatting += `
 var conditionalFormatRules = chapterSheet.getConditionalFormatRules();
 `
 	// TODO: Allow selecting which conditional formatting to use.
     // TODO: Read true/false from page.
 	if (vocabularySheet.colorUnsureUnknown) { // use unknown and unsure row colors
-		conditionalFormatting += insertUnsureAndUnknownConditionalFormatting(firstRow, lastRow);
+		conditionalFormatting += insertUnsureAndUnknownConditionalFormatting(firstRow, lastRow)
 	}
     // TODO: Read true/false from page.
 	if (vocabularySheet.colorPageNumbers) { // use pastel page numbers
-		conditionalFormatting += insertPastelPageNumbersConditionalFormatting(firstRow, lastRow);
+		conditionalFormatting += insertPastelPageNumbersConditionalFormatting(firstRow, lastRow)
 	}
 	conditionalFormatting += `
 chapterSheet.setConditionalFormatRules(conditionalFormatRules);
 `
 
-	return conditionalFormatting;
+	return conditionalFormatting
 
 }
 
 function insertUnsureAndUnknownConditionalFormatting(firstRow, lastRow) {
 
 	// TODO: Find a better way to handle column letters.
-	let kanjiColumn = 'A';
-	let kanaColumn = 'B';
-	let englishColumn = 'C';
-	let pageColumn = 'D';
-	let notesColumn = 'E';
+	let kanjiColumn = 'A'
+	let kanaColumn = 'B'
+	let englishColumn = 'C'
+	let pageColumn = 'D'
+	let notesColumn = 'E'
 
 	return `
 conditionalFormatRules.push(SpreadsheetApp.newConditionalFormatRule()
@@ -297,6 +297,6 @@ var protection = guidelinesSheet
   .setDescription('Guidelines');
 `
 
-	return guidelinesSheetMacroCode;
+	return guidelinesSheetMacroCode
 
 }
