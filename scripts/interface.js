@@ -214,10 +214,24 @@ function createEmptyChapter() {
 
 function addNewChapter() {
 
+	// TODO: Get the last numeric chapter from the prior volume if available.
+
 	const volumeContainer = currentVolume()
 	const chaptersContainer = volumeContainer.querySelector('table[name="chapters"]')
 	const tableBody = chaptersContainer.getElementsByTagName("tbody")[0]
 	const chapterRowElement = createEmptyChapter()
+
+	const chapterRowElements = chaptersContainer.querySelector('tbody').querySelectorAll('tr')
+	let lastChapterRow = chapterRowElements[chapterRowElements.length -1]
+	if (undefined != lastChapterRow) {
+		let lastChapterNumber = lastChapterRow.querySelector('input[name="number"]').value
+		console.log(lastChapterNumber)
+		console.log(!isNaN(lastChapterNumber))
+		if (!isNaN(lastChapterNumber)) {
+			chapterRowElement.querySelector('input[name="number"]').value = Number(lastChapterNumber) + 1
+		}
+	}
+
 	tableBody.appendChild(chapterRowElement)
 
 }
