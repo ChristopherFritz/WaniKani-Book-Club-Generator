@@ -1,116 +1,110 @@
-function save() {
+/* globals
+  confirm,
+  clearErrorMessage,
+  loadFromFileText,
+  localStorage,
+  readFromHtml,
+  refreshButtons,
+  storagePrefix,
+  setErrorMessage
+*/
 
-	clearErrorMessage()
+function save () {
+  clearErrorMessage()
 
-	const container = readFromHtml()
+  const container = readFromHtml()
 
-	if (!container.bookTitle) {
-		setErrorMessage("Cannot save without a series title.")
-		return
-	}
+  if (!container.bookTitle) {
+    setErrorMessage('Cannot save without a series title.')
+    return
+  }
 
-	const bookList = document.getElementById('bookList')
-	const selectedBookTitle = document.getElementById('bookList').value
+  const bookList = document.getElementById('bookList')
 
-	// TODO: When loading from a list, change the selection to empty.  When saving, if the current selection is empty, but there is a title match, alert user.  "There is already an entry for this title.  Overwrite?"
-	// TODO: Add to book list if not already in list.
+  let storageKey = storagePrefix + container.bookTitle
+  localStorage.setItem(storageKey, JSON.stringify(container))
 
-	let storageKey = storagePrefix + container.bookTitle
-	localStorage.setItem(storageKey, JSON.stringify(container))
+  // Add a new entry to the dropdown list.
+  const isNewSeries = (bookList.selectedIndex === 0)
+  if (isNewSeries) {
+    let listAlreadyContainsBook = false
+    for (let i = 0; i < bookList.length; ++i) {
+      if (bookList[i].value === container.bookTitle) {
+        listAlreadyContainsBook = true
+        break
+      }
+    }
+    if (listAlreadyContainsBook) {
+      const response = confirm('There is already an entry for this book/series stored in the browser.  This entry will be replaced by the displayed book/series.')
+      if (response) {
+        bookList.value = container.bookTitle
+      } else {
+        setErrorMessage('Save to browser cancelled.')
+        return
+      }
+    }
+  }
 
-	// Add a new entry to the dropdown list.
-	const isNewSeries = (0 == bookList.selectedIndex)
-	if (isNewSeries) {
+  const titleChanged = (bookList.selectedIndex !== 0 && bookList.value !== container.bookTitle)
 
-		// TODO: When loading from a list, change the selection to empty.  When saving, if the current selection is empty, but there is a title match, alert user.  "There is already an entry for this title.  Overwrite?"
-		// TODO: Add to book list if not already in list.
-		// TODO: Use a for each loop.
-		let listAlreadyContainsBook = false
-		for (i = 0; i < bookList.length; ++i){
-			if (bookList[i].value == container.bookTitle) {
-				listAlreadyContainsBook = true
-				break
-			}
-		}
-		if (listAlreadyContainsBook) {
-			const response = confirm('There is already an entry for this book/series stored in the browser.  This entry will be replaced by the displayed book/series.')
-			if (response) {
-				bookList.value = container.bookTitle
-			}
-			else {
-				setErrorMessage('Save to browser cancelled.')
-				return
-			}
-
-		}
-
-	}
-
-	const titleChanged = (0 != bookList.selectedIndex && bookList.value != container.bookTitle)
-
-	// If the title changed, delete the old entry and update the book list.
-	if (titleChanged) {
-		deleteFromStorage(false)
-	}
-	if (titleChanged || isNewSeries) {
-		// Add and select new book list entry
-		const bookEntry = document.createElement('option')
-		bookEntry.textContent = container.bookTitle
-		bookList.appendChild(bookEntry)
-		bookList.value = container.bookTitle
-	}
-
+  // If the title changed, delete the old entry and update the book list.
+  if (titleChanged) {
+    deleteFromStorage(false)
+  }
+  if (titleChanged || isNewSeries) {
+    // Add and select new book list entry
+    const bookEntry = document.createElement('option')
+    bookEntry.textContent = container.bookTitle
+    bookList.appendChild(bookEntry)
+    bookList.value = container.bookTitle
+  }
 }
 
-function deleteFromStorage(clearValues) {
+function deleteFromStorage (clearValues) {
+  clearErrorMessage()
 
-	clearErrorMessage()
+  const bookList = document.getElementById('bookList')
 
-	const bookList = document.getElementById('bookList')
+  const response = confirm(`The entry ${bookList.value} will be deleted from the browser.`)
+  if (!response) {
+    setErrorMessage('Delete from browser cancelled.')
+    return
+  }
 
-	const response = confirm(`The entry ${bookList.value} will be deleted from the browser.`)
-	if (!response) {
-		setErrorMessage('Delete from browser cancelled.')
-		return
-	}
+  localStorage.removeItem(`${storagePrefix}${bookList.value}`)
 
-	localStorage.removeItem(`${storagePrefix}${bookList.value}`)
-
-	bookList.remove(bookList.selectedIndex)
-	bookList.selectedIndex = 0
-	if (clearValues) {
-		loadFromFileText('{}')
-		refreshButtons()
-	}
-
+  bookList.remove(bookList.selectedIndex)
+  bookList.selectedIndex = 0
+  if (clearValues) {
+    loadFromFileText('{}')
+    refreshButtons()
+  }
 }
 
 /**
  * Saves book club information in JSON format.
  */
-function download() {
+function download () {
+  clearErrorMessage()
 
-	clearErrorMessage()
+  const container = readFromHtml()
 
-	const container = readFromHtml()
+  let filename = container.bookTitle
+  if (!filename) {
+    setErrorMessage('Cannot save without a series title.')
+    return
+  }
 
-	let filename = container.bookTitle
-	if (!filename) {
-		setErrorMessage("Cannot save without a series title.")
-		return
-	}
+  let text = JSON.stringify(container)
 
-	let text = JSON.stringify(container)
+  let element = document.createElement('a')
+  element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text))
+  element.setAttribute('download', filename + '.json')
 
-	let element = document.createElement('a')
-	element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text))
-	element.setAttribute('download', filename + ".json")
+  element.style.display = 'none'
+  document.body.appendChild(element)
 
-	element.style.display = 'none'
-	document.body.appendChild(element)
+  element.click()
 
-	element.click()
-
-	document.body.removeChild(element)
-
+  document.body.removeChild(element)
 }
