@@ -63,8 +63,8 @@
 <script>
 var series = new Series('')
 
-document.getElementById('saveStorage').onclick = function() { save() }
-document.getElementById('deleteStorage').onclick = function() { deleteFromStorage(true) }
+document.getElementById('saveStorage').onclick = function() { series.save() }
+document.getElementById('deleteStorage').onclick = function() { series.deleteFromStorage(true) }
 document.getElementById('save').onclick = function() { series.download() }
 document.getElementById('copyVolumeThread').onclick = function() { Template.copyVolumeThread() }
 document.getElementById('copySheetsMacro').onclick = function() { Macro.copySheetsMacro() }
