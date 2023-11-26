@@ -366,55 +366,8 @@ class Series {
     const templateTablesDiv = Interface.createDiv('templateTables')
 
     const firstTemplateName = Object.keys(this.templates)[0]
-    for (const [templateName, template] of Object.entries(this.templates)) {
-      const templateTableTable = document.createElement('table')
-      templateTableTable.id = `template${templateName.replaceAll(' ', '')}`
-      // Show the first template.
-      if (templateName !== firstTemplateName) {
-        templateTableTable.style.display = 'none'
-      }
-
-      templateTableTable.classList.add('templateTable')
-
-      // TODO: Replace the column group with styling via CSS.
-      const columnGroup = document.createElement('colgroup')
-      const nameColumn = document.createElement('col')
-      nameColumn.style.width = '10em'
-      columnGroup.appendChild(nameColumn)
-      const markdownColumn = document.createElement('col')
-      markdownColumn.style.width = '50em'
-      columnGroup.appendChild(markdownColumn)
-      templateTableTable.appendChild(columnGroup)
-
-      const nameRow = document.createElement('tr')
-      const nameLabelCell = document.createElement('td')
-      const nameLabel = Interface.createLabel('templateName', 'Template name')
-      nameLabelCell.appendChild(nameLabel)
-      nameRow.appendChild(nameLabelCell)
-      const nameValueCell = document.createElement('td')
-      // TODO: Allow editing the template name?
-      const nameValue = document.createElement('span')
-      nameValue.setAttribute('name', 'templateName')
-      nameValue.textContent = templateName
-      nameValueCell.appendChild(nameValue)
-      nameRow.appendChild(nameValueCell)
-      templateTableTable.appendChild(nameRow)
-
-      const markdownRow = document.createElement('tr')
-      const markdownLabelCell = document.createElement('td')
-      const markdownLabel = Interface.createLabel('templateMarkdown', 'Template markdown')
-      markdownLabelCell.appendChild(markdownLabel)
-      markdownRow.appendChild(markdownLabelCell)
-      const markdownValueCell = document.createElement('td')
-      const markdownTextArea = document.createElement('textarea')
-      markdownTextArea.setAttribute('name', 'templateMarkdown')
-      markdownTextArea.setAttribute('rows', '30')
-      markdownTextArea.setAttribute('cols', '100')
-      markdownTextArea.textContent = template
-      markdownValueCell.appendChild(markdownTextArea)
-      markdownRow.appendChild(markdownValueCell)
-      templateTableTable.appendChild(markdownRow)
-      templateTablesDiv.appendChild(templateTableTable)
+    for (const [templateName, templateMarkdown] of Object.entries(this.templates)) {
+      templateTablesDiv.appendChild(Template.toHtml(templateName, templateMarkdown, templateName === firstTemplateName))
     }
 
     templatesDiv.appendChild(templateTablesDiv)

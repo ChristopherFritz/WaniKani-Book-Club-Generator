@@ -8,7 +8,8 @@
   Series,
   series,
   showVolumes,
-  storagePrefix
+  storagePrefix,
+  Template
 */
 
 // Ensure there is file API support.
@@ -103,18 +104,9 @@ function addTemplateListItem (templateName, selectItem) {
 }
 
 function addTemplateTable (templateName, templateText, isFirstTemplate) {
-  const templateTable = document.getElementById('templates-template').content.cloneNode(true).querySelector('table')
-  templateTable.id = `template${templateName.replaceAll(' ', '')}`
-
-  // Hide templates after the first.  This causes the first to show by default.
-  if (!isFirstTemplate) {
-    templateTable.style.display = 'none'
-  }
-  templateTable.querySelector('span[name="templateName"]').textContent = templateName
-  templateTable.querySelector('textarea[name="templateMarkdown"]').value = templateText
-
+  series.templates[templateName] = templateText
   const templateTables = document.getElementById('templateTables')
-  templateTables.appendChild(templateTable)
+  templateTables.appendChild(Template.toHtml(templateName, templateText, true))
 }
 
 // Hide all templates except for the one to show.
