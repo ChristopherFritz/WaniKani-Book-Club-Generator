@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<title>WaniKani Book Club Manager version 0.2.2</title>
+<title>WaniKani Book Club Manager version 0.3.2</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="styles/styles.css">
 <link rel="stylesheet" href="styles/grid.css">
@@ -25,47 +25,13 @@
     <br/>
     <br/>
     <button id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button>
+    <button id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
     <button id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button>
   </div>
 
-  <div id="content" style="display: none;">
+  <div id="content" style="display: none;"></div>
+   <!-- TODO: Support removing a volume. -->
 
-    <div id="seriesButtons">
-      <button id="showSeries">Series</button>
-      <button id="showVolumes">Volumes</button>
-      <button id="showTemplates">Templates</button>
-      <button id="showVocabulary">Vocabulary</button>
-    </div>
-
-    <div id="series"></div>
-
-    <div id="vocabulary">
-      <button id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
-    </div>
-
-    <div id="volumes">
-      <div>Volume: <select id="volumesList" onchange="displayVolume(this);"></select> <button id="addNewVolume">➕ Add a volume</button><!-- TODO: Support removing a volume. --></div>
-
-      <div id="volumeButtons">
-        <button id="showVolume">Volume</button>
-        <button id="showVolumeLinks">Links</button>
-        <button id="showChapters">Chapters</button>
-        <button id="showWeeks">Weeks</button>
-
-        <button id="addNewVolumeLink" style="display: none">➕ Add a link</button>
-        <button id="addNewChapter" style="display: none">➕ Add a chapter</button>
-        <button id="addNewWeek" style="display: none">➕ Add a week</button>
-      </div>
-      <div id="volumesContainer"></div>
-    </div>
-
-    <div id="templates">
-      <div id="addNewTemplateContainer">Template: <select id="templatesList" onchange="displayTemplate(this);"></select> <button id="addNewTemplate">➕ Add a template</button> <button id="removeSelectedTemplate">➖ Remove selected template</button></div>
-
-      <div id="templateTables"></div>
-    </div>
-
-  </div>
 </div>
 
 <!-- Modal window -->
@@ -81,42 +47,7 @@
   </div>
 </div>
 
-<template id="series-template">
-<div id="series" style="display: grid;">
-<label for="bookTitle">Title</label>
-<input name="bookTitle" id="bookTitle" type="text">
-<label for="bookEmoji">Emoji</label>
-<input name="bookEmoji" id="bookEmoji" type="text">
-<label for="bookClub">Club</label>
-<select name="bookClub" id="bookClub">
-<option>
-</option>
-<option value="abbc">Absolute Beginner</option>
-<option value="bbc">Beginner</option>
-<option value="ibc">Intermediate</option>
-<option value="abc">Advanced</option>
-</select>
-<label for="seriesHomeThread">Home thread</label><input name="seriesHomeThread" id="seriesHomeThread" type="text">
-<label for="shortDateFormat">Short date format</label><input name="shortDateFormat" id="shortDateFormat" type="text">
-<label for="longDateFormat">Long date format</label><input name="longDateFormat" id="longDateFormat" type="text">
-<label for="chapterNumberPrefix">Chapter # prefix</label><input name="chapterNumberPrefix" id="chapterNumberPrefix" type="text">
-<label for="chapterNumberSuffix">Chapter # suffix</label><input name="chapterNumberSuffix" id="chapterNumberSuffix" type="text">
-</div>
-</template>
-
-<template id="volume-template">
-<div class="volumeContainer">
-<div name="volume">
-<label for="volumeNumber">Volume&nbsp;number</label><input name="volumeNumber" type="text">
-<label for="volumeHomeThread">Thread</label><input name="volumeHomeThread" id="volumeHomeThread" type="text">
-<label for="coverImage">Cover&nbsp;image</label><input name="coverImage" id="coverImage" type="text">
-<label for="vocabularyList" type="url">Vocabulary&nbsp;list</label><input name="vocabularyList" id="vocabularyList" type="text">
-<label for="volumeTemplate">Volume&nbsp;template</label><select name="volumeTemplate" id="volumeTemplate"><option></option></select>
-<label for="weeklyTemplate">Weekly&nbsp;template</label><select name="weeklyTemplate" id="weeklyTemplate"><option></option></select>
-</div>
-</div>
-</template>
-
+<!-- TODO: Work to remove this template. -->
 <template id="templates-template">
 <table class="templateTable">
 <colgroup>
@@ -130,89 +61,32 @@
 </table>
 </template>
 
-<template id="vocabulary-template">
-<div id="vocabulary" style="display: grid;">
-<label for="showTitleRow"><input name="showTitleRow" id="showTitleRow" type="checkbox"> Show&nbsp;title&nbsp;row</label>
-<label for="useBanding"><input name="useBanding" id="useBanding" type="checkbox"> Alternate&nbsp;row&nbsp;colors</label>
-<label for="colorUnsureUnknown"><input name="colorUnsureUnknown" id="colorUnsureUnknown" type="checkbox"> Color&nbsp;unsure&nbsp;and&nbsp;unknown</label>
-<label for="colorPageNumbers"><input name="colorPageNumbers" id="colorPageNumbers" type="checkbox"> Color&nbsp;page&nbsp;numbers</label>
-<button id="copySheetsMacro" style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
-</div>
-</template>
-
-<template id="chapters-template">
-<div name="chapters" style="display: none">
-<table name="chapters">
-<thead>
-<tr>
-<th>Number</th>
-<th>Title</th>
-<th>Remove</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-</div>
-</template>
-
-<template id="weeks-template">
-<div name="weeks" style="display: none">
-<table name="weeks">
-<thead>
-<tr>
-<th>Week</th>
-<th>Thread</th>
-<th>Start&nbsp;Date</th>
-<th>Chapters</th>
-<th>Start&nbsp;Page</th>
-<th>End&nbsp;Page</th>
-<th>Remove</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-</div>
-</template>
-
 <script src="scripts/common.js"></script>
-<script src="scripts/keys.js"></script>
-<script src="scripts/interface.js"></script>
+
+<script src="scripts/Chapter.js"></script>
+<script src="scripts/ErrorMessage.js"></script>
+<script src="scripts/Interface.js"></script>
+<script src="scripts/Series.js"></script>
+<script src="scripts/Volume.js"></script>
+<script src="scripts/Week.js"></script>
+<script src="scripts/Template.js"></script>
+<script src="scripts/Macro.js"></script>
+
 <script src="scripts/load%20file.js"></script>
-<script src="scripts/parse%20page.js"></script>
-<script src="scripts/save%20file.js"></script>
-<script src="scripts/copy%20template.js"></script>
-<script src="scripts/copy%20macro.js"></script>
 
 <script>
+var series = new Series('')
+
 document.getElementById('saveStorage').onclick = function() { save() }
 document.getElementById('deleteStorage').onclick = function() { deleteFromStorage(true) }
-document.getElementById('save').onclick = function() { download() }
-document.getElementById('copyVolumeThread').onclick = function() { copyVolumeThread() }
-document.getElementById('copySheetsMacro').onclick = function() { copySheetsMacro() }
-document.getElementById('copyWeekThread').onclick = function() { copyWeekThread() }
-
-document.getElementById('showVolume').onclick = function() { showVolume() }
-document.getElementById('showChapters').onclick = function() { showChapters() }
-document.getElementById('showWeeks').onclick = function() { showWeeks() }
-document.getElementById('showVolumeLinks').onclick = function() { showVolumeLinks() }
-
-document.getElementById('showSeries').onclick = function() { showSeries() }
-document.getElementById('showVolumes').onclick = function() { showVolumes() }
-document.getElementById('showTemplates').onclick = function() { showTemplates() }
-document.getElementById('showVocabulary').onclick = function() { showVocabulary() }
-
-document.getElementById('addNewVolume').onclick = function() { addNewVolume() }
-document.getElementById('addNewVolumeLink').onclick = function() { addNewVolumeLink() }
-document.getElementById('addNewChapter').onclick = function() { addNewChapter() }
-document.getElementById('addNewWeek').onclick = function() { addNewWeek() }
-document.getElementById('addNewTemplate').onclick = function() { addNewTemplate() }
-document.getElementById('removeSelectedTemplate').onclick = function() { removeSelectedTemplate() }
+document.getElementById('save').onclick = function() { series.download() }
+document.getElementById('copyVolumeThread').onclick = function() { Template.copyVolumeThread() }
+document.getElementById('copySheetsMacro').onclick = function() { Macro.copySheetsMacro() }
+document.getElementById('copyWeekThread').onclick = function() { Template.copyWeekThread() }
 
 document.getElementById('bookList').onchange = function() { loadFromStorage(this.value) }
 
-showBookList();
+Interface.showBookList();
 
 loadFromFileText('{}');
 </script>
@@ -263,6 +137,11 @@ https://bookwalker.jp/defd946944-d78a-42e5-9759-f4dccdce74aa/
 
 
 TODO: Consider utilizing sections in place of divs where appropriate.
+
+TODO: Get vocabulary form labels working.  Currently clicking on a label does change the checkbox.
+
+TODO: When adding/removing a template, update all the template downdown lists.
+
 -->
 
 <!--

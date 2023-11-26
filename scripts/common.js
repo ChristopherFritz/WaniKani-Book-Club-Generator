@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 const storagePrefix = 'wkbcm_'
 
 /**
@@ -9,15 +11,16 @@ function isDate (date) {
   return (new Date(date) !== 'Invalid Date') && !isNaN(new Date(date))
 }
 
-// https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
-/**
- * Converts an HTML string to a DOM object.
- * @param {String} HTML representing a single element
- * @return {Element}
- */
-function htmlToElement (html) {
-  let template = document.createElement('template')
-  // Trim html to avoid returning a text node of whitespace as the result.
-  template.innerHTML = html.trim()
-  return template.content.firstChild
-}
+// Ideas:
+// Have a UserScript where book clubs are defined directly within the WaniKani
+// forums.
+// When a thread is populated, include a hidden div with information for the
+// UserScript to recognize the series, volume, and post type.  This can be
+// used to auto-populate values that are missing from the stored data, such
+// as thread ID.
+// However, we don't want to look book info for every thread.  Instead, if
+// the thread was created by the user and has the div, it can load the book
+// JSON to see if there are missing fields to auto-populate.
+
+// TODO: The add chapter and add week buttons don't work for a "new" Series
+// because there is no table.

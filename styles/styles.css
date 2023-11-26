@@ -8,6 +8,11 @@ select {
 button {
     height: 1.7em;
 }
+#seriesButtons button + button,
+#volumeButtons button + button,
+#addNewTemplateContainer button{
+    margin-left: 4px;
+}
 
 #layout {
     display: grid;
@@ -20,7 +25,7 @@ button {
 #buttons { grid-area: 2 / 1 / 3 / 2; }
 #content { grid-area: 1 / 2 / 4 / 3; padding-left: 15px; }
 
-#buttons button { height: 2em; width: 100%; margin-bottom: 5px; }
+#buttons button, select.menu { height: 2em; width: 100%; margin-bottom: 5px; }
 
 #volumes { margin-top: 1em; }
 #volumesList {
@@ -44,13 +49,8 @@ input, select {
     xfont-size: 1.5em;
 }
 
-
-
-
-
 /* If Migaku is enabled, hide the toolbar on this page. */
-#migaku-toolbar-minimized { display: none !important;  }
-
+#migaku-toolbar-minimized { display: none !important; }
 
 /* Website icons */
 
