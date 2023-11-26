@@ -47,7 +47,6 @@ class Week {
     tableRow.appendChild(threadCell)
 
     const startDateCell = document.createElement('td')
-    // TODO: Does stripping off everything after the date result in timezone issues?
     startDateCell.appendChild(Interface.createInput('startDate', this.startDate.substring(0, 10), this.syncValue(this), 'date'))
     tableRow.appendChild(startDateCell)
 
@@ -66,7 +65,6 @@ class Week {
     const removeCell = document.createElement('td')
     removeCell.textContent = '➖'
     removeCell.classList.add('clickable')
-    // TODO: What is the proper way to add this onclick event?
     removeCell.addEventListener('click', this.removeWeek)
     tableRow.appendChild(removeCell)
 
@@ -74,7 +72,6 @@ class Week {
   }
 
   removeWeek (e) {
-    // TODO: This needs to access the SELECTED volume.
     const selectedVolume = series.selectedVolume()
     const weekNumber = e.target.parentElement.dataset.number
     if (weekNumber in selectedVolume.weeks) {

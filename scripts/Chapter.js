@@ -47,7 +47,6 @@ class Chapter {
   }
 
   removeChapter (e) {
-    // TODO: This needs to access the SELECTED volume.
     const selectedVolume = series.selectedVolume()
     const chapterNumber = e.target.parentElement.dataset.number
     if (chapterNumber in selectedVolume.chapters) {

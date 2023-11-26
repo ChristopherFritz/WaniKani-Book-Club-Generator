@@ -12,7 +12,6 @@
   Volume
 */
 
-// TODO: Split out Vocabulary Sheet into its own separate class.
 /**
  * A series contains one or more volumes.
  */
@@ -180,7 +179,7 @@ class Series {
   }
 
   toHtml () {
-    // TODO: When creating a new series, why all values undefined?
+    // When creating a new series, why all values undefined?
     if (this.vocabularySheet === undefined) {
       this.bookTitle = ''
       this.bookEmoji = ''
@@ -199,11 +198,8 @@ class Series {
     const contentElement = Interface.createDiv('content')
 
     // Add buttons.
-
     const seriesButtonsDiv = Interface.createDiv('seriesButtons')
-
     seriesButtonsDiv.appendChild(Interface.createButton('showSeries', 'Series', () => { Interface.showSeriesSection('series') }))
-    // seriesButtonsDiv.appendChild(Interface.createButton('showVolumes', 'Volumes', () => { Interface.showSeriesSection('volumes') }))
     const showVolumesButton = Interface.createButton('showVolumes', 'Volumes', () => { Interface.showSeriesSection('volumes') })
     showVolumesButton.style.color = 'blue'
     seriesButtonsDiv.appendChild(showVolumesButton)
@@ -213,16 +209,13 @@ class Series {
     contentElement.appendChild(seriesButtonsDiv)
 
     // Add series section.
-
     const seriesDiv = Interface.createDiv('series', 'none')
-
     seriesDiv.appendChild(Interface.createLabel('bookTitle', 'Title'))
     seriesDiv.appendChild(Interface.createInput('bookTitle', this.bookTitle, this.syncValue(this)))
-
     seriesDiv.appendChild(Interface.createLabel('bookEmoji', 'Emoji'))
     seriesDiv.appendChild(Interface.createInput('bookEmoji', this.bookEmoji, this.syncValue(this)))
-
     seriesDiv.appendChild(Interface.createLabel('bookClub', 'Club'))
+
     const bookClubSelect = document.createElement('select')
     bookClubSelect.id = 'bookClub'
     bookClubSelect.setAttribute('name', 'bookClub')
@@ -250,19 +243,14 @@ class Series {
 
     seriesDiv.appendChild(Interface.createLabel('seriesHomeThread', 'Home Thread'))
     seriesDiv.appendChild(Interface.createInput('seriesHomeThread', this.seriesHomeThread, this.syncValue(this)))
-
     seriesDiv.appendChild(Interface.createLabel('shortDateFormat', 'Short date format'))
     seriesDiv.appendChild(Interface.createInput('shortDateFormat', this.shortDateFormat, this.syncValue(this)))
-
     seriesDiv.appendChild(Interface.createLabel('longDateFormat', 'Long date format'))
     seriesDiv.appendChild(Interface.createInput('longDateFormat', this.longDateFormat, this.syncValue(this)))
-
     seriesDiv.appendChild(Interface.createLabel('chapterNumberPrefix', 'Chapter # prefix'))
     seriesDiv.appendChild(Interface.createInput('chapterNumberPrefix', this.chapterNumberPrefix, this.syncValue(this)))
-
     seriesDiv.appendChild(Interface.createLabel('chapterNumberSuffix', 'Chapter # suffix'))
     seriesDiv.appendChild(Interface.createInput('chapterNumberSuffix', this.chapterNumberSuffix, this.syncValue(this)))
-
     contentElement.appendChild(seriesDiv)
 
     // Add vocabulary section.
@@ -298,12 +286,9 @@ class Series {
 
     // Add volumes section.
     const volumesDiv = Interface.createDiv('volumes')
-
     volumesDiv.style.display = 'grid' // none
-
     const volumeSelectionDiv = Interface.createDiv()
     volumeSelectionDiv.appendChild(document.createTextNode('Volume: '))
-
     const currentVolume = this.currentVolume()
     const volumeSelect = document.createElement('select')
     volumeSelect.id = 'volumesList'
@@ -320,7 +305,6 @@ class Series {
 
     volumeSelectionDiv.appendChild(volumeSelect)
 
-    // TODO: Get this handler function working.
     volumeSelectionDiv.appendChild(Interface.createButton('addNewVolume', '➕ Add a volume', () => { Interface.addNewVolume() }))
     // TODO: Support removing a volume.
 
@@ -333,11 +317,9 @@ class Series {
     volumeButtonsDiv.appendChild(Interface.createButton('showChapters', 'Chapters', () => { Interface.showVolumeSection('chapters') }))
     volumeButtonsDiv.appendChild(Interface.createButton('showWeeks', 'Weeks', () => { Interface.showVolumeSection('weeks') }))
 
-    // TODO: Need to add a new link  to the current volume in the series object.
+    // TODO: Need to add a new link to the current volume in the series object.
     volumeButtonsDiv.appendChild(Interface.createButton('addNewVolumeLink', '➕ Add a link', () => { Interface.addNewVolumeLink() }, 'none'))
-    // TODO: Need to add a new week to the current chapter in the series object.
     volumeButtonsDiv.appendChild(Interface.createButton('addNewChapter', '➕ Add a chapter', () => { Interface.addNewChapter() }, 'none'))
-    // TODO: Need to add a new week to the current volume in the series object.
     volumeButtonsDiv.appendChild(Interface.createButton('addNewWeek', '➕ Add a week', () => { Interface.addNewWeek() }, 'none'))
     volumesDiv.appendChild(volumeButtonsDiv)
 
@@ -368,7 +350,6 @@ class Series {
       templateOption.textContent = templateName
       templatesListSelect.appendChild(templateOption)
     }
-    // TODO: Implement function for changing displayed template.
     templatesListSelect.addEventListener('input', () => {
       const templateKey = `template${templatesListSelect.value}`
       const templateName = templatesListSelect.options[templatesListSelect.selectedIndex].text

@@ -88,7 +88,6 @@ class Interface {
   static refreshButtons () {
     document.getElementById('deleteStorage').disabled = document.getElementById('bookList').selectedIndex === 0
 
-
     document.getElementById('saveStorage').disabled = false
     document.getElementById('save').disabled = false
     document.getElementById('copySheetsMacro').disabled = false
@@ -190,8 +189,6 @@ class Interface {
 
     addVolumeToList(volumesList, newVolumeNumber, true)
     Interface.displayVolume(volumesList)
-    // TODO: Hide previously-displayed volume.
-    // TODO: Add new volume to volumes list.
   }
 
   /** Hide all volumes except for the one to show. */
@@ -209,7 +206,6 @@ class Interface {
     })
 
     // Switch view to volume.
-    // showVolumes() // TODO: Is showVolumes() necessary anymore?
     Interface.showVolumeSection('volume')
   }
 
@@ -242,13 +238,7 @@ class Interface {
     }
 
     // TODO: Add to series object.
-
     addLink(linkAddress)
-    // const volumeContainer = currentVolume()
-    // const chaptersContainer = volumeContainer.querySelector('table[name="chapters"]')
-    // const tableBody = chaptersContainer.getElementsByTagName("tbody")[0]
-    // const chapterRowElement = createEmptyChapter()
-    // tableBody.appendChild(chapterRowElement)
   }
 
   static addNewWeek () {

@@ -11,14 +11,11 @@
   storagePrefix
 */
 
-// TODO: Have default values for various fields.
-
 // Ensure there is file API support.
 if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
   ErrorMessage.set('File APIs are not fully supported.')
 }
 
-// let dropZone = document.getElementById("target")
 let dropZone = document.getElementsByTagName('body')[0]
 
 // Show copy icon when dragging over.
@@ -67,7 +64,6 @@ function loadFromStorage (title) {
     return
   }
 
-  // New method of loading.  Incomplete?
   // eslint-disable-next-line no-global-assign, no-native-reassign
   series = Series.load(title)
   const currentVolume = series.currentVolume()
@@ -76,7 +72,6 @@ function loadFromStorage (title) {
     series.selectedVolumeNumber = currentVolume.volumeNumber
   }
 
-  // TODO: This needs to load the whole series.
   const targetDiv = document.getElementById('content')
   targetDiv.replaceWith(series.toHtml(series))
 
@@ -88,8 +83,6 @@ function loadFromFileText (text) {
   series = Series.fromJson(JSON.parse(text))
 
   document.getElementById('content').style.removeProperty('display')
-
-  //loadVocabularySheet(series)
 
   Interface.showSeriesSection('series')
   Interface.refreshButtons()

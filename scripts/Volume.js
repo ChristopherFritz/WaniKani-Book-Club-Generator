@@ -55,7 +55,6 @@ class Volume {
   }
 
   startDate () {
-    // TODO: What if there are no weeks?
     if (Object.keys(this.weeks).length === 0) {
       return
     }
@@ -79,11 +78,7 @@ class Volume {
 
     const volumeDetailsDiv = Interface.createDiv()
     volumeDetailsDiv.setAttribute('name', 'volume')
-    // volumeDetailsDiv.name = 'volume'
     volumeDetailsDiv.style.display = 'grid'
-    // const volumeDetailsHeader = document.createElement('h3')
-    // volumeDetailsHeader.textContent = 'Volume'
-    // volumeDetailsDiv.appendChild(volumeDetailsHeader)
 
     volumeDetailsDiv.appendChild(Interface.createLabel('volumeNumber', 'Volume Number'))
     volumeDetailsDiv.appendChild(Interface.createInput('volumeNumber', this.volumeNumber, this.syncValue(this)))
