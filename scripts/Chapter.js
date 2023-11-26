@@ -13,7 +13,8 @@ class Chapter {
   }
 
   static fromJson (json) {
-    let chapter = new Chapter(json.chapterNumber)
+    console.log(json)
+    let chapter = new Chapter(json.number)
     chapter.title = json.title
 
     return chapter

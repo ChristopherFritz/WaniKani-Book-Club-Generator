@@ -176,6 +176,7 @@ class Interface {
   }
 
   static addNewVolume () {
+    console.log('addNewVolume<1>')
     // Add a new volume to the volumes list.
     const volumesList = document.getElementById('volumesList')
     const volumesListItems = volumesList.getElementsByTagName('option')
@@ -184,8 +185,10 @@ class Interface {
       lastVolumeNumber = volumesListItems[volumesListItems.length - 1].value.replace('volume', '')
     }
     const newVolumeNumber = Number(lastVolumeNumber) + 1
+    console.log(`addNewVolume<2>: ${newVolumeNumber}`)
 
     series.volumes[newVolumeNumber] = new Volume(newVolumeNumber)
+    series.selectedVolumeNumber = newVolumeNumber
 
     const volumesElement = document.getElementById('volumesContainer')
     volumesElement.appendChild(series.volumes[newVolumeNumber].toHtml(series, newVolumeNumber))
@@ -215,6 +218,8 @@ class Interface {
   // TODO: When updating a chapter number, it needs to update in the dataset and the series object.
   static addNewChapter () {
     const selectedVolume = series.selectedVolume()
+    console.log('addNewChapter')
+    console.log(selectedVolume)
     const chaptersContainer = document.querySelector(`div[id="volume${selectedVolume.volumeNumber}"] table[name="chapters"]`)
     const tableBody = chaptersContainer.getElementsByTagName('tbody')[0]
     let lastChapterNumber = Object.keys(selectedVolume.chapters).pop()

@@ -71,6 +71,12 @@ class Series {
   }
 
   selectedVolume () {
+    // TODO: Handle selectedVolumeNumber better so it will always have the proper value.
+    if (this.selectedVolumeNumber === -1) {
+      this.selectedVolumeNumber = Object.keys(this.volumes).pop()
+    }
+    console.log('selectedVolume')
+    console.log(this.selectedVolumeNumber)
     if (this.selectedVolumeNumber in this.volumes) {
       return this.volumes[this.selectedVolumeNumber]
     } else {
@@ -328,10 +334,9 @@ class Series {
     const volumesContainer = Interface.createDiv('volumesContainer')
     const volumesInnerContainer = Interface.createDiv()
 
-    if (currentVolume !== null) {
-      for (const [volumeNumber, volume] of Object.entries(this.volumes)) {
-        volumesInnerContainer.appendChild(volume.toHtml(this, currentVolume.volumeNumber))
-      }
+    for (const [volumeNumber, volume] of Object.entries(this.volumes)) {
+      const currentVolumeNumber = (currentVolume !== null) ? currentVolume.volumeNumber : volumeNumber
+      volumesInnerContainer.appendChild(volume.toHtml(this, currentVolumeNumber))
     }
 
     volumesContainer.appendChild(volumesInnerContainer)

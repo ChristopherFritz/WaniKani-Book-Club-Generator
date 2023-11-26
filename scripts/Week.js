@@ -17,8 +17,8 @@ class Week {
   }
 
   static fromJson (json) {
-    let week = new Week(json.weekNumber)
-    week.number = json.weekNumber
+    let week = new Week(json.number)
+    week.number = json.number
     week.weekThread = json.weekThread
     week.startDate = json.startDate
     week.chapters = json.chapters
