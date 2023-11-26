@@ -83,6 +83,9 @@ function loadFromFileText (text) {
   // eslint-disable-next-line no-global-assign, no-native-reassign
   series = Series.fromJson(JSON.parse(text))
 
+  const targetDiv = document.getElementById('content')
+  targetDiv.replaceWith(series.toHtml(series))
+
   document.getElementById('content').style.removeProperty('display')
 
   Interface.showSeriesSection('series')

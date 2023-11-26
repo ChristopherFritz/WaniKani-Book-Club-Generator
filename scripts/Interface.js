@@ -97,6 +97,9 @@ class Interface {
 
   static showSeriesSection (sectionToShow) {
     const volumes = document.getElementById('content')
+    if (volumes.childElementCount === 0) {
+      return
+    }
     volumes.querySelector('div[id="series"]').style.display = 'none'
     volumes.querySelector('div[id="volumes"]').style.display = 'none'
     volumes.querySelector('div[id="templates"]').style.display = 'none'

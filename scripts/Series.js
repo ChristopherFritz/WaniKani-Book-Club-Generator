@@ -62,8 +62,10 @@ class Series {
   }
 
   static load (seriesTitle) {
-    // TODO: Testing.
-    // return this.fromJson({})
+    // Load a blank entry if there is no title.
+    if (seriesTitle === '') {
+      return this.fromJson({})
+    }
 
     return this.fromJson(JSON.parse(localStorage.getItem(`${storagePrefix}${seriesTitle}`)))
   }
