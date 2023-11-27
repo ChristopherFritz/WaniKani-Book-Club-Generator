@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 class ErrorMessage {
   static set (message) {
     if (message !== '') {

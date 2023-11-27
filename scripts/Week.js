@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 /* globals
-  Interface,
-  series
+  Interface
 */
 
 class Week {
@@ -34,7 +33,7 @@ class Week {
     }
   }
 
-  toHtml () {
+  toHtml (series) {
     const tableRow = document.createElement('tr')
     tableRow.dataset.number = this.number
 
@@ -65,19 +64,19 @@ class Week {
     const removeCell = document.createElement('td')
     removeCell.textContent = '➖'
     removeCell.classList.add('clickable')
-    removeCell.addEventListener('click', this.removeWeek)
+    removeCell.addEventListener('click', () => { this.removeWeek(removeCell, series) })
     tableRow.appendChild(removeCell)
 
     return tableRow
   }
 
-  removeWeek (e) {
+  removeWeek (element, series) {
     const selectedVolume = series.selectedVolume()
-    const weekNumber = e.target.parentElement.dataset.number
+    const weekNumber = element.parentElement.dataset.number
     if (weekNumber in selectedVolume.weeks) {
       delete selectedVolume.weeks[weekNumber]
     }
-    e.target.parentElement.remove()
+    element.parentElement.remove()
   }
 }
 

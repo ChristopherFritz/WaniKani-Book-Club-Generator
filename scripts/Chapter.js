@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 /* globals
-  Interface,
-  series
+  Interface
 */
 
 class Chapter {
@@ -26,7 +25,7 @@ class Chapter {
     }
   }
 
-  toHtml () {
+  toHtml (series) {
     const tableRow = document.createElement('tr')
     tableRow.dataset.number = this.number
 
@@ -41,19 +40,19 @@ class Chapter {
     const removeCell = document.createElement('td')
     removeCell.textContent = '➖'
     removeCell.classList.add('clickable')
-    removeCell.addEventListener('click', this.removeChapter)
+    removeCell.addEventListener('click', () => { this.removeChapter(removeCell, series) })
     tableRow.appendChild(removeCell)
 
     return tableRow
   }
 
-  removeChapter (e) {
+  removeChapter (element, series) {
     const selectedVolume = series.selectedVolume()
-    const chapterNumber = e.target.parentElement.dataset.number
+    const chapterNumber = element.parentElement.dataset.number
     if (chapterNumber in selectedVolume.chapters) {
       delete selectedVolume.chapters[chapterNumber]
     }
-    e.target.parentElement.remove()
+    element.parentElement.remove()
   }
 }
 

@@ -287,6 +287,8 @@ class Interface {
 
     addTemplateTable(newTemplateName, '', true)
     addTemplateListItem(newTemplateName, true)
+    // Are the two following lines needed?
+    const templatesList = document.getElementById('templatesList')
     displayTemplate(templatesList)
 
     // TODO: Add a template to all selects with the name "volumeTemplate".

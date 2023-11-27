@@ -72,18 +72,18 @@ document.getElementById('copyWeekThread').onclick = function() { Template.copyWe
 
 document.getElementById('bookList').onchange = function() { loadFromStorage(this.value) }
 
-Interface.showBookList();
+Interface.showBookList()
 
 // Load an empty book club.
-loadFromFileText('{}');
+loadFromFileText('{}')
 </script>
 
 </select>
 
 <script>
-const modalWrapper = document.querySelector('#modalBlocker');
-const closeModalButton = document.querySelector('#closeModal');
-closeModalButton.onclick = function() { modalWrapper.classList.remove('open') };
+const modalWrapper = document.querySelector('#modalBlocker')
+const closeModalButton = document.querySelector('#closeModal')
+closeModalButton.onclick = function() { modalWrapper.classList.remove('open') }
 </script>
 
 <!--

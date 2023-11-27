@@ -94,12 +94,12 @@ class Volume {
 
     volumeDetailsDiv.appendChild(Interface.createLabel('volumeTemplate', 'Volume Template'))
     const volumeTemplates = series.templatesToHtml('volumeTemplate', this.volumeTemplate)
-    volumeTemplates.addEventListener('change', this.syncValue(this))
+    volumeTemplates.addEventListener('change', () => { this.syncValue(this) })
     volumeDetailsDiv.appendChild(volumeTemplates)
 
     volumeDetailsDiv.appendChild(Interface.createLabel('weeklyTemplate', 'Weekly Template'))
     const weeklyTemplates = series.templatesToHtml('weeklyTemplate', this.weeklyTemplate)
-    weeklyTemplates.addEventListener('change', this.syncValue(this))
+    weeklyTemplates.addEventListener('change', () => { this.syncValue(this) })
     volumeDetailsDiv.appendChild(weeklyTemplates)
 
     volumeDiv.appendChild(volumeDetailsDiv)
@@ -130,7 +130,7 @@ class Volume {
 
     const chaptersTableBody = document.createElement('tbody')
     for (const [chapterNumber, chapter] of Object.entries(this.chapters)) {
-      chaptersTableBody.appendChild(chapter.toHtml())
+      chaptersTableBody.appendChild(chapter.toHtml(series))
     }
     chaptersTable.appendChild(chaptersTableBody)
     chaptersDiv.appendChild(chaptersTable)
@@ -164,7 +164,7 @@ class Volume {
 
     const weeksTableBody = document.createElement('tbody')
     for (const [weekNumber, week] of Object.entries(this.weeks)) {
-      weeksTableBody.appendChild(week.toHtml())
+      weeksTableBody.appendChild(week.toHtml(series))
     }
     weeksTable.appendChild(weeksTableBody)
     weeksDiv.appendChild(weeksTable)

@@ -7,7 +7,6 @@
   series
 */
 
-// TODO: Implement syncValue().
 class Template {
   // TODO: If current week value is blank, auto-detect it.
 

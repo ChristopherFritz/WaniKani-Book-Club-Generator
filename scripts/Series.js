@@ -9,6 +9,7 @@
   loadFromFileText,
   localStorage,
   storagePrefix,
+  Template,
   Volume
 */
 
@@ -246,7 +247,7 @@ class Series {
     advancedOption.textContent = 'Advanced'
     bookClubSelect.appendChild(advancedOption)
     bookClubSelect.value = this.bookClub
-    bookClubSelect.addEventListener('input', this.syncValue(this))
+    bookClubSelect.addEventListener('input', () => { this.syncValue(this) })
     seriesDiv.appendChild(bookClubSelect)
 
     seriesDiv.appendChild(Interface.createLabel('seriesHomeThread', 'Home Thread'))
