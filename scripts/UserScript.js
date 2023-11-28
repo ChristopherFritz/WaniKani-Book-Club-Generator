@@ -1,28 +1,27 @@
 // ==UserScript==
-// @name         WaniKani Book Club Manager
-// @namespace    http://tampermonkey.net/
+// @name         Book Club Manager
+// @namespace    https://kurifuri.com/
 // @match        https://community.wanikani.com/*
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/common.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/Chapter.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/ErrorMessage.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/Interface.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/Macro.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/Series.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/Template.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/Volume.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/Week.js
-// @require      file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/scripts/load%20file.js
-// @resource   IMPORTED_CSS_1 file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/styles/grid.css
-// @resource   IMPORTED_CSS_2 file:///home/chris/!WaniKani/Book%20Clubs/WaniKani-Book-Club-Manager/styles/styles.css
+// @match        https://forums.learnnatively.com/*
+// @require      https://kurifuri.com/files/book-club-manager/scripts/common.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/Chapter.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/ErrorMessage.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/Interface.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/Macro.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/Series.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/Template.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/Volume.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/Week.js
+// @require      https://kurifuri.com/files/book-club-manager/scripts/load%20file.js
+// @resource   IMPORTED_CSS_1 https://kurifuri.com/files/book-club-manager/styles/grid.css
+// @resource   IMPORTED_CSS_2 https://kurifuri.com/files/book-club-manager/styles/styles.css
 // @grant      GM_getResourceText
 // @grant      GM_addStyle
 // ==/UserScript==
 
 /* globals
-  GM_addStyle,
   Interface,
   loadFromFileText,
-  GM_getResourceText,
   loadFromStorage,
   Macro,
   series,
@@ -44,7 +43,7 @@
 
   // Add a button to the right of .title-wrapper > h1 to add a book club based on current page
   function addBookClubManagerIcon () {
-    const iconList = document.querySelector('#ember8 nav.wanikani-app-nav ul')
+    const iconList = document.querySelector('#ember8 nav ul')
 
     const listItem = document.createElement('li')
     listItem.id = iconId
