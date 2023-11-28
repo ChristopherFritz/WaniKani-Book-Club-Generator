@@ -3,14 +3,13 @@
 /* globals
   ErrorMessage,
   Interface,
-  isDate,
-  series
+  isDate
 */
 
 class Template {
   // TODO: If current week value is blank, auto-detect it.
 
-  static copyVolumeThread () {
+  static copyVolumeThread (series) {
     navigator.clipboard.writeText('')
     ErrorMessage.clear()
 
@@ -45,7 +44,7 @@ class Template {
     console.log(template)
   }
 
-  static copyWeekThread () {
+  static copyWeekThread (series) {
     navigator.clipboard.writeText('')
     ErrorMessage.clear()
 
@@ -242,7 +241,7 @@ class Template {
     return template
   }
 
-  static toHtml (templateName, templateMarkdown, show) {
+  static toHtml (templateName, templateMarkdown, show, series) {
     const templateTableTable = document.createElement('table')
     templateTableTable.id = `template${templateName.replaceAll(' ', '')}`
     // Show the first template.

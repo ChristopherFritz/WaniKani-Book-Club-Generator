@@ -76,8 +76,6 @@ class Series {
     if (this.selectedVolumeNumber === -1) {
       this.selectedVolumeNumber = Object.keys(this.volumes).pop()
     }
-    console.log('selectedVolume')
-    console.log(this.selectedVolumeNumber)
     if (this.selectedVolumeNumber in this.volumes) {
       return this.volumes[this.selectedVolumeNumber]
     } else {
@@ -301,7 +299,7 @@ class Series {
     const currentVolume = this.currentVolume()
     const volumeSelect = document.createElement('select')
     volumeSelect.id = 'volumesList'
-    volumeSelect.onchange = () => { Interface.displayVolume(volumeSelect) } // TODO: Does this work?
+    volumeSelect.onchange = () => { Interface.displayVolume(volumeSelect, this) }
     for (const [volumeNumber, volume] of Object.entries(this.volumes)) {
       const volumeOption = document.createElement('option')
       volumeOption.value = `volume${volumeNumber}`
@@ -314,22 +312,22 @@ class Series {
 
     volumeSelectionDiv.appendChild(volumeSelect)
 
-    volumeSelectionDiv.appendChild(Interface.createButton('addNewVolume', '➕ Add a volume', () => { Interface.addNewVolume() }))
+    volumeSelectionDiv.appendChild(Interface.createButton('addNewVolume', '➕ Add a volume', () => { Interface.addNewVolume(this) }))
     // TODO: Support removing a volume.
 
     volumesDiv.appendChild(volumeSelectionDiv)
 
     const volumeButtonsDiv = Interface.createDiv('volumeButtons')
 
-    volumeButtonsDiv.appendChild(Interface.createButton('showVolume', 'Volume', () => { Interface.showVolumeSection('volume') }))
-    volumeButtonsDiv.appendChild(Interface.createButton('showVolumeLinks', 'Links', () => { Interface.showVolumeSection('links') }))
-    volumeButtonsDiv.appendChild(Interface.createButton('showChapters', 'Chapters', () => { Interface.showVolumeSection('chapters') }))
-    volumeButtonsDiv.appendChild(Interface.createButton('showWeeks', 'Weeks', () => { Interface.showVolumeSection('weeks') }))
+    volumeButtonsDiv.appendChild(Interface.createButton('showVolume', 'Volume', () => { Interface.showVolumeSection('volume', this) }))
+    volumeButtonsDiv.appendChild(Interface.createButton('showVolumeLinks', 'Links', () => { Interface.showVolumeSection('links', this) }))
+    volumeButtonsDiv.appendChild(Interface.createButton('showChapters', 'Chapters', () => { Interface.showVolumeSection('chapters', this) }))
+    volumeButtonsDiv.appendChild(Interface.createButton('showWeeks', 'Weeks', () => { Interface.showVolumeSection('weeks', this) }))
 
     // TODO: Need to add a new link to the current volume in the series object.
-    volumeButtonsDiv.appendChild(Interface.createButton('addNewVolumeLink', '➕ Add a link', () => { Interface.addNewVolumeLink() }, 'none'))
-    volumeButtonsDiv.appendChild(Interface.createButton('addNewChapter', '➕ Add a chapter', () => { Interface.addNewChapter() }, 'none'))
-    volumeButtonsDiv.appendChild(Interface.createButton('addNewWeek', '➕ Add a week', () => { Interface.addNewWeek() }, 'none'))
+    volumeButtonsDiv.appendChild(Interface.createButton('addNewVolumeLink', '➕ Add a link', () => { Interface.addNewVolumeLink(this) }, 'none'))
+    volumeButtonsDiv.appendChild(Interface.createButton('addNewChapter', '➕ Add a chapter', () => { Interface.addNewChapter(this) }, 'none'))
+    volumeButtonsDiv.appendChild(Interface.createButton('addNewWeek', '➕ Add a week', () => { Interface.addNewWeek(this) }, 'none'))
     volumesDiv.appendChild(volumeButtonsDiv)
 
     const volumesContainer = Interface.createDiv('volumesContainer')
@@ -375,7 +373,7 @@ class Series {
 
     const firstTemplateName = Object.keys(this.templates)[0]
     for (const [templateName, templateMarkdown] of Object.entries(this.templates)) {
-      templateTablesDiv.appendChild(Template.toHtml(templateName, templateMarkdown, templateName === firstTemplateName))
+      templateTablesDiv.appendChild(Template.toHtml(templateName, templateMarkdown, templateName === firstTemplateName, series))
     }
 
     templatesDiv.appendChild(templateTablesDiv)

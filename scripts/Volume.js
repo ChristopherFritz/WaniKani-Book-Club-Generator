@@ -69,6 +69,8 @@ class Volume {
   }
 
   toHtml (series, currentVolumeNumber) {
+    console.log('Volume.toHtml')
+    console.log(series)
     const volumeDiv = Interface.createDiv(`volume${this.volumeNumber}`)
     volumeDiv.classList.add('volumeContainer')
     // Hide if not the current volume.

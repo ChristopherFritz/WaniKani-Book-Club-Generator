@@ -12,7 +12,6 @@
   isDate,
   localStorage,
   prompt,
-  series,
   storagePrefix,
   templatesList,
   Volume,
@@ -56,6 +55,7 @@ class Interface {
     const button = document.createElement('button')
     button.id = id
     button.textContent = text
+    button.classList.add('btn', 'btn-icon-text', 'btn-primary', 'create')
     if (display !== '') {
       button.style.display = display
     }
@@ -89,7 +89,7 @@ class Interface {
     document.getElementById('deleteStorage').disabled = document.getElementById('bookList').selectedIndex === 0
 
     document.getElementById('saveStorage').disabled = false
-    document.getElementById('save').disabled = false
+    document.getElementById('downloadFile').disabled = false
     document.getElementById('copySheetsMacro').disabled = false
     document.getElementById('copyVolumeThread').disabled = false
     document.getElementById('copyWeekThread').disabled = false
@@ -116,7 +116,7 @@ class Interface {
     volumes.querySelector(`button[id="${clickedButtonId}"]`).style.color = 'blue'
   }
 
-  static showVolumeSection (sectionToShow) {
+  static showVolumeSection (sectionToShow, series) {
     const volume = series.volumes[document.getElementById('volumesList').value.replace('volume', '')]
 
     Array.from(['volume', 'links', 'chapters', 'weeks']).forEach(function (name) {
@@ -153,6 +153,7 @@ class Interface {
       document.getElementById(sectionButtonName).style.removeProperty('display')
     }
 
+    // TODO: Handle if querySelector does not return a value.
     document.querySelector(`div[id="volume${volume.volumeNumber}"] div[name="${sectionToShow}"]`).style.display = display
   }
 
@@ -175,8 +176,7 @@ class Interface {
     return currentElement
   }
 
-  static addNewVolume () {
-    console.log('addNewVolume<1>')
+  static addNewVolume (series) {
     // Add a new volume to the volumes list.
     const volumesList = document.getElementById('volumesList')
     const volumesListItems = volumesList.getElementsByTagName('option')
@@ -185,7 +185,6 @@ class Interface {
       lastVolumeNumber = volumesListItems[volumesListItems.length - 1].value.replace('volume', '')
     }
     const newVolumeNumber = Number(lastVolumeNumber) + 1
-    console.log(`addNewVolume<2>: ${newVolumeNumber}`)
 
     series.volumes[newVolumeNumber] = new Volume(newVolumeNumber)
     series.selectedVolumeNumber = newVolumeNumber
@@ -194,11 +193,11 @@ class Interface {
     volumesElement.appendChild(series.volumes[newVolumeNumber].toHtml(series, newVolumeNumber))
 
     addVolumeToList(volumesList, newVolumeNumber, true)
-    Interface.displayVolume(volumesList)
+    Interface.displayVolume(volumesList, series)
   }
 
   /** Hide all volumes except for the one to show. */
-  static displayVolume (volumeList) {
+  static displayVolume (volumeList, series) {
     const volumes = Interface.allVolumes()
     Array.from(volumes).forEach(function (element) {
       if (volumeList.value === element.id) {
@@ -216,10 +215,8 @@ class Interface {
   }
 
   // TODO: When updating a chapter number, it needs to update in the dataset and the series object.
-  static addNewChapter () {
+  static addNewChapter (series) {
     const selectedVolume = series.selectedVolume()
-    console.log('addNewChapter')
-    console.log(selectedVolume)
     const chaptersContainer = document.querySelector(`div[id="volume${selectedVolume.volumeNumber}"] table[name="chapters"]`)
     const tableBody = chaptersContainer.getElementsByTagName('tbody')[0]
     let lastChapterNumber = Object.keys(selectedVolume.chapters).pop()
@@ -234,10 +231,10 @@ class Interface {
       newChapterNumber = Number(lastChapterNumber) + 1
     }
     selectedVolume.chapters[newChapterNumber] = new Chapter(newChapterNumber)
-    tableBody.appendChild(selectedVolume.chapters[newChapterNumber].toHtml())
+    tableBody.appendChild(selectedVolume.chapters[newChapterNumber].toHtml(series))
   }
 
-  static addNewVolumeLink () {
+  static addNewVolumeLink (series) {
     // TODO: Use a modal for this.
     let linkAddress = prompt('Enter address to add:')
 
@@ -249,7 +246,7 @@ class Interface {
     addLink(linkAddress)
   }
 
-  static addNewWeek () {
+  static addNewWeek (series) {
     const selectedVolume = series.selectedVolume()
     const weeksContainer = document.querySelector(`div[id="volume${selectedVolume.volumeNumber}"] table[name="weeks"]`)
     const tableBody = weeksContainer.getElementsByTagName('tbody')[0]
@@ -265,7 +262,7 @@ class Interface {
       let thisWeekStartDate = new Date(Date.parse(selectedVolume.weeks[lastWeekNumber].startDate) + 7 * 24 * 60 * 60 * 1000)
       selectedVolume.weeks[newWeekNumber].startDate = thisWeekStartDate.toISOString()
     }
-    tableBody.appendChild(selectedVolume.weeks[newWeekNumber].toHtml())
+    tableBody.appendChild(selectedVolume.weeks[newWeekNumber].toHtml(series))
   }
 
   static removeVolumeLink (element) {

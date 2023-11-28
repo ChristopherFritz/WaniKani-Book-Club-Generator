@@ -12,7 +12,6 @@ class Chapter {
   }
 
   static fromJson (json) {
-    console.log(json)
     let chapter = new Chapter(json.number)
     chapter.title = json.title
 
@@ -26,6 +25,8 @@ class Chapter {
   }
 
   toHtml (series) {
+    console.log('Chapter.toHtml')
+    console.log(series)
     const tableRow = document.createElement('tr')
     tableRow.dataset.number = this.number
 
@@ -47,6 +48,8 @@ class Chapter {
   }
 
   removeChapter (element, series) {
+      console.log('removeChapter')
+      console.log(series)
     const selectedVolume = series.selectedVolume()
     const chapterNumber = element.parentElement.dataset.number
     if (chapterNumber in selectedVolume.chapters) {

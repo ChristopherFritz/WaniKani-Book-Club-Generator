@@ -1,16 +1,17 @@
 /* eslint-disable no-unused-vars */
 
 /* globals
-  ErrorMessage,
-  series
+  ErrorMessage
 */
+
+// TODO: Handle error when there is no "currentVolume" due to no dates set in the weeks.
 
 class Macro {
   // TODO: Support different templates for the guidelines sheet.
   // TODO: Lock the guidelines sheet.
   // TODO: Support an option for whether or not to include the title row.
 
-  static copySheetsMacro () {
+  static copySheetsMacro (series) {
     navigator.clipboard.writeText('')
     ErrorMessage.clear()
 

@@ -20,14 +20,14 @@ if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
 let dropZone = document.getElementsByTagName('body')[0]
 
 // Show copy icon when dragging over.
-dropZone.addEventListener('dragover', function (e) {
+dropZone.addEventListener('dragover', (e) => {
   e.stopPropagation()
   e.preventDefault()
   e.dataTransfer.dropEffect = 'copy'
 })
 
 // Get the file data on drop.
-dropZone.addEventListener('drop', function (e) {
+dropZone.addEventListener('drop', (e) => {
   ErrorMessage.clear()
 
   e.stopPropagation()
@@ -109,7 +109,7 @@ function addTemplateListItem (templateName, selectItem) {
 function addTemplateTable (templateName, templateText, isFirstTemplate) {
   series.templates[templateName] = templateText
   const templateTables = document.getElementById('templateTables')
-  templateTables.appendChild(Template.toHtml(templateName, templateText, true))
+  templateTables.appendChild(Template.toHtml(templateName, templateText, true, series))
 }
 
 // Hide all templates except for the one to show.

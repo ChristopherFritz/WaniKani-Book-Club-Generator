@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="styles/modal.css">
 </head>
 
-<body>
+<body id="kf_bc_form">
 
 <p>Series: <select id="bookList"><option hidden disabled selected value>Select Book/Series</option></select></p>
 
@@ -19,14 +19,14 @@
   <div id="target"></div>
 
   <div id="buttons">
-    <button id="saveStorage" disabled>💾&nbsp;Save&nbsp;to&nbsp;Browser</button>
-    <button id="save" disabled>💾&nbsp;Save&nbsp;to&nbsp;File</button>
-    <button id="deleteStorage" disabled>❌&nbsp;Delete&nbsp;from&nbsp;Browser</button>
+    <button class="btn btn-icon-text btn-primary create" id="saveStorage" disabled>💾&nbsp;Save&nbsp;to&nbsp;Browser</button>
+    <button class="btn btn-icon-text btn-primary create" id="save" disabled>💾&nbsp;Save&nbsp;to&nbsp;File</button>
+    <button class="btn btn-icon-text btn-primary create" id="deleteStorage" disabled>❌&nbsp;Delete&nbsp;from&nbsp;Browser</button>
     <br/>
     <br/>
-    <button id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button>
-    <button id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
-    <button id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button>
+    <button class="btn btn-icon-text btn-primary create" id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button>
+    <button class="btn btn-icon-text btn-primary create" id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
+    <button class="btn btn-icon-text btn-primary create" id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button>
   </div>
 
   <div id="content" style="display: none;"></div>
@@ -37,7 +37,7 @@
 <!-- Modal window -->
 <div id="modalBlocker">
   <div class="modal">
-    <button id="closeModal">✕</button>
+    <button class="btn btn-icon-text btn-primary create" id="closeModal">✕</button>
     <div id="addVolumeModal">
       <h2 class='modalTitle'>Modal Title</h2>
       <div class='modalContent'>
@@ -65,10 +65,10 @@ var series = new Series('')
 
 document.getElementById('saveStorage').onclick = function() { series.save() }
 document.getElementById('deleteStorage').onclick = function() { series.deleteFromStorage(true) }
-document.getElementById('save').onclick = function() { series.download() }
-document.getElementById('copyVolumeThread').onclick = function() { Template.copyVolumeThread() }
-document.getElementById('copySheetsMacro').onclick = function() { Macro.copySheetsMacro() }
-document.getElementById('copyWeekThread').onclick = function() { Template.copyWeekThread() }
+document.getElementById('downloadFile').onclick = function() { series.download() }
+document.getElementById('copyVolumeThread').onclick = function() { Template.copyVolumeThread(series) }
+document.getElementById('copySheetsMacro').onclick = function() { Macro.copySheetsMacro(series) }
+document.getElementById('copyWeekThread').onclick = function() { Template.copyWeekThread(series) }
 
 document.getElementById('bookList').onchange = function() { loadFromStorage(this.value) }
 
