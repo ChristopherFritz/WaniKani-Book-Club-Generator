@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Book Club Manager
-// @version      0.4.5
+// @version      0.5.0
 // @description  Management tool for running a book club on a Discourse forum.
 // @namespace    https://kurifuri.com/
 // @license MIT
@@ -675,10 +675,12 @@ class Series {
 
     const bookList = document.getElementById('kfbc-book-list')
 
-    const response = confirm(`The entry ${bookList.value} will be deleted from the browser.`)
-    if (!response) {
-      ErrorMessage.set('Delete from browser cancelled.')
-      return
+    if (!clearValues) {
+      const response = confirm(`The entry ${bookList.value} will be deleted from the browser.`)
+      if (!response) {
+        ErrorMessage.set('Delete from browser cancelled.')
+        return
+      }
     }
 
     localStorage.removeItem(`${storagePrefix}${bookList.value}`)
@@ -1409,6 +1411,8 @@ var protection = guidelinesSheet
   Interface,
   isDate
 */
+
+// TODO: need template dropdowns to update when adding/deleting a template
 
 class Template {
 
@@ -2353,8 +2357,8 @@ function loadLinks (links, volumeContainer) {
     <button class="btn btn-icon-text btn-primary create" id="kfbc-load-file">📁&nbsp;Load&nbsp;from&nbsp;File</button>
     <br/>
     <br/>
-    <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-volume-thread" disabled style="height: 2em;">📋&nbsp;Create&nbsp;Volume&nbsp;Thread</button>
     <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-sheets-macro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-volume-thread" disabled style="height: 2em;">📋&nbsp;Create&nbsp;Volume&nbsp;Thread</button>
     <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-week-thread" disabled style="height: 2em;">📋&nbsp;Create&nbsp;Week&nbsp;Post</button>
   </div>
 

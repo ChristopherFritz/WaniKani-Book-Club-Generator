@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Book Club Manager
-// @version      0.4.4
+// @version      0.5.0
 // @description  Management tool for running a book club on a Discourse forum.
 // @namespace    https://kurifuri.com/
 // @license MIT
