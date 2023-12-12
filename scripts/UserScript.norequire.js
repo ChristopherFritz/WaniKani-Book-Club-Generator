@@ -87,8 +87,8 @@ let series = new Series('')
     <button class="btn btn-icon-text btn-primary create" id="kfbc-load-file">📁&nbsp;Load&nbsp;from&nbsp;File</button>
     <br/>
     <br/>
-    <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-volume-thread" disabled style="height: 2em;">📋&nbsp;Create&nbsp;Volume&nbsp;Thread</button>
     <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-sheets-macro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-volume-thread" disabled style="height: 2em;">📋&nbsp;Create&nbsp;Volume&nbsp;Thread</button>
     <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-week-thread" disabled style="height: 2em;">📋&nbsp;Create&nbsp;Week&nbsp;Post</button>
   </div>
 

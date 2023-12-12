@@ -473,10 +473,12 @@ class Series {
 
     const bookList = document.getElementById('kfbc-book-list')
 
-    const response = confirm(`The entry ${bookList.value} will be deleted from the browser.`)
-    if (!response) {
-      ErrorMessage.set('Delete from browser cancelled.')
-      return
+    if (!clearValues) {
+      const response = confirm(`The entry ${bookList.value} will be deleted from the browser.`)
+      if (!response) {
+        ErrorMessage.set('Delete from browser cancelled.')
+        return
+      }
     }
 
     localStorage.removeItem(`${storagePrefix}${bookList.value}`)
