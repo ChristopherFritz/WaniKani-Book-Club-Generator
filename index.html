@@ -1,46 +1,46 @@
 <html>
 
 <head>
-<title>WaniKani Book Club Manager version 0.3.5</title>
+<title>WaniKani Book Club Manager version 0.4.1</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="styles/styles.css">
 <link rel="stylesheet" href="styles/grid.css">
 <link rel="stylesheet" href="styles/modal.css">
 </head>
 
-<body id="kf_bc_form">
+<body id="kfbc-form">
 
-<p>Series: <select id="bookList"><option hidden disabled selected value>Select Book/Series</option></select></p>
+<p>Series: <select id="kfbc-book-list"><option hidden disabled selected value>Select Book/Series</option></select></p>
 
-<div id="errors"></div>
+<div id="kfbc-errors"></div>
 
-<div id="layout">
+<div id="kfbc-layout">
 
-  <div id="target"></div>
+  <div id="kfbc-target"></div>
 
-  <div id="buttons">
-    <button class="btn btn-icon-text btn-primary create" id="saveStorage" disabled>💾&nbsp;Save&nbsp;to&nbsp;Browser</button>
-    <button class="btn btn-icon-text btn-primary create" id="downloadFile" disabled>💾&nbsp;Save&nbsp;to&nbsp;File</button>
-    <button class="btn btn-icon-text btn-primary create" id="deleteStorage" disabled>❌&nbsp;Delete&nbsp;from&nbsp;Browser</button>
+  <div id="kfbc-buttons">
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-save-storage" disabled>💾&nbsp;Save&nbsp;to&nbsp;Browser</button>
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-download-file" disabled>💾&nbsp;Save&nbsp;to&nbsp;File</button>
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-delete-storage" disabled>❌&nbsp;Delete&nbsp;from&nbsp;Browser</button>
     <br/>
     <br/>
-    <button class="btn btn-icon-text btn-primary create" id="copyVolumeThread" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Volume&nbsp;Thread</button>
-    <button class="btn btn-icon-text btn-primary create" id="copySheetsMacro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
-    <button class="btn btn-icon-text btn-primary create" id="copyWeekThread" disabled style="height: 2em;">📋&nbsp;Copy Week&nbsp;Thread</button>
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-volume-thread" disabled style="height: 2em;">📋&nbsp;Create&nbsp;Volume&nbsp;Thread</button>
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-sheets-macro" disabled style="height: 2em;">📋&nbsp;Copy&nbsp;Sheets&nbsp;Macro</button>
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-copy-week-thread" disabled style="height: 2em;">📋&nbsp;Create&nbsp;Week&nbsp;Thread</button>
   </div>
 
-  <div id="content" style="display: none;"></div>
+  <div id="kfbc-content" style="display: none;"></div>
    <!-- TODO: Support removing a volume. -->
 
 </div>
 
 <!-- Modal window -->
-<div id="modalBlocker">
+<div id="kfbc-modal-blocker">
   <div class="modal">
-    <button class="btn btn-icon-text btn-primary create" id="closeModal">✕</button>
-    <div id="addVolumeModal">
-      <h2 class='modalTitle'>Modal Title</h2>
-      <div class='modalContent'>
+    <button class="btn btn-icon-text btn-primary create" id="kfbc-close-modal">✕</button>
+    <div id="kfbc-add-volume-modal">
+      <h2 class='kfbc-modal-title'>Modal Title</h2>
+      <div class='kfbc-modal-content'>
         <p>Modal Content</p>
       </div>
     </div>
@@ -63,14 +63,14 @@
 <script>
 var series = new Series('')
 
-document.getElementById('saveStorage').onclick = function() { series.save() }
-document.getElementById('deleteStorage').onclick = function() { series.deleteFromStorage(true) }
-document.getElementById('downloadFile').onclick = function() { series.download() }
-document.getElementById('copyVolumeThread').onclick = function() { Template.copyVolumeThread(series) }
-document.getElementById('copySheetsMacro').onclick = function() { Macro.copySheetsMacro(series) }
-document.getElementById('copyWeekThread').onclick = function() { Template.copyWeekThread(series) }
+document.getElementById('kfbc-save-storage').onclick = function() { series.save() }
+document.getElementById('kfbc-delete-storage').onclick = function() { series.deleteFromStorage(true) }
+document.getElementById('kfbc-download-file').onclick = function() { series.download() }
+document.getElementById('kfbc-copy-volume-thread').onclick = function() { Template.copyVolumeThread(series) }
+document.getElementById('kfbc-copy-sheets-macro').onclick = function() { Macro.copySheetsMacro(series) }
+document.getElementById('kfbc-copy-week-thread').onclick = function() { Template.copyWeekThread(series) }
 
-document.getElementById('bookList').onchange = function() { loadFromStorage(this.value) }
+document.getElementById('kfbc-book-list').onchange = function() { loadFromStorage(this.value) }
 
 Interface.showBookList()
 
@@ -81,9 +81,9 @@ loadFromFileText('{}')
 </select>
 
 <script>
-const modalWrapper = document.querySelector('#modalBlocker')
-const closeModalButton = document.querySelector('#closeModal')
-closeModalButton.onclick = function() { modalWrapper.classList.remove('open') }
+const modalWrapper = document.querySelector('#kfbc-modal-blocker')
+const closeModalButton = document.querySelector('#kfbc-close-modal')
+closeModalButton.onclick = function() { modalWrapper.classList.remove('kfbc-open') }
 </script>
 
 <!--

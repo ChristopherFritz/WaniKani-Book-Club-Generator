@@ -90,6 +90,7 @@ class Series {
   currentVolume () {
     let today = new Date()
     let soonestVolume = null
+    let soonestFutureVolume = null
     for (const [volumeNumber, volume] of Object.entries(this.volumes)) {
       const startDate = volume.startDate()
 
@@ -100,11 +101,20 @@ class Series {
 
       // Skip future volumes.
       if (today < Date.parse(startDate)) {
+        // This assumes the volumes are in order.  The first future volume will be returned.
+        if (soonestFutureVolume === null) {
+          soonestFutureVolume = volume
+        }
         continue
       }
 
       // This assumes the volumes are in order.  The last volume not skipped will be returned.
       soonestVolume = volume
+    }
+
+    // If there is no current volume, pick the earliest future volume.
+    if (soonestVolume === null) {
+        return soonestFutureVolume
     }
 
     return soonestVolume
@@ -151,10 +161,10 @@ class Series {
    * @param {*} selectedItemText The template to show as the selected value.
    * @returns HTML select element.
    */
-  templatesToHtml (templateTypeName, selectedItemText) {
+  templatesToHtml (templateTypeID, templateTypeName, selectedItemText) {
     const selectElement = document.createElement('select')
-    selectElement.id = templateTypeName
-    selectElement.name = templateTypeName
+    selectElement.id = `kfbc-${templateTypeID}`
+    selectElement.name = `${templateTypeName}`
     const blankOption = document.createElement('option')
     selectElement.appendChild(blankOption)
     // TODO: Need to get these at the series level.
@@ -205,26 +215,26 @@ class Series {
     const contentElement = Interface.createDiv('content')
 
     // Add buttons.
-    const seriesButtonsDiv = Interface.createDiv('seriesButtons')
-    seriesButtonsDiv.appendChild(Interface.createButton('showSeries', 'Series', () => { Interface.showSeriesSection('series') }))
-    const showVolumesButton = Interface.createButton('showVolumes', 'Volumes', () => { Interface.showSeriesSection('volumes') })
+    const seriesButtonsDiv = Interface.createDiv('series-buttons')
+    seriesButtonsDiv.appendChild(Interface.createButton('show-series', 'Series', () => { Interface.showSeriesSection('series') }))
+    const showVolumesButton = Interface.createButton('show-volumes', 'Volumes', () => { Interface.showSeriesSection('volumes') })
     showVolumesButton.style.color = 'blue'
     seriesButtonsDiv.appendChild(showVolumesButton)
-    seriesButtonsDiv.appendChild(Interface.createButton('showTemplates', 'Templates', () => { Interface.showSeriesSection('templates') }))
-    seriesButtonsDiv.appendChild(Interface.createButton('showVocabulary', 'Vocabulary', () => { Interface.showSeriesSection('vocabulary') }))
+    seriesButtonsDiv.appendChild(Interface.createButton('show-templates', 'Templates', () => { Interface.showSeriesSection('templates') }))
+    seriesButtonsDiv.appendChild(Interface.createButton('show-vocabulary', 'Vocabulary', () => { Interface.showSeriesSection('vocabulary') }))
 
     contentElement.appendChild(seriesButtonsDiv)
 
     // Add series section.
     const seriesDiv = Interface.createDiv('series', 'none')
-    seriesDiv.appendChild(Interface.createLabel('bookTitle', 'Title'))
-    seriesDiv.appendChild(Interface.createInput('bookTitle', this.bookTitle, this.syncValue(this)))
-    seriesDiv.appendChild(Interface.createLabel('bookEmoji', 'Emoji'))
-    seriesDiv.appendChild(Interface.createInput('bookEmoji', this.bookEmoji, this.syncValue(this)))
-    seriesDiv.appendChild(Interface.createLabel('bookClub', 'Club'))
+    seriesDiv.appendChild(Interface.createLabel('book-title', 'Title'))
+    seriesDiv.appendChild(Interface.createInput('book-title', 'bookTitle', this.bookTitle, this.syncValue(this)))
+    seriesDiv.appendChild(Interface.createLabel('book-emoji', 'Emoji'))
+    seriesDiv.appendChild(Interface.createInput('book-emoji', 'bookEmoji', this.bookEmoji, this.syncValue(this)))
+    seriesDiv.appendChild(Interface.createLabel('book-club', 'Club'))
 
     const bookClubSelect = document.createElement('select')
-    bookClubSelect.id = 'bookClub'
+    bookClubSelect.id = 'kfbc-book-club'
     bookClubSelect.setAttribute('name', 'bookClub')
     const emptyOption = document.createElement('option')
     bookClubSelect.appendChild(emptyOption)
@@ -245,47 +255,47 @@ class Series {
     advancedOption.textContent = 'Advanced'
     bookClubSelect.appendChild(advancedOption)
     bookClubSelect.value = this.bookClub
-    bookClubSelect.addEventListener('input', () => { this.syncValue(this) })
+    bookClubSelect.addEventListener('input', this.syncValue(this))
     seriesDiv.appendChild(bookClubSelect)
 
-    seriesDiv.appendChild(Interface.createLabel('seriesHomeThread', 'Home Thread'))
-    seriesDiv.appendChild(Interface.createInput('seriesHomeThread', this.seriesHomeThread, this.syncValue(this)))
-    seriesDiv.appendChild(Interface.createLabel('shortDateFormat', 'Short date format'))
-    seriesDiv.appendChild(Interface.createInput('shortDateFormat', this.shortDateFormat, this.syncValue(this)))
-    seriesDiv.appendChild(Interface.createLabel('longDateFormat', 'Long date format'))
-    seriesDiv.appendChild(Interface.createInput('longDateFormat', this.longDateFormat, this.syncValue(this)))
-    seriesDiv.appendChild(Interface.createLabel('chapterNumberPrefix', 'Chapter # prefix'))
-    seriesDiv.appendChild(Interface.createInput('chapterNumberPrefix', this.chapterNumberPrefix, this.syncValue(this)))
-    seriesDiv.appendChild(Interface.createLabel('chapterNumberSuffix', 'Chapter # suffix'))
-    seriesDiv.appendChild(Interface.createInput('chapterNumberSuffix', this.chapterNumberSuffix, this.syncValue(this)))
+    seriesDiv.appendChild(Interface.createLabel('series-home-thread', 'Home Thread'))
+    seriesDiv.appendChild(Interface.createInput('series-home-thread', 'seriesHomeThread', this.seriesHomeThread, this.syncValue(this)))
+    seriesDiv.appendChild(Interface.createLabel('short-date-format', 'Short date format'))
+    seriesDiv.appendChild(Interface.createInput('short-date-format', 'shortDateFormat', this.shortDateFormat, this.syncValue(this)))
+    seriesDiv.appendChild(Interface.createLabel('long-date-format', 'Long date format'))
+    seriesDiv.appendChild(Interface.createInput('long-date-format', 'longDateFormat', this.longDateFormat, this.syncValue(this)))
+    seriesDiv.appendChild(Interface.createLabel('chapter-number-prefix', 'Chapter # prefix'))
+    seriesDiv.appendChild(Interface.createInput('chapter-number-prefix', 'chapterNumberPrefix', this.chapterNumberPrefix, this.syncValue(this)))
+    seriesDiv.appendChild(Interface.createLabel('chapter-number-suffix', 'Chapter # suffix'))
+    seriesDiv.appendChild(Interface.createInput('chapter-number-suffix', 'chapterNumberPrefix', this.chapterNumberSuffix, this.syncValue(this)))
     contentElement.appendChild(seriesDiv)
 
     // Add vocabulary section.
     const vocabularyDiv = Interface.createDiv('vocabulary')
     vocabularyDiv.style.display = 'none'
 
-    const showTitleRowLabel = Interface.createLabel('showTitleRow')
+    const showTitleRowLabel = Interface.createLabel('show-title-row')
     vocabularyDiv.appendChild(showTitleRowLabel)
-    showTitleRowLabel.appendChild(Interface.createInput('showTitleRow', this.vocabularySheet.showTitleRow, this.syncValue(this.vocabularySheet), 'checkbox'))
+    showTitleRowLabel.appendChild(Interface.createInput('show-title-row', 'showTitleRow', this.vocabularySheet.showTitleRow, this.syncValue(this.vocabularySheet), 'checkbox'))
     showTitleRowLabel.appendChild(document.createTextNode(' Show title row'))
     vocabularyDiv.appendChild(showTitleRowLabel)
 
-    const useBandingLabel = Interface.createLabel('useBanding')
+    const useBandingLabel = Interface.createLabel('use-banding')
     vocabularyDiv.appendChild(useBandingLabel)
-    useBandingLabel.appendChild(Interface.createInput('useBanding', this.vocabularySheet.useBanding, this.syncValue(this.vocabularySheet), 'checkbox'))
+    useBandingLabel.appendChild(Interface.createInput('use-banding', 'useBanding', this.vocabularySheet.useBanding, this.syncValue(this.vocabularySheet), 'checkbox'))
     useBandingLabel.appendChild(document.createTextNode(' Alternate row colors'))
     vocabularyDiv.appendChild(useBandingLabel)
 
-    const colorUnsureUnknownLabel = Interface.createLabel('colorUnsureUnknown')
+    const colorUnsureUnknownLabel = Interface.createLabel('color-unsure-unknown')
     vocabularyDiv.appendChild(colorUnsureUnknownLabel)
-    colorUnsureUnknownLabel.appendChild(Interface.createInput('colorUnsureUnknown', this.vocabularySheet.colorUnsureUnknown, this.syncValue(this.vocabularySheet), 'checkbox'))
+    colorUnsureUnknownLabel.appendChild(Interface.createInput('color-unsure-unknown', 'colorUnsureUnknown', this.vocabularySheet.colorUnsureUnknown, this.syncValue(this.vocabularySheet), 'checkbox'))
     colorUnsureUnknownLabel.appendChild(document.createTextNode(' Color unsure and unknown'))
     vocabularyDiv.appendChild(colorUnsureUnknownLabel)
 
-    const colorPageNumbersLabel = Interface.createLabel('colorPageNumbers')
-    colorPageNumbersLabel.setAttribute('for', 'colorPageNumbers')
+    const colorPageNumbersLabel = Interface.createLabel('color-page-numbers')
+    colorPageNumbersLabel.setAttribute('for', 'kfbc-color-page-numbers')
     vocabularyDiv.appendChild(colorPageNumbersLabel)
-    colorPageNumbersLabel.appendChild(Interface.createInput('colorPageNumbers', this.vocabularySheet.colorPageNumbers, this.syncValue(this.vocabularySheet), 'checkbox'))
+    colorPageNumbersLabel.appendChild(Interface.createInput('color-page-numbers', 'colorPageNumbers', this.vocabularySheet.colorPageNumbers, this.syncValue(this.vocabularySheet), 'checkbox'))
     colorPageNumbersLabel.appendChild(document.createTextNode(' Color page numbers'))
     vocabularyDiv.appendChild(colorPageNumbersLabel)
 
@@ -298,13 +308,13 @@ class Series {
     volumeSelectionDiv.appendChild(document.createTextNode('Volume: '))
     const currentVolume = this.currentVolume()
     const volumeSelect = document.createElement('select')
-    volumeSelect.id = 'volumesList'
+    volumeSelect.id = 'kfbc-volumes-list'
     volumeSelect.onchange = () => { Interface.displayVolume(volumeSelect, this) }
     for (const [volumeNumber, volume] of Object.entries(this.volumes)) {
       const volumeOption = document.createElement('option')
       volumeOption.value = `volume${volumeNumber}`
       volumeOption.textContent = `Volume ${volumeNumber}`
-      if (currentVolume !== null && volumeNumber === currentVolume.volumeNumber) {
+      if (currentVolume !== null && volumeNumber == currentVolume.volumeNumber) {
         volumeOption.setAttribute('selected', 'selected')
       }
       volumeSelect.appendChild(volumeOption)
@@ -312,25 +322,25 @@ class Series {
 
     volumeSelectionDiv.appendChild(volumeSelect)
 
-    volumeSelectionDiv.appendChild(Interface.createButton('addNewVolume', '➕ Add a volume', () => { Interface.addNewVolume(this) }))
+    volumeSelectionDiv.appendChild(Interface.createButton('add-new-volume', '➕ Add a volume', () => { Interface.addNewVolume(this) }))
     // TODO: Support removing a volume.
 
     volumesDiv.appendChild(volumeSelectionDiv)
 
-    const volumeButtonsDiv = Interface.createDiv('volumeButtons')
+    const volumeButtonsDiv = Interface.createDiv('volume-buttons')
 
-    volumeButtonsDiv.appendChild(Interface.createButton('showVolume', 'Volume', () => { Interface.showVolumeSection('volume', this) }))
-    volumeButtonsDiv.appendChild(Interface.createButton('showVolumeLinks', 'Links', () => { Interface.showVolumeSection('links', this) }))
-    volumeButtonsDiv.appendChild(Interface.createButton('showChapters', 'Chapters', () => { Interface.showVolumeSection('chapters', this) }))
-    volumeButtonsDiv.appendChild(Interface.createButton('showWeeks', 'Weeks', () => { Interface.showVolumeSection('weeks', this) }))
+    volumeButtonsDiv.appendChild(Interface.createButton('show-volume', 'Volume', () => { Interface.showVolumeSection('volume', this) }))
+    volumeButtonsDiv.appendChild(Interface.createButton('show-volume-links', 'Links', () => { Interface.showVolumeSection('links', this) }))
+    volumeButtonsDiv.appendChild(Interface.createButton('show-chapters', 'Chapters', () => { Interface.showVolumeSection('chapters', this) }))
+    volumeButtonsDiv.appendChild(Interface.createButton('show-weeks', 'Weeks', () => { Interface.showVolumeSection('weeks', this) }))
 
     // TODO: Need to add a new link to the current volume in the series object.
-    volumeButtonsDiv.appendChild(Interface.createButton('addNewVolumeLink', '➕ Add a link', () => { Interface.addNewVolumeLink(this) }, 'none'))
-    volumeButtonsDiv.appendChild(Interface.createButton('addNewChapter', '➕ Add a chapter', () => { Interface.addNewChapter(this) }, 'none'))
-    volumeButtonsDiv.appendChild(Interface.createButton('addNewWeek', '➕ Add a week', () => { Interface.addNewWeek(this) }, 'none'))
+    volumeButtonsDiv.appendChild(Interface.createButton('add-new-volume-link', '➕ Add a link', () => { Interface.addNewVolumeLink(this) }, 'none'))
+    volumeButtonsDiv.appendChild(Interface.createButton('add-new-chapter', '➕ Add a chapter', () => { Interface.addNewChapter(this) }, 'none'))
+    volumeButtonsDiv.appendChild(Interface.createButton('add-new-week', '➕ Add a week', () => { Interface.addNewWeek(this) }, 'none'))
     volumesDiv.appendChild(volumeButtonsDiv)
 
-    const volumesContainer = Interface.createDiv('volumesContainer')
+    const volumesContainer = Interface.createDiv('volumes-container')
     const volumesInnerContainer = Interface.createDiv()
 
     for (const [volumeNumber, volume] of Object.entries(this.volumes)) {
@@ -346,10 +356,10 @@ class Series {
     // Add templates section.
     const templatesDiv = Interface.createDiv('templates', 'none')
 
-    const templateDiv = Interface.createDiv('addNewTemplateContainer')
+    const templateDiv = Interface.createDiv('add-new-template-container')
     templateDiv.appendChild(document.createTextNode('Template: '))
     const templatesListSelect = document.createElement('select')
-    templatesListSelect.id = 'templatesList'
+    templatesListSelect.id = 'kfbc-templates-list'
     for (const [templateName, template] of Object.entries(this.templates)) {
       const templateOption = document.createElement('option')
       templateOption.value = templateName.replaceAll(' ', '')
@@ -357,19 +367,19 @@ class Series {
       templatesListSelect.appendChild(templateOption)
     }
     templatesListSelect.addEventListener('input', () => {
-      const templateKey = `template${templatesListSelect.value}`
+      const templateKey = `kfbc-template-${templatesListSelect.value}`
       const templateName = templatesListSelect.options[templatesListSelect.selectedIndex].text
-      const templateTables = document.getElementById('templateTables').getElementsByTagName('table')
+      const templateTables = document.getElementById('kfbc-template-tables').getElementsByTagName('table')
       for (const templateTable of templateTables) {
         templateTable.style.display = (templateTable.id === templateKey) ? 'table' : 'none'
       }
     })
     templateDiv.appendChild(templatesListSelect)
-    templateDiv.appendChild(Interface.createButton('addNewTemplate', '➕ Add a template', () => { Interface.addNewTemplate() }))
-    templateDiv.appendChild(Interface.createButton('removeSelectedTemplate', '➖ Remove selected template', () => { Interface.removeSelectedTemplate() }))
+    templateDiv.appendChild(Interface.createButton('add-new-template', '➕ Add a template', () => { Interface.addNewTemplate() }))
+    templateDiv.appendChild(Interface.createButton('remove-selected-template', '➖ Remove selected template', () => { Interface.removeSelectedTemplate() }))
     templatesDiv.appendChild(templateDiv)
 
-    const templateTablesDiv = Interface.createDiv('templateTables')
+    const templateTablesDiv = Interface.createDiv('template-tables')
 
     const firstTemplateName = Object.keys(this.templates)[0]
     for (const [templateName, templateMarkdown] of Object.entries(this.templates)) {
@@ -417,7 +427,7 @@ class Series {
       return
     }
 
-    const bookList = document.getElementById('bookList')
+    const bookList = document.getElementById('kfbc-book-list')
 
     let storageKey = storagePrefix + this.bookTitle
     localStorage.setItem(storageKey, JSON.stringify(this))
@@ -461,7 +471,7 @@ class Series {
   deleteFromStorage (clearValues) {
     ErrorMessage.clear()
 
-    const bookList = document.getElementById('bookList')
+    const bookList = document.getElementById('kfbc-book-list')
 
     const response = confirm(`The entry ${bookList.value} will be deleted from the browser.`)
     if (!response) {
@@ -479,12 +489,5 @@ class Series {
     }
   }
 
-  /*
-  // TODO: Implement saving to browser and saving to file.
-  save () {
-    let output = JSON.stringify(this)
-    console.log(output)
-  }
-  */
 }
 

@@ -6,9 +6,9 @@ class ErrorMessage {
       message = `Error: ${message}`
     }
 
-    document.getElementById('errors').textContent = message
+    document.getElementById('kfbc-errors').textContent = message
   }
   static clear () {
-    document.getElementById('errors').textContent = ''
+    document.getElementById('kfbc-errors').textContent = ''
   }
 }

@@ -25,22 +25,20 @@ class Chapter {
   }
 
   toHtml (series) {
-    console.log('Chapter.toHtml')
-    console.log(series)
     const tableRow = document.createElement('tr')
     tableRow.dataset.number = this.number
 
     const numberCell = document.createElement('td')
-    numberCell.appendChild(Interface.createInput('number', this.number, this.syncValue(this)))
+    numberCell.appendChild(Interface.createInput('number', 'number', this.number, this.syncValue(this)))
     tableRow.appendChild(numberCell)
 
     const titleCell = document.createElement('td')
-    titleCell.appendChild(Interface.createInput('title', this.title, this.syncValue(this)))
+    titleCell.appendChild(Interface.createInput('title', 'title', this.title, this.syncValue(this)))
     tableRow.appendChild(titleCell)
 
     const removeCell = document.createElement('td')
     removeCell.textContent = '➖'
-    removeCell.classList.add('clickable')
+    removeCell.classList.add('kfbc-clickable')
     removeCell.addEventListener('click', () => { this.removeChapter(removeCell, series) })
     tableRow.appendChild(removeCell)
 
@@ -48,8 +46,6 @@ class Chapter {
   }
 
   removeChapter (element, series) {
-      console.log('removeChapter')
-      console.log(series)
     const selectedVolume = series.selectedVolume()
     const chapterNumber = element.parentElement.dataset.number
     if (chapterNumber in selectedVolume.chapters) {

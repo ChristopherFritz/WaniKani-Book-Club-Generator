@@ -50,7 +50,7 @@ dropZone.addEventListener('drop', (e) => {
 
   reader.onload = function (e2) {
     loadFromFileText(e2.target.result)
-    const bookList = document.getElementById('bookList')
+    const bookList = document.getElementById('kfbc-book-list')
     bookList.selectedIndex = 0
   }
 
@@ -73,7 +73,7 @@ function loadFromStorage (title) {
     series.selectedVolumeNumber = currentVolume.volumeNumber
   }
 
-  const targetDiv = document.getElementById('content')
+  const targetDiv = document.getElementById('kfbc-content')
   targetDiv.replaceWith(series.toHtml(series))
 
   Interface.refreshButtons()
@@ -83,17 +83,17 @@ function loadFromFileText (text) {
   // eslint-disable-next-line no-global-assign, no-native-reassign
   series = Series.fromJson(JSON.parse(text))
 
-  const targetDiv = document.getElementById('content')
+  const targetDiv = document.getElementById('kfbc-content')
   targetDiv.replaceWith(series.toHtml(series))
 
-  document.getElementById('content').style.removeProperty('display')
+  document.getElementById('kfbc-content').style.removeProperty('display')
 
   Interface.showSeriesSection('series')
   Interface.refreshButtons()
 }
 
 function addTemplateListItem (templateName, selectItem) {
-  const templatesList = document.getElementById('templatesList')
+  const templatesList = document.getElementById('kfbc-templates-list')
 
   const templateListItem = document.createElement('option')
 
@@ -108,15 +108,15 @@ function addTemplateListItem (templateName, selectItem) {
 
 function addTemplateTable (templateName, templateText, isFirstTemplate) {
   series.templates[templateName] = templateText
-  const templateTables = document.getElementById('templateTables')
+  const templateTables = document.getElementById('kfbc-template-tables')
   templateTables.appendChild(Template.toHtml(templateName, templateText, true, series))
 }
 
 // Hide all templates except for the one to show.
 function displayTemplate (templateList) {
-  const templates = document.getElementsByClassName('templateTable')
+  const templates = document.getElementsByClassName('kfbc-template-table')
   Array.from(templates).forEach(function (element) {
-    if (`template${templateList.value}` === element.id) {
+    if (`kfbc-template-${templateList.value}` === element.id) {
       element.style.removeProperty('display')
     } else {
       element.style.display = 'none'
@@ -141,7 +141,7 @@ function addLink (address, volumeContainer) {
     volumeContainer = Interface.currentVolume()
   }
 
-  const tableBodyElement = volumeContainer.querySelector('div[name="links"]>table[name="links"]>tbody')
+  const tableBodyElement = volumeContainer.querySelector('div[name="kfbc-links"]>table[name="kfbc-links"]>tbody')
 
   const url = new URL(address)
 
@@ -196,8 +196,8 @@ function addLink (address, volumeContainer) {
   const rowElement = document.createElement('tr')
 
   const linkCellElement = document.createElement('td')
-  linkCellElement.classList.add('favicon')
-  linkCellElement.classList.add(sitename.toLowerCase().replace(' ', '-'))
+  linkCellElement.classList.add('kfbc-favicon')
+  linkCellElement.classList.add(`kfbc-${sitename.toLowerCase().replace(' ', '-')}`)
 
   const linkElement = document.createElement('a')
   linkElement.href = address
@@ -230,7 +230,7 @@ function addLink (address, volumeContainer) {
 
   const removeItemCellElement = document.createElement('td')
   const removeItem = document.createElement('span')
-  removeItem.classList.add('clickable')
+  removeItem.classList.add('kfbc-clickable')
   removeItem.textContent = '➖'
   removeItem.onclick = function () { Interface.removeVolumeLink(this) }
   removeItemCellElement.appendChild(removeItem)
@@ -240,7 +240,6 @@ function addLink (address, volumeContainer) {
 }
 
 function loadLinks (links, volumeContainer) {
-  // console.log(links)
   return
 
   // const linksList = addLinksList(volumeContainer).firstChild

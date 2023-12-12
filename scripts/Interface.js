@@ -23,14 +23,17 @@ class Interface {
   static createDiv (id = '', display = 'block') {
     const div = document.createElement('div')
     // TODO: Are any of these DIV IDs required, or can this be removed?
-    div.id = id
+    if (id !== '') {
+      div.id = `kfbc-${id}`
+    }
     div.style.display = display
     return div
   }
 
   /** Streamlined creation of input elements. */
-  static createInput (name, value, inputHandler, type = 'text') {
+  static createInput (id, name, value, inputHandler, type = 'text') {
     const input = document.createElement('input')
+    input.setAttribute('id', `kfbc-${id}`)
     input.setAttribute('name', name)
     input.setAttribute('type', type)
     if (type === 'checkbox') {
@@ -45,7 +48,7 @@ class Interface {
   /** Streamlined creation of label elements. */
   static createLabel (forId, text) {
     const label = document.createElement('label')
-    label.setAttribute('for', forId)
+    label.setAttribute('for', `kfbc-${forId}`)
     label.textContent = text
     return label
   }
@@ -53,7 +56,7 @@ class Interface {
   /** Streamlined creation of button elements. */
   static createButton (id, text, inputHandler, display = '') {
     const button = document.createElement('button')
-    button.id = id
+    button.id = `kfbc-${id}`
     button.textContent = text
     button.classList.add('btn', 'btn-icon-text', 'btn-primary', 'create')
     if (display !== '') {
@@ -68,7 +71,7 @@ class Interface {
     // changed after.  Or allow name change, but then the key changes, so the old entry needs to be removed at the time
     // of saving.
     const keys = Object.keys(localStorage)
-    const bookList = document.getElementById('bookList')
+    const bookList = document.getElementById('kfbc-book-list')
 
     for (let key of keys) {
       if (!key.startsWith(storagePrefix)) {
@@ -86,41 +89,39 @@ class Interface {
   }
 
   static refreshButtons () {
-    document.getElementById('deleteStorage').disabled = document.getElementById('bookList').selectedIndex === 0
+    document.getElementById('kfbc-delete-storage').disabled = document.getElementById('kfbc-book-list').selectedIndex === 0
 
-    document.getElementById('saveStorage').disabled = false
-    document.getElementById('downloadFile').disabled = false
-    document.getElementById('copySheetsMacro').disabled = false
-    document.getElementById('copyVolumeThread').disabled = false
-    document.getElementById('copyWeekThread').disabled = false
+    document.getElementById('kfbc-save-storage').disabled = false
+    document.getElementById('kfbc-download-file').disabled = false
+    document.getElementById('kfbc-copy-sheets-macro').disabled = false
+    document.getElementById('kfbc-copy-volume-thread').disabled = false
+    document.getElementById('kfbc-copy-week-thread').disabled = false
   }
 
   static showSeriesSection (sectionToShow) {
-    const volumes = document.getElementById('content')
+    const volumes = document.getElementById('kfbc-content')
     if (volumes.childElementCount === 0) {
       return
     }
-    volumes.querySelector('div[id="series"]').style.display = 'none'
-    volumes.querySelector('div[id="volumes"]').style.display = 'none'
-    volumes.querySelector('div[id="templates"]').style.display = 'none'
-    volumes.querySelector('div[id="vocabulary"]').style.display = 'none'
+    volumes.querySelector('div[id="kfbc-series"]').style.display = 'none'
+    volumes.querySelector('div[id="kfbc-volumes"]').style.display = 'none'
+    volumes.querySelector('div[id="kfbc-templates"]').style.display = 'none'
+    volumes.querySelector('div[id="kfbc-vocabulary"]').style.display = 'none'
 
-    volumes.querySelector('button[id="showSeries"]').style.removeProperty('color')
-    volumes.querySelector('button[id="showVolumes"]').style.removeProperty('color')
-    volumes.querySelector('button[id="showTemplates"]').style.removeProperty('color')
-    volumes.querySelector('button[id="showVocabulary"]').style.removeProperty('color')
+    volumes.querySelector('button[id="kfbc-show-series"]').style.removeProperty('color')
+    volumes.querySelector('button[id="kfbc-show-volumes"]').style.removeProperty('color')
+    volumes.querySelector('button[id="kfbc-show-templates"]').style.removeProperty('color')
+    volumes.querySelector('button[id="kfbc-show-vocabulary"]').style.removeProperty('color')
 
-    volumes.querySelector(`div[id="${sectionToShow}"]`).style.display = 'grid'
-
-    const clickedButtonId = `show${sectionToShow.charAt(0).toUpperCase()}${sectionToShow.slice(1)}`
-    volumes.querySelector(`button[id="${clickedButtonId}"]`).style.color = 'blue'
+    volumes.querySelector(`div[id="kfbc-${sectionToShow}"]`).style.display = 'grid'
+    volumes.querySelector(`button[id="kfbc-show-${sectionToShow}"]`).style.color = 'blue'
   }
 
-  static showVolumeSection (sectionToShow, series) {
-    const volume = series.volumes[document.getElementById('volumesList').value.replace('volume', '')]
+  static showVolumeSection (sectionToShow, seriesREMOVEME) {
+    const volume = series.volumes[document.getElementById('kfbc-volumes-list').value.replace('volume', '')]
 
     Array.from(['volume', 'links', 'chapters', 'weeks']).forEach(function (name) {
-      const elementByName = document.querySelector(`div[id="volume${volume.volumeNumber}"] div[name="${name}"]`)
+      const elementByName = document.querySelector(`div[id="kfbc-volume${volume.volumeNumber}"] div[name="kfbc-${name}"]`)
       if (elementByName === null) {
         return
       }
@@ -128,24 +129,24 @@ class Interface {
     })
 
     // Hide add buttons except for what's for the current section.
-    document.getElementById('addNewVolumeLink').style.display = 'none'
-    document.getElementById('addNewChapter').style.display = 'none'
-    document.getElementById('addNewWeek').style.display = 'none'
+    document.getElementById('kfbc-add-new-volume-link').style.display = 'none'
+    document.getElementById('kfbc-add-new-chapter').style.display = 'none'
+    document.getElementById('kfbc-add-new-week').style.display = 'none'
 
     let display = 'grid'
 
     let sectionButtonName = null
     switch (sectionToShow) {
       case 'links':
-        sectionButtonName = 'addNewVolumeLink'
+        sectionButtonName = 'kfbc-add-new-volume-link'
         display = 'block'
         break
       case 'chapters':
-        sectionButtonName = 'addNewChapter'
+        sectionButtonName = 'kfbc-add-new-chapter'
         display = 'block'
         break
       case 'weeks':
-        sectionButtonName = 'addNewWeek'
+        sectionButtonName = 'kfbc-add-new-week'
         display = 'block'
         break
     }
@@ -154,7 +155,7 @@ class Interface {
     }
 
     // TODO: Handle if querySelector does not return a value.
-    document.querySelector(`div[id="volume${volume.volumeNumber}"] div[name="${sectionToShow}"]`).style.display = display
+    document.querySelector(`div[id="kfbc-volume${volume.volumeNumber}"] div[name="kfbc-${sectionToShow}"]`).style.display = display
   }
 
   static allVolumes () {
@@ -178,10 +179,10 @@ class Interface {
 
   static addNewVolume (series) {
     // Add a new volume to the volumes list.
-    const volumesList = document.getElementById('volumesList')
+    const volumesList = document.getElementById('kfbc-volumes-list')
     const volumesListItems = volumesList.getElementsByTagName('option')
     let lastVolumeNumber = 0
-    if (volumesListItems.length > 0) {
+    if (0 < volumesListItems.length) {
       lastVolumeNumber = volumesListItems[volumesListItems.length - 1].value.replace('volume', '')
     }
     const newVolumeNumber = Number(lastVolumeNumber) + 1
@@ -189,7 +190,7 @@ class Interface {
     series.volumes[newVolumeNumber] = new Volume(newVolumeNumber)
     series.selectedVolumeNumber = newVolumeNumber
 
-    const volumesElement = document.getElementById('volumesContainer')
+    const volumesElement = document.getElementById('kfbc-volumes-container')
     volumesElement.appendChild(series.volumes[newVolumeNumber].toHtml(series, newVolumeNumber))
 
     addVolumeToList(volumesList, newVolumeNumber, true)
@@ -217,7 +218,7 @@ class Interface {
   // TODO: When updating a chapter number, it needs to update in the dataset and the series object.
   static addNewChapter (series) {
     const selectedVolume = series.selectedVolume()
-    const chaptersContainer = document.querySelector(`div[id="volume${selectedVolume.volumeNumber}"] table[name="chapters"]`)
+    const chaptersContainer = document.querySelector(`div[id="kfbc-volume${selectedVolume.volumeNumber}"] table[name="kfbc-chapters"]`)
     const tableBody = chaptersContainer.getElementsByTagName('tbody')[0]
     let lastChapterNumber = Object.keys(selectedVolume.chapters).pop()
     if (lastChapterNumber === undefined) {
@@ -248,7 +249,7 @@ class Interface {
 
   static addNewWeek (series) {
     const selectedVolume = series.selectedVolume()
-    const weeksContainer = document.querySelector(`div[id="volume${selectedVolume.volumeNumber}"] table[name="weeks"]`)
+    const weeksContainer = document.querySelector(`div[id="kfbc-volume${selectedVolume.volumeNumber}"] table[name="kfbc-weeks"]`)
     const tableBody = weeksContainer.getElementsByTagName('tbody')[0]
     // TODO: Handle if there are no prior weeks.
     let lastWeekNumber = Object.keys(selectedVolume.weeks).pop()
@@ -285,7 +286,7 @@ class Interface {
     addTemplateTable(newTemplateName, '', true)
     addTemplateListItem(newTemplateName, true)
     // Are the two following lines needed?
-    const templatesList = document.getElementById('templatesList')
+    const templatesList = document.getElementById('kfbc-templates-list')
     displayTemplate(templatesList)
 
     // TODO: Add a template to all selects with the name "volumeTemplate".
@@ -296,10 +297,10 @@ class Interface {
     // TODO: Disable remove button.
     // TODO: Enable remove button when a template has been selected.
 
-    const templatesList = document.getElementById('templatesList')
+    const templatesList = document.getElementById('kfbc-templates-list')
 
     // Remove the template table.
-    const templateTableId = `template${templatesList.value}`
+    const templateTableId = `kfbc-template-${templatesList.value}`
     const table = document.getElementById(templateTableId)
     if (table != null) {
       table.remove()
@@ -314,7 +315,7 @@ class Interface {
     }
 
     // Select the first template from the list.
-    if (templatesList.childElementCount > 0) {
+    if (0 < templatesList.childElementCount) {
       templatesList.firstChild.selected = true
       displayTemplate(templatesList)
     }

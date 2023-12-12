@@ -6,15 +6,98 @@
   isDate
 */
 
+// TODO: need template dropdowns to update when adding/deleting a template
+
 class Template {
-  // TODO: If current week value is blank, auto-detect it.
+
+  static simulateButtonClick(buttonElement, title, body) {
+    // Trigger the button click.
+    buttonElement.click()
+
+    // Set up a MutationObserver to watch for the created textarea.
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (!document.querySelector('textarea[id^="ember"].d-editor-input')) {
+          return
+        }
+
+        // Disconnect the observer once the textarea is created.
+        observer.disconnect()
+
+        if (title !== null) {
+          Template.copySubjectToReplyBox(title)
+        }
+        Template.copyTextToClipboardOrReplyBox(body)
+
+      })
+    })
+
+    // Start observing changes in the body
+    observer.observe(document.body, { childList: true, subtree: true })
+  }
+
+  static openButtonAndPopulate(title, body) {
+
+    // If there is a textarea already, use it.
+    if (Template.copyTextToClipboardOrReplyBox(body)) {
+      Template.copySubjectToReplyBox(title)
+      return
+    }
+
+    // Open a new thread if possible.
+    const newThreadButton = document.querySelector('#create-topic')
+    if (newThreadButton !== null) {
+      Template.simulateButtonClick(
+        newThreadButton,
+        title,
+        body)
+      return
+    }
+
+    // Open a new reply if possible.
+    const replyButton = document.querySelector('.reply-to-post')
+    if (replyButton !== null) {
+      Template.simulateButtonClick(
+        replyButton,
+        null,
+        body)
+      return
+    }
+
+  }
+
+  static copySubjectToReplyBox (template) {
+    // If this is on a Discourse forum and there is an open post textbox, replace the subject with the template text.  Otherwise, do nothing.
+
+    const discourseTopicTitleTextbox = document.querySelector('#reply-title')
+    if (discourseTopicTitleTextbox === null) {
+      return
+    }
+
+    discourseTopicTitleTextbox.value = template
+  }
+
+  static copyTextToClipboardOrReplyBox (template) {
+    // If this is on a Discourse forum and there is an open post textbox, replace its contents with the template text.  Otherwise, copy text to clipboard.
+
+    const discourseTextArea = document.querySelector('textarea[id^="ember"].d-editor-input')
+    if (discourseTextArea === null) {
+      navigator.clipboard.writeText(template)
+      return false
+    }
+
+    discourseTextArea.value = template
+    discourseTextArea.dispatchEvent(new Event('input', { bubbles: true }))
+
+    return true
+  }
 
   static copyVolumeThread (series) {
     navigator.clipboard.writeText('')
     ErrorMessage.clear()
 
     const currentVolume = series.nextVolume()
-    if (currentVolume == null) {
+    if (currentVolume === null) {
       ErrorMessage.set("Add the next volume and its first week's start date to copy template.")
       return
     }
@@ -28,7 +111,7 @@ class Template {
     template = template.replaceAll('{Book Title}', series.bookTitle)
     template = template.replace('{Book Image}', currentVolume.coverImage)
     template = template.replace('{Volume Number}', currentVolume.volumeNumber)
-    const startDate = currentVolume.startDate
+    const startDate = currentVolume.startDate()
     if (isDate(startDate)) {
       template = template.replace('{Volume Start Date}', startDate)
       template = template.replace('{Volume Start Timestamp}', `[date=${(new Date(startDate)).toISOString().split('T')[0]} timezone="Japan"]`)
@@ -40,8 +123,8 @@ class Template {
     template = Template.formatVolumeThreadDiscussionRules(template)
     template = template.replaceAll('{Series Home Link}', `https://community.wanikani.com/t/${series.seriesHomeThread}`)
 
-    navigator.clipboard.writeText(template)
-    console.log(template)
+    Template.openButtonAndPopulate(`${series.bookTitle} Volume ${currentVolume.volumeNumber}`, template)
+
   }
 
   static copyWeekThread (series) {
@@ -49,18 +132,23 @@ class Template {
     ErrorMessage.clear()
 
     let currentVolume = series.currentVolume()
+    if (currentVolume === null) {
+      console.log('Could not find current volume.')
+      return
+    }
 
     // Determine the current week based on the date.  The week's start date should be between "today - 6 days" and "today + 6 days".
     let currentWeek = currentVolume.currentWeek()
 
-    if (currentWeek == null) {
+    if (currentWeek === undefined) {
     // It's possible this is the first week of a new volume.
       currentVolume = series.nextVolume()
       currentWeek = currentVolume.currentWeek()
     }
 
-    if (currentWeek == null) {
+    if (currentWeek === undefined) {
     // TODO: Show an error message about being unable to determine the week?  Or else ask for week number?
+      console.log('Could not find current week.')
       return
     }
 
@@ -87,10 +175,10 @@ class Template {
     let chaptersText = ''
 
     // TODO: Is this necessary?
-    if (series.chapterNumberPrefix == null) {
+    if (series.chapterNumberPrefix === null) {
       series.chapterNumberPrefix = ''
     }
-    if (series.chapterNumberSuffix == null) {
+    if (series.chapterNumberSuffix === null) {
       series.chapterNumberSuffix = ''
     }
 
@@ -100,7 +188,7 @@ class Template {
       case 1:
         chaptersText = ((series.chapterNumberPrefix === '') ? 'Chapter ' : series.chapterNumberPrefix) + weekChapters[0] + series.chapterNumberSuffix
         // TODO: Handle this properly.
-        const showTitle = weekChapters.length > 0 && Object.keys(currentVolume.chapters).length > 0 && currentVolume.chapters[weekChapters[0]].title !== ''
+        const showTitle = 0 < weekChapters.length && 0 < Object.keys(currentVolume.chapters).length && currentVolume.chapters[weekChapters[0]].title !== ''
         if (showTitle) {
           chaptersText += '　' + currentVolume.chapters[weekChapters[0]].title
         }
@@ -120,8 +208,7 @@ class Template {
     template = template.replace('{Week Start Date}', Template.formatDate(currentWeek.startDate, series.shortDateFormat))
     template = template.replace('{Week Start Timestamp}', `[date=${(new Date(currentWeek.startDate)).toISOString().split('T')[0]} timezone="Japan"]`)
 
-    navigator.clipboard.writeText(template)
-    console.log(template)
+    Template.openButtonAndPopulate(null, template)
   }
 
   static formatDate (unparsedDate, format) {
@@ -130,7 +217,7 @@ class Template {
 
     let output = ''
     let remainingFormat = format
-    while (remainingFormat.length > 0) {
+    while (0 < remainingFormat.length) {
       if (remainingFormat.startsWith('DD')) {
         output += ('0' + parsedLocalDate.getUTCDate()).slice(-2)
         remainingFormat = remainingFormat.substring(2)
@@ -199,7 +286,7 @@ class Template {
     const regex = /{Week}(.*){\/Week}/i
     const weekTemplate = template.match(regex)
 
-    if (weekTemplate == null) {
+    if (weekTemplate === null) {
       return template
     }
 
@@ -209,10 +296,15 @@ class Template {
       const currentWeek = weeks[weekKey]
       const weekChapters = []
       for (const chapterKey in chapters) {
-        if (!currentWeek.chapters.includes(chapterKey)) {
+        if (!currentWeek.chapters.replace(' ', '').split(',').includes(chapterKey)) {
           continue
         }
-        weekChapters.push((`Ch ${chapterKey} ${chapters[chapterKey].title}`).trim())
+
+        let prefix = 'Ch '
+        if (isNaN(chapterKey)) {
+          prefix = ''
+        }
+        weekChapters.push((`${prefix}${chapterKey} ${chapters[chapterKey].title}`).trim())
       }
       // TODO: If chapters are not set up, get chapters from the week.
 
@@ -243,13 +335,13 @@ class Template {
 
   static toHtml (templateName, templateMarkdown, show, series) {
     const templateTableTable = document.createElement('table')
-    templateTableTable.id = `template${templateName.replaceAll(' ', '')}`
+    templateTableTable.id = `kfbc-template-${templateName.replaceAll(' ', '')}`
     // Show the first template.
     if (!show) {
       templateTableTable.style.display = 'none'
     }
 
-    templateTableTable.classList.add('templateTable')
+    templateTableTable.classList.add('kfbc-template-table')
 
     // TODO: Replace the column group with styling via CSS.
     const columnGroup = document.createElement('colgroup')
@@ -269,7 +361,7 @@ class Template {
     const nameValueCell = document.createElement('td')
     // TODO: Allow editing the template name?
     const nameValue = document.createElement('span')
-    nameValue.setAttribute('name', 'templateName')
+    nameValue.setAttribute('name', 'kfbc-template-name')
     nameValue.textContent = templateName
     nameValueCell.appendChild(nameValue)
     nameRow.appendChild(nameValueCell)
@@ -277,13 +369,13 @@ class Template {
 
     const markdownRow = document.createElement('tr')
     const markdownLabelCell = document.createElement('td')
-    const markdownLabel = Interface.createLabel('templateMarkdown', 'Template markdown')
+    const markdownLabel = Interface.createLabel('template-markdown', 'Template markdown')
     markdownLabelCell.appendChild(markdownLabel)
     markdownRow.appendChild(markdownLabelCell)
     const markdownValueCell = document.createElement('td')
     const markdownTextArea = document.createElement('textarea')
-    markdownTextArea.setAttribute('name', 'templateMarkdown')
-    markdownTextArea.setAttribute('rows', '30')
+    markdownTextArea.setAttribute('name', 'kfbc-template-markdown')
+    markdownTextArea.setAttribute('rows', '10')
     markdownTextArea.setAttribute('cols', '100')
     markdownTextArea.textContent = templateMarkdown
     // Sync updates back to the series object.

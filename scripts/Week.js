@@ -38,32 +38,32 @@ class Week {
     tableRow.dataset.number = this.number
 
     const numberCell = document.createElement('td')
-    numberCell.appendChild(Interface.createInput('number', this.number, this.syncValue(this)))
+    numberCell.appendChild(Interface.createInput('number', 'number', this.number, this.syncValue(this)))
     tableRow.appendChild(numberCell)
 
     const threadCell = document.createElement('td')
-    threadCell.appendChild(Interface.createInput('weekThread', this.weekThread, this.syncValue(this)))
+    threadCell.appendChild(Interface.createInput('week-thread', 'weekThread', this.weekThread, this.syncValue(this)))
     tableRow.appendChild(threadCell)
 
     const startDateCell = document.createElement('td')
-    startDateCell.appendChild(Interface.createInput('startDate', this.startDate.substring(0, 10), this.syncValue(this), 'date'))
+    startDateCell.appendChild(Interface.createInput('start-date', 'startDate', this.startDate.substring(0, 10), this.syncValue(this), 'date'))
     tableRow.appendChild(startDateCell)
 
     const chaptersCell = document.createElement('td')
-    chaptersCell.appendChild(Interface.createInput('chapters', this.chapters, this.syncValue(this)))
+    chaptersCell.appendChild(Interface.createInput('chapters', 'chapters', this.chapters, this.syncValue(this)))
     tableRow.appendChild(chaptersCell)
 
     const startPageCell = document.createElement('td')
-    startPageCell.appendChild(Interface.createInput('startPage', this.startPage, this.syncValue(this)))
+    startPageCell.appendChild(Interface.createInput('start-page', 'startPage', this.startPage, this.syncValue(this)))
     tableRow.appendChild(startPageCell)
 
     const endPageCell = document.createElement('td')
-    endPageCell.appendChild(Interface.createInput('endPage', this.endPage, this.syncValue(this)))
+    endPageCell.appendChild(Interface.createInput('end-page', 'endPage', this.endPage, this.syncValue(this)))
     tableRow.appendChild(endPageCell)
 
     const removeCell = document.createElement('td')
     removeCell.textContent = '➖'
-    removeCell.classList.add('clickable')
+    removeCell.classList.add('kfbc-clickable')
     removeCell.addEventListener('click', () => { this.removeWeek(removeCell, series) })
     tableRow.appendChild(removeCell)
 

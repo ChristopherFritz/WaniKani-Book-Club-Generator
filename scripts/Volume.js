@@ -69,39 +69,37 @@ class Volume {
   }
 
   toHtml (series, currentVolumeNumber) {
-    console.log('Volume.toHtml')
-    console.log(series)
     const volumeDiv = Interface.createDiv(`volume${this.volumeNumber}`)
-    volumeDiv.classList.add('volumeContainer')
+    volumeDiv.classList.add('kfbc-volume-container')
     // Hide if not the current volume.
-    if (this.volumeNumber !== currentVolumeNumber) {
+    if (this.volumeNumber != currentVolumeNumber) {
       volumeDiv.style.display = 'none'
     }
 
     const volumeDetailsDiv = Interface.createDiv()
-    volumeDetailsDiv.setAttribute('name', 'volume')
+    volumeDetailsDiv.setAttribute('name', 'kfbc-volume')
     volumeDetailsDiv.style.display = 'grid'
 
-    volumeDetailsDiv.appendChild(Interface.createLabel('volumeNumber', 'Volume Number'))
-    volumeDetailsDiv.appendChild(Interface.createInput('volumeNumber', this.volumeNumber, this.syncValue(this)))
+    volumeDetailsDiv.appendChild(Interface.createLabel('volume-number', 'Volume Number'))
+    volumeDetailsDiv.appendChild(Interface.createInput('volume-number', 'volumeNumber', this.volumeNumber, this.syncValue(this)))
 
-    volumeDetailsDiv.appendChild(Interface.createLabel('volumeHomeThread', 'Thread'))
-    volumeDetailsDiv.appendChild(Interface.createInput('volumeHomeThread', this.volumeHomeThread, this.syncValue(this)))
+    volumeDetailsDiv.appendChild(Interface.createLabel('volume-home-thread', 'Thread'))
+    volumeDetailsDiv.appendChild(Interface.createInput('volume-home-thread', 'volumeHomeThread', this.volumeHomeThread, this.syncValue(this)))
 
-    volumeDetailsDiv.appendChild(Interface.createLabel('coverImage', 'Cover Image'))
-    volumeDetailsDiv.appendChild(Interface.createInput('coverImage', this.coverImage, this.syncValue(this)))
+    volumeDetailsDiv.appendChild(Interface.createLabel('cover-image', 'Cover Image'))
+    volumeDetailsDiv.appendChild(Interface.createInput('cover-image', 'coverImage', this.coverImage, this.syncValue(this)))
 
-    volumeDetailsDiv.appendChild(Interface.createLabel('vocabularyList', 'Vocabulary List'))
-    volumeDetailsDiv.appendChild(Interface.createInput('vocabularyList', this.vocabularyList, this.syncValue(this)))
+    volumeDetailsDiv.appendChild(Interface.createLabel('vocabulary-list', 'Vocabulary List'))
+    volumeDetailsDiv.appendChild(Interface.createInput('vocabulary-list', 'vocabularyList', this.vocabularyList, this.syncValue(this)))
 
-    volumeDetailsDiv.appendChild(Interface.createLabel('volumeTemplate', 'Volume Template'))
-    const volumeTemplates = series.templatesToHtml('volumeTemplate', this.volumeTemplate)
-    volumeTemplates.addEventListener('change', () => { this.syncValue(this) })
+    volumeDetailsDiv.appendChild(Interface.createLabel('volume-template', 'Volume Template'))
+    const volumeTemplates = series.templatesToHtml('volume-template', 'volumeTemplate', this.volumeTemplate)
+    volumeTemplates.addEventListener('change', this.syncValue(this))
     volumeDetailsDiv.appendChild(volumeTemplates)
 
-    volumeDetailsDiv.appendChild(Interface.createLabel('weeklyTemplate', 'Weekly Template'))
-    const weeklyTemplates = series.templatesToHtml('weeklyTemplate', this.weeklyTemplate)
-    weeklyTemplates.addEventListener('change', () => { this.syncValue(this) })
+    volumeDetailsDiv.appendChild(Interface.createLabel('weekly-template', 'Weekly Template'))
+    const weeklyTemplates = series.templatesToHtml('weekly-template', 'weeklyTemplate', this.weeklyTemplate)
+    weeklyTemplates.addEventListener('change', this.syncValue(this))
     volumeDetailsDiv.appendChild(weeklyTemplates)
 
     volumeDiv.appendChild(volumeDetailsDiv)
@@ -110,10 +108,10 @@ class Volume {
 
     // Chapters
     const chaptersDiv = Interface.createDiv()
-    chaptersDiv.setAttribute('name', 'chapters')
+    chaptersDiv.setAttribute('name', 'kfbc-chapters')
     chaptersDiv.style.display = 'none'
     const chaptersTable = document.createElement('table')
-    chaptersTable.setAttribute('name', 'chapters')
+    chaptersTable.setAttribute('name', 'kfbc-chapters')
 
     const chaptersTableHead = document.createElement('thead')
 
@@ -140,10 +138,10 @@ class Volume {
 
     // Weeks
     const weeksDiv = Interface.createDiv()
-    weeksDiv.setAttribute('name', 'weeks')
+    weeksDiv.setAttribute('name', 'kfbc-weeks')
     weeksDiv.style.display = 'none'
     const weeksTable = document.createElement('table')
-    weeksTable.setAttribute('name', 'weeks')
+    weeksTable.setAttribute('name', 'kfbc-weeks')
 
     const weeksTableHead = document.createElement('thead')
 

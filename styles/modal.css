@@ -1,4 +1,4 @@
-#modalBlocker {
+#kfbc-modal-blocker {
     position: fixed;
     top: 100vh;
     right: 0;
@@ -9,12 +9,12 @@
     padding-top: 150px;
 }
 
-#modalBlocker.open {
+#kfbc-modal-blocker.open {
     top: 0;
     opacity: 1;
 }
 
-.modal {
+.kfbc-modal {
     background: #FFF;
     position: relative;
     overflow: hidden;
@@ -27,12 +27,12 @@
     flex-direction: column;
 }
 
-.modalTitle {
+.kfbc-modal-title {
     text-align: center;
     margin-top: 0;
 }
 
-#closeModal {
+#kfbc-close-modal {
     color: #FFF;
     background: #D00;
     font-weight: bold;
